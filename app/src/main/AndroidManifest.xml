@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dam.isi.frsf.utn.edu.ar.delivery">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />

@@ -8,33 +8,26 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnOrder;
-    private Button btnLocation;
-    private Button btnReview;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnOrder = (Button) findViewById(R.id.btnOrder);
-        btnLocation = (Button) findViewById(R.id.btnLocation);
-        btnReview = (Button) findViewById(R.id.btnReview);
-
+        Button btnOrder = (Button) findViewById(R.id.btnOrder);
+        Button btnLocation = (Button) findViewById(R.id.btnLocation);
+        Button btnReview = (Button) findViewById(R.id.btnReview);
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gotoOrderActivity();
             }
         });
-
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gotoLocationActivity();
             }
         });
-
         btnReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

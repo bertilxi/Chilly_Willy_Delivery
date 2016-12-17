@@ -4,6 +4,7 @@
     <string name="title_activity_order">OrderActivity</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_review">ReviewActivity</string>
+    <!-- view strings -->
     <string name="add_image_label">Agregar imágen</string>
     <string name="add_opinion_label">¿Que opinas?</string>
     <string name="take_picture_label">Saca una foto</string>
