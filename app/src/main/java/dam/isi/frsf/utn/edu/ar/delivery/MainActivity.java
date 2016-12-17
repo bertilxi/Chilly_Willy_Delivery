@@ -1,8 +1,8 @@
 package dam.isi.frsf.utn.edu.ar.delivery;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -44,15 +44,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void gotoOrderActivity(){
+    private void gotoOrderActivity() {
         Intent i = new Intent(this, OrderActivity.class);
         startActivity(i);
     }
-    private void gotoLocationActivity(){
+
+    private void gotoLocationActivity() {
         Intent i = new Intent(this, LocationActivity.class);
         startActivity(i);
     }
-    private void gotoReviewActivity(){
+
+    private void gotoReviewActivity() {
         Intent i = new Intent(this, ReviewActivity.class);
         startActivity(i);
     }
