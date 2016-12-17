@@ -13,7 +13,7 @@ Trabajo Práctico de Desarrollo de aplicaciones móviles - 2016
 
 * **Andres Rico** - [andresleonelrico](https://github.com/andresleonelrico)
 * **Fernando Berti** - [bertilxi](https://github.com/bertilxi)
-* **Marina Ludi** - [](https://github.com/)
+* **Marina Ludi** - [marinaLudi](https://github.com/marinaLudi)
 
 ## Licencia
 
