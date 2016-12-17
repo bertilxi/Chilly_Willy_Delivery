@@ -1,0 +1,11 @@
+{
+  "name": "REST-API-SERVER",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bertilxi/Chilly_Willy_Server",
+  "author": "Fernando Berti, Andres Rico, Marina Ludi",
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.9.4"
+  }
+}
