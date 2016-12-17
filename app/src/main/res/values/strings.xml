@@ -1,4 +1,5 @@
 <resources>
+    <string name="google_maps_key">AIzaSyCFa5joWNiJM1yA9cXQKqMXcRPrQ3hlQbc</string>
     <string name="app_name">Chilly Willy Delivery</string>
     <string name="title_activity_order">OrderActivity</string>
     <string name="title_activity_location">LocationActivity</string>
