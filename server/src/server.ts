@@ -4,9 +4,12 @@ import * as express from "express";
 import * as logger from "morgan";
 import * as path from "path";
 import { Router } from 'express';
+import { Controller } from './controller';
 import errorHandler = require("errorhandler");
 import methodOverride = require("method-override");
-import { Controller } from './controller'
+import mongoose = require('mongoose');
+
+var mCtrl = new Controller();
 
 export class Server {
 
@@ -14,46 +17,52 @@ export class Server {
     public router = express.Router();
 
     public static bootstrap(): Server {
-        return new Server();
+        return new Server(mCtrl);
     }
 
-    constructor() {
-        //create expressjs application
+    constructor(private ctrl: Controller) {
         this.app = express();
-
-        //configure application
         this.config();
-
-        //add api
         this.api();
     }
 
     public api() {
 
-        this.router.route('/').get().post();
-/*
-        var missingDog = express.Router();
+        this.router.route('/')
+            .get(this.ctrl.test);
 
-        missingDog.route('/missingDog')
-            .get(MissingDogCtrl.findAllMissingDogs)
-            .post(MissingDogCtrl.addMissingDog);
+        this.router.route('/reset')
+            .post(this.ctrl.reset);
 
-        missingDog.route('/missingDog/:id')
-            .get(MissingDogCtrl.findById)
-            .put(MissingDogCtrl.updateMissingDog)
-            .delete(MissingDogCtrl.deleteMissingDog);
+        this.router.route('/session')
+            .get(this.ctrl.getSession);
 
-        app.use('/api', missingDog);
-        */
+        this.router.route('/sessions')
+            .get(this.ctrl.getSessions);
+
+        this.router.route('/session/:sessionId/order/:orderId')
+            .get(this.ctrl.getOrder);
+
+        this.router.route('/session/:sessionId/order')
+            .get(this.ctrl.getOrders)
+            .post(this.ctrl.addOrder);
+
+        this.router.route('/session/:sessionId/order/:orderId/location')
+            .get(this.ctrl.getLocation)
+            .post(this.ctrl.addLocation)
+            .put(this.ctrl.updateLocation);
+
+        this.router.route('/notification')
+            .get(this.ctrl.getNotification);
+
+        this.router.route('/review')
+            .post(this.ctrl.addReview);
+
     }
 
     public config() {
         //add static paths
         this.app.use(express.static(path.join(__dirname, "public")));
-
-        //configure pug
-        this.app.set("views", path.join(__dirname, "views"));
-        this.app.set("view engine", "pug");
 
         //mount logger
         this.app.use(logger("dev"));
@@ -73,7 +82,7 @@ export class Server {
         this.app.use(methodOverride());
 
         // catch 404 and forward to error handler
-        this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+        this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             err.status = 404;
             next(err);
         });
@@ -83,6 +92,10 @@ export class Server {
 
         // api
         this.app.use(this.router);
+        mongoose.connect('mongodb://localhost/api', (error, res) => {
+            if (error) { throw error };
+            console.log('Connected to Database');
+        });
     }
 
 }

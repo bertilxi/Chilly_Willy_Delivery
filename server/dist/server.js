@@ -4,26 +4,38 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const logger = require("morgan");
 const path = require("path");
+const controller_1 = require("./controller");
 const errorHandler = require("errorhandler");
 const methodOverride = require("method-override");
-const index_1 = require("./routes/index");
-const hello_1 = require("./routes/hello");
+const mongoose = require("mongoose");
+var mCtrl = new controller_1.Controller();
 class Server {
-    static bootstrap() {
-        return new Server();
-    }
-    constructor() {
+    constructor(ctrl) {
+        this.ctrl = ctrl;
+        this.router = express.Router();
         this.app = express();
         this.config();
-        this.routes();
         this.api();
     }
+    static bootstrap() {
+        return new Server(mCtrl);
+    }
     api() {
+        this.router.route('/reset').post(this.ctrl.reset);
+        this.router.route('/session')
+            .get(this.ctrl.getSession);
+        this.router.route('/sessions')
+            .get(this.ctrl.getSessions);
+        this.router.route('/')
+            .get(this.ctrl.test);
+        this.router.route('/location')
+            .get(this.ctrl.getLocations)
+            .post(this.ctrl.setLocation);
+        this.router.route('/location/:id')
+            .get(this.ctrl.getLocation);
     }
     config() {
         this.app.use(express.static(path.join(__dirname, "public")));
-        this.app.set("views", path.join(__dirname, "views"));
-        this.app.set("view engine", "pug");
         this.app.use(logger("dev"));
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({
@@ -31,18 +43,19 @@ class Server {
         }));
         this.app.use(cookieParser("SECRET_GOES_HERE"));
         this.app.use(methodOverride());
-        this.app.use(function (err, req, res, next) {
+        this.app.use((err, req, res, next) => {
             err.status = 404;
             next(err);
         });
         this.app.use(errorHandler());
-    }
-    routes() {
-        let router;
-        router = express.Router();
-        index_1.IndexRoute.create(router);
-        hello_1.HelloRoute.create(router);
-        this.app.use(router);
+        this.app.use(this.router);
+        mongoose.connect('mongodb://localhost/api', (error, res) => {
+            if (error) {
+                throw error;
+            }
+            ;
+            console.log('Connected to Database');
+        });
     }
 }
 exports.Server = Server;
