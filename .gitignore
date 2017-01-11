@@ -1,8 +1,7 @@
 *.iml
 .gradle
+/mobile/.idea/
 /mobile/local.properties
-/mobile/.idea/workspace.xml
-/mobile/.idea/libraries
 .DS_Store
 /mobile/build
 /mobile/captures
