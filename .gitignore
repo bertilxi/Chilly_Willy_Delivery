@@ -10,4 +10,5 @@
 */node_modules/*
 /server/.tscache
 /server/mongodb
+/server/node_modules
 *.baseDir.ts*

@@ -89,7 +89,7 @@ export class Controller {
     public getOrder = (req, res) => { }
 
     public getOrders = (req, res) => { }
-    
+
     public addOrder = (req, res) => { }
 
     public updateLocation = (req, res) => { }
