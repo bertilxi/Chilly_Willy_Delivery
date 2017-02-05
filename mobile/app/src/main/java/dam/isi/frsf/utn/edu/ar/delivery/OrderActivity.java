@@ -6,6 +6,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewStub;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.RelativeLayout;
 
 public class OrderActivity extends AppCompatActivity {
 
@@ -25,7 +29,8 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-
+        ViewStub stub = (ViewStub) findViewById(R.id.content_order);
+        
     }
 
 }
