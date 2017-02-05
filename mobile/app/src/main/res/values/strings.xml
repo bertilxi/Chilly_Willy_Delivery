@@ -1,9 +1,9 @@
 <resources>
     <string name="google_maps_key">AIzaSyCFa5joWNiJM1yA9cXQKqMXcRPrQ3hlQbc</string>
     <string name="app_name">Chilly Willy Delivery</string>
-    <string name="title_activity_order">OrderActivity</string>
-    <string name="title_activity_location">LocationActivity</string>
-    <string name="title_activity_review">ReviewActivity</string>
+    <string name="title_activity_order">Haz tu pedido</string>
+    <string name="title_activity_location">¿Donde esta mi helado?</string>
+    <string name="title_activity_review">Dinos tu opinion</string>
     <!-- view strings -->
     <string name="add_image_label">Agregar imágen</string>
     <string name="add_opinion_label">¿Que opinas?</string>
