@@ -1,4 +1,4 @@
-package dam.isi.frsf.utn.edu.ar.delivery;
+package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +10,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+
+import dam.isi.frsf.utn.edu.ar.delivery.R;
 
 public class LocationActivity extends AppCompatActivity implements
         OnMapReadyCallback {
+
+    private ArrayList<LatLng> reclamos = new ArrayList<LatLng>();
+
+    boolean mBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,28 +36,26 @@ public class LocationActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         GoogleMap mMap = googleMap;
 
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
+        mMap.setOnMapLongClickListener(latLng -> {
 
-            }
         });
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(final Marker marker) {
+        mMap.setOnInfoWindowClickListener(marker -> {
 
-            }
         });
 
         // set my desired location
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(-31.619276, -60.683970), 15);
+        LatLng mLatLon = new LatLng(-31.619276, -60.683970);
+        mMap.addMarker(new MarkerOptions().position(mLatLon).title("Tu pedido"));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mLatLon, 15);
         mMap.animateCamera(cameraUpdate);
+
 
     }
 
