@@ -26,14 +26,13 @@ public class Order implements Serializable {
         return this;
     }
 
-}
-
-class Order_ implements Serializable {
+public class Order_ implements Serializable {
 
     private final static long serialVersionUID = 7835795979035955017L;
     @SerializedName("containerType")
     @Expose
     private String containerType;
+    //TODO nececesitamos un container type y un container size? pueden ser uno solo?
     @SerializedName("containerSize")
     @Expose
     private String containerSize;
@@ -49,6 +48,7 @@ class Order_ implements Serializable {
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
+    //TODO shouldn't it be in Order class?
     @SerializedName("delivered")
     @Expose
     private Boolean delivered;
@@ -143,5 +143,5 @@ class Order_ implements Serializable {
         this.delivered = delivered;
         return this;
     }
-
+}
 }
