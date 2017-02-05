@@ -9,7 +9,6 @@ import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
-import dam.isi.frsf.utn.edu.ar.delivery.ReviewActivity;
 import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
