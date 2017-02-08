@@ -31,20 +31,13 @@ public class Order_ implements Serializable {
     private final static long serialVersionUID = 7835795979035955017L;
     @SerializedName("containerType")
     @Expose
-    private String containerType;
-    //TODO nececesitamos un container type y un container size? pueden ser uno solo?
-    @SerializedName("containerSize")
-    @Expose
-    private String containerSize;
+    private ContainerType containerType;
     @SerializedName("flavors")
     @Expose
-    private List<String> flavors = null;
-    @SerializedName("sauce")
-    @Expose
-    private String sauce;
+    private List<Flavor> flavors = null;
     @SerializedName("addins")
     @Expose
-    private List<String> addins = null;
+    private List<Addin> addins = null;
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
@@ -53,67 +46,41 @@ public class Order_ implements Serializable {
     @Expose
     private Boolean delivered;
 
-    public String getContainerType() {
+    public ContainerType getContainerType() {
         return containerType;
     }
 
-    public void setContainerType(String containerType) {
+    public void setContainerType(ContainerType containerType) {
         this.containerType = containerType;
     }
 
-    public Order_ withContainerType(String containerType) {
+    public Order_ withContainerType(ContainerType containerType) {
         this.containerType = containerType;
         return this;
     }
 
-    public String getContainerSize() {
-        return containerSize;
-    }
-
-    public void setContainerSize(String containerSize) {
-        this.containerSize = containerSize;
-    }
-
-    public Order_ withContainerSize(String containerSize) {
-        this.containerSize = containerSize;
-        return this;
-    }
-
-    public List<String> getFlavors() {
+    public List<Flavor> getFlavors() {
         return flavors;
     }
 
-    public void setFlavors(List<String> flavors) {
+    public void setFlavors(List<Flavor> flavors) {
         this.flavors = flavors;
     }
 
-    public Order_ withFlavors(List<String> flavors) {
+    public Order_ withFlavors(List<Flavor> flavors) {
         this.flavors = flavors;
         return this;
     }
 
-    public String getSauce() {
-        return sauce;
-    }
-
-    public void setSauce(String sauce) {
-        this.sauce = sauce;
-    }
-
-    public Order_ withSauce(String sauce) {
-        this.sauce = sauce;
-        return this;
-    }
-
-    public List<String> getAddins() {
+    public List<Addin> getAddins() {
         return addins;
     }
 
-    public void setAddins(List<String> addins) {
+    public void setAddins(List<Addin> addins) {
         this.addins = addins;
     }
 
-    public Order_ withAddins(List<String> addins) {
+    public Order_ withAddins(List<Addin> addins) {
         this.addins = addins;
         return this;
     }
