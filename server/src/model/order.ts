@@ -33,6 +33,6 @@ var OrderSchema = new mongoose.Schema({
     items: [OrderItemSchema]
 });
 
-var Order = mongoose.model<IOrderModel>("User", OrderSchema);
+var Order = mongoose.model<IOrderModel>("Order", OrderSchema);
 
 export = Order;

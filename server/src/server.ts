@@ -8,8 +8,10 @@ import { Controller } from './controller';
 import errorHandler = require("errorhandler");
 import methodOverride = require("method-override");
 import mongoose = require('mongoose');
+import { DbHelper } from './db';
 
 var mCtrl = new Controller();
+var dbHelper = new DbHelper();
 
 export class Server {
 
@@ -24,11 +26,15 @@ export class Server {
         this.app = express();
         this.config();
         this.api();
+        dbHelper.init();
     }
 
     public api() {
 
         this.router.route('/')
+            .get(this.ctrl.root);
+
+        this.router.route('/test')
             .get(this.ctrl.test);
 
         this.router.route('/reset')

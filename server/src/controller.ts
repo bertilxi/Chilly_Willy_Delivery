@@ -1,39 +1,63 @@
 import mongoose = require('mongoose');
-// models
+import { DbHelper } from './db';
+
+import Flavor = require('./model/flavor');
+
 import Location = require('./model/location');
 import Notification = require('./model/notification');
 import Order = require('./model/order');
 import Review = require('./model/review');
 import Session = require('./model/session');
 
+
+var dbHelper: DbHelper = new DbHelper();
+
 export class Controller {
 
-    constructor() { }
+    public test(req, res) {
+        dbHelper.init();
+        Flavor.find((error, flavors) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(flavors);
+        });
+    }
 
-    public test = (req, res) => {
+    public root(req, res) {
         res.send("Hello Node TS");
     }
 
     public reset = (req, res) => {
 
         Location.remove({}, error => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             res.status(200).jsonp();
         });
         Session.remove({}, error => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             res.status(200).jsonp();
         });
         Notification.remove({}, error => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             res.status(200).jsonp();
         });
         Order.remove({}, error => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             res.status(200).jsonp();
         });
         Review.remove({}, error => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             res.status(200).jsonp();
         });
     }
@@ -49,7 +73,9 @@ export class Controller {
     }
     public getSessions = (req, res) => {
         Session.find((error, session) => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             console.log('GET /sessions');
             res.status(200).jsonp(session);
         });
@@ -57,7 +83,9 @@ export class Controller {
 
     public getLocation = (req, res) => {
         Location.findById(req.params.id, (error, location) => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             console.log('GET /location/' + req.params.id);
             res.status(200).jsonp(location);
         });
@@ -80,7 +108,9 @@ export class Controller {
 
     public getLocations = (req, res) => {
         Location.find((error, location) => {
-            if (error) { return res.send(500, error.message) }
+            if (error) {
+                return res.send(500, error.message)
+            }
             console.log('GET /location/');
             res.status(200).jsonp(location);
         });

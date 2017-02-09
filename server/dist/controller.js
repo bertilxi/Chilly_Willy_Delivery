@@ -1,11 +1,14 @@
 "use strict";
+const db_1 = require("./db");
+const Flavor = require("./model/flavor");
 const Location = require("./model/location");
+const Notification = require("./model/notification");
+const Order = require("./model/order");
+const Review = require("./model/review");
 const Session = require("./model/session");
+var dbHelper = new db_1.DbHelper();
 class Controller {
     constructor() {
-        this.test = (req, res) => {
-            res.send("Hello Node TS");
-        };
         this.reset = (req, res) => {
             Location.remove({}, error => {
                 if (error) {
@@ -14,6 +17,24 @@ class Controller {
                 res.status(200).jsonp();
             });
             Session.remove({}, error => {
+                if (error) {
+                    return res.send(500, error.message);
+                }
+                res.status(200).jsonp();
+            });
+            Notification.remove({}, error => {
+                if (error) {
+                    return res.send(500, error.message);
+                }
+                res.status(200).jsonp();
+            });
+            Order.remove({}, error => {
+                if (error) {
+                    return res.send(500, error.message);
+                }
+                res.status(200).jsonp();
+            });
+            Review.remove({}, error => {
                 if (error) {
                     return res.send(500, error.message);
                 }
@@ -46,7 +67,7 @@ class Controller {
                 res.status(200).jsonp(location);
             });
         };
-        this.setLocation = (req, res) => {
+        this.addLocation = (req, res) => {
             console.log('POST');
             console.log(req.body);
             let location = new Location({
@@ -69,6 +90,24 @@ class Controller {
                 res.status(200).jsonp(location);
             });
         };
+        this.getOrder = (req, res) => { };
+        this.getOrders = (req, res) => { };
+        this.addOrder = (req, res) => { };
+        this.updateLocation = (req, res) => { };
+        this.getNotification = (req, res) => { };
+        this.addReview = (req, res) => { };
+    }
+    test(req, res) {
+        dbHelper.init();
+        Flavor.find((error, flavors) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(flavors);
+        });
+    }
+    root(req, res) {
+        res.send("Hello Node TS");
     }
 }
 exports.Controller = Controller;

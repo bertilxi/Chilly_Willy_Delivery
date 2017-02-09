@@ -5,5 +5,5 @@ var ReviewSchema = new mongoose.Schema({
     imgUrl: String,
     comment: String,
 });
-var Review = mongoose.model("Notification", ReviewSchema);
+var Review = mongoose.model("Review", ReviewSchema);
 module.exports = Review;

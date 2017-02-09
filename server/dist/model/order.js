@@ -6,10 +6,11 @@ var OrderItemSchema = new mongoose.Schema({
     flavors: [String],
     sauce: String,
     addins: [String],
-    quantity: Number
+    quantity: Number,
+    delivered: Boolean
 });
 var OrderSchema = new mongoose.Schema({
     items: [OrderItemSchema]
 });
-var Order = mongoose.model("User", OrderSchema);
+var Order = mongoose.model("Order", OrderSchema);
 module.exports = Order;
