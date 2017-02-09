@@ -8,4 +8,6 @@
     <string name="add_image_label">Agregar imágen</string>
     <string name="add_opinion_label">¿Que opinas?</string>
     <string name="take_picture_label">Saca una foto</string>
+    <!-- bundle keys -->
+    <string name="order_content_key">order content key</string>
 </resources>

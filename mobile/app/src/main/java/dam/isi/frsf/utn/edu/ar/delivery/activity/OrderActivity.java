@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -14,17 +15,24 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import dam.isi.frsf.utn.edu.ar.delivery.Constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.utility.Formatter;
 
 public class OrderActivity extends AppCompatActivity {
 
+    List<Order.Order_> items = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,32 +43,81 @@ public class OrderActivity extends AppCompatActivity {
                         .setAction("Action", null).show());
 
         ViewStub stub = (ViewStub) findViewById(R.id.content_order);
-        stub.setLayoutResource(R.layout.listview_order_item);
-        ListView kistViewItems = (ListView) stub.inflate();
+
+        int contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
+
+        switch (contentState){
+            case OrderActivityConstants.CONTENT_ORDER_ITEMS:
+                stub.setLayoutResource(R.layout.listview_order_item);
+                ListView listViewItems = (ListView) stub.inflate();
+                getSupportActionBar().setTitle("TU PEDIDO");
+                items = getItems();
+                listViewItems.setAdapter(new OrderAdapter(items));
+        }
 
 
     }
 
-    class ImageAdapter extends ArrayAdapter<Order.Order_> {
-        ImageAdapter(List<Order.Order_> items) {
+    private List<Order.Order_> getItems(){
+        //TODO Descargar items del server
+        return new ArrayList<>();
+    }
+
+    class OrderAdapter extends ArrayAdapter<Order.Order_> {
+
+        LayoutInflater inflater;
+
+        OrderAdapter(List<Order.Order_> items) {
             super(OrderActivity.this, R.layout.listview_row_order_item, items);
+            inflater = LayoutInflater.from(getContext());
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            View row = super.getView(position, convertView, parent);
-            ImageView flavorPic = (ImageView) row.findViewById(R.id.flavor_picture);
-            TextView textViewContainer = (TextView) row.findViewById(R.id.textview_order_item_container);
-            textViewContainer.setText(this.getItem(position).getContainerType());
-            TextView textViewFlavors = (TextView) row.findViewById(R.id.textview_order_item_flavors);
-            textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
-            TextView textViewAddins = (TextView) row.findViewById(R.id.textview_order_item_addins);
-            textViewAddins.setText(Formatter.buildStringFromList(this.getItem(position).getAddins()));
-            NumberPicker numberPickerQuantity = (NumberPicker) row.findViewById(R.id.item_quantity);
-            //don't forget to set minimum and maximum values for numberpicker
-            numberPickerQuantity.setValue(this.getItem(position).getQuantity());
 
+            View row = convertView;
+            if (row == null) {
+                row = inflater.inflate(R.layout.listview_row_order_item, parent, false);
+            }
+            OrderHolder holder = (OrderHolder)row.getTag();
+            if(holder == null){
+                holder = new OrderHolder(row);
+                row.setTag(holder);
+                holder.numberPickerQuantity.setMinValue(1);
+                holder.numberPickerQuantity.setMaxValue(10);
+                holder.numberPickerQuantity.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
+                    this.getItem(position).setQuantity(newVal);
+                });
+            }
+
+            //read about glide here https://github.com/bumptech/glide
+            Glide
+                    .with(getContext())
+                    .load("ACA VA LA URI DE LA IMAGEN")
+                    //.placeholder(R.drawable.someSpiningImage)
+                    .into(holder.containerPic);
+
+            holder.textViewContainer.setText(this.getItem(position).getContainerType().getName());
+            holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
+            holder.textViewAddins.setText(Formatter.buildStringFromList(this.getItem(position).getAddins()));
+            holder.numberPickerQuantity.setValue(this.getItem(position).getQuantity());
 
             return (row);
+        }
+
+        class OrderHolder{
+            ImageView containerPic = null;
+            TextView textViewContainer = null;
+            TextView textViewFlavors = null;
+            TextView textViewAddins = null;
+            NumberPicker numberPickerQuantity = null;
+
+            OrderHolder(View row){
+                this.containerPic = (ImageView) row.findViewById(R.id.imageview_order_item_picture);
+                this.textViewContainer = (TextView) row.findViewById(R.id.textview_order_item_container);
+                this.textViewFlavors = (TextView) row.findViewById(R.id.textview_order_item_flavors);
+                this.textViewAddins = (TextView) row.findViewById(R.id.textview_order_item_addins);
+                this.numberPickerQuantity = (NumberPicker) row.findViewById(R.id.item_quantity);
+            }
         }
     }
 }
