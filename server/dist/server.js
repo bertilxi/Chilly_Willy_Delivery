@@ -8,7 +8,9 @@ const controller_1 = require("./controller");
 const errorHandler = require("errorhandler");
 const methodOverride = require("method-override");
 const mongoose = require("mongoose");
+const db_1 = require("./db");
 var mCtrl = new controller_1.Controller();
+var dbHelper = new db_1.DbHelper();
 class Server {
     constructor(ctrl) {
         this.ctrl = ctrl;
@@ -16,23 +18,35 @@ class Server {
         this.app = express();
         this.config();
         this.api();
+        dbHelper.init();
     }
     static bootstrap() {
         return new Server(mCtrl);
     }
     api() {
-        this.router.route('/reset').post(this.ctrl.reset);
+        this.router.route('/')
+            .get(this.ctrl.root);
+        this.router.route('/test')
+            .get(this.ctrl.test);
+        this.router.route('/reset')
+            .post(this.ctrl.reset);
         this.router.route('/session')
             .get(this.ctrl.getSession);
         this.router.route('/sessions')
             .get(this.ctrl.getSessions);
-        this.router.route('/')
-            .get(this.ctrl.test);
-        this.router.route('/location')
-            .get(this.ctrl.getLocations)
-            .post(this.ctrl.setLocation);
-        this.router.route('/location/:id')
-            .get(this.ctrl.getLocation);
+        this.router.route('/session/:sessionId/order/:orderId')
+            .get(this.ctrl.getOrder);
+        this.router.route('/session/:sessionId/order')
+            .get(this.ctrl.getOrders)
+            .post(this.ctrl.addOrder);
+        this.router.route('/session/:sessionId/order/:orderId/location')
+            .get(this.ctrl.getLocation)
+            .post(this.ctrl.addLocation)
+            .put(this.ctrl.updateLocation);
+        this.router.route('/notification')
+            .get(this.ctrl.getNotification);
+        this.router.route('/review')
+            .post(this.ctrl.addReview);
     }
     config() {
         this.app.use(express.static(path.join(__dirname, "public")));

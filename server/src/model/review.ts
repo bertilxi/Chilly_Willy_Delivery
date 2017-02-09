@@ -15,7 +15,7 @@ var ReviewSchema = new mongoose.Schema({
 
 interface IReviewModel extends IReview, mongoose.Document { }
 
-var Review = mongoose.model<IReviewModel>("Notification", ReviewSchema);
+var Review = mongoose.model<IReviewModel>("Review", ReviewSchema);
 
 export = Review;
 
