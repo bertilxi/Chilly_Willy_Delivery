@@ -10,4 +10,6 @@
     <string name="take_picture_label">Saca una foto</string>
     <!-- bundle keys -->
     <string name="order_content_key">order content key</string>
+    <!-- Location activity strings -->
+    <string name="location_order_label">Tu pedido</string>
 </resources>

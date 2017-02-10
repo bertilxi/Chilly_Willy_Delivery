@@ -10,7 +10,7 @@ This is Restfull API server for a practical work
 - cd repository path
 - npm i
 - mongod --dbpath mongodb
-- npm start (in other terminal)
+- npm run grunt; npm run dev (in other terminal)
 
 ### Technologies
 - Node js

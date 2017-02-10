@@ -1,4 +1,4 @@
-package dam.isi.frsf.utn.edu.ar.delivery.Constants;
+package dam.isi.frsf.utn.edu.ar.delivery.constants;
 
 import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 

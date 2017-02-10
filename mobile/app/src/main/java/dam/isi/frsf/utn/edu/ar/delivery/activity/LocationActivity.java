@@ -12,16 +12,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-
 import dam.isi.frsf.utn.edu.ar.delivery.R;
+import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
+import dam.isi.frsf.utn.edu.ar.delivery.service.Endpoints;
 
 public class LocationActivity extends AppCompatActivity implements
         OnMapReadyCallback {
 
-    private ArrayList<LatLng> reclamos = new ArrayList<LatLng>();
-
-    boolean mBound = false;
+    Endpoints data = new DataService().getmService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +38,19 @@ public class LocationActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        GoogleMap mMap = googleMap;
-
-        mMap.setOnMapLongClickListener(latLng -> {
+        googleMap.setOnMapLongClickListener(latLng -> {
 
         });
 
-        mMap.setOnInfoWindowClickListener(marker -> {
+        googleMap.setOnInfoWindowClickListener(marker -> {
 
         });
 
         // set my desired location
         LatLng mLatLon = new LatLng(-31.619276, -60.683970);
-        mMap.addMarker(new MarkerOptions().position(mLatLon).title("Tu pedido"));
+        googleMap.addMarker(new MarkerOptions().position(mLatLon).title(getString(R.string.location_order_label)));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mLatLon, 15);
-        mMap.animateCamera(cameraUpdate);
+        googleMap.animateCamera(cameraUpdate);
 
 
     }
