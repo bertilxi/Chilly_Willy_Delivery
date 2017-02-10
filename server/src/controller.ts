@@ -2,6 +2,10 @@ import mongoose = require('mongoose');
 import { DbHelper } from './db';
 
 import Flavor = require('./model/flavor');
+import ContainerSize = require('./model/container-size');
+import ContainerType = require('./model/container-type');
+import Sauce = require('./model/sauce');
+import Addin = require('./model/addin');
 
 import Location = require('./model/location');
 import Notification = require('./model/notification');
@@ -15,13 +19,41 @@ var dbHelper: DbHelper = new DbHelper();
 export class Controller {
 
     public test(req, res) {
-        dbHelper.init();
-        Flavor.find((error, flavors) => {
+        let mData: Array<any> = [];
+
+        ContainerSize.find((error, data) => {
             if (error) {
                 return res.send(500, error.message)
             }
-            res.status(200).jsonp(flavors);
+            mData.push(data);
+            // res.status(200).jsonp(data);
         });
+
+        ContainerType.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            mData.push(data);
+            // res.status(200).jsonp(data);
+        });
+
+        Sauce.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            mData.push(data);
+            // res.status(200).jsonp(data);
+        });
+
+        Addin.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            mData.push(data);
+            res.status(200).jsonp(mData);
+        });
+
+
     }
 
     public root(req, res) {

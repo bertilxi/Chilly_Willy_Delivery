@@ -1,20 +1,19 @@
 import * as _ from 'lodash';
 
 import mongoose = require('mongoose');
-// import Location = require('./model/location');
-// import Notification = require('./model/notification');
-// import Order = require('./model/order');
-// import Review = require('./model/review');
-// import Session = require('./model/session');
-import Flavor = require('./model/flavor');
 
-// var LocationData = require('./data/location');
-// var NotificationData = require('./data/location');
-// var OrderData = require('./data/location');
-// var ReviewData = require('./data/location');
-// var SessionData = require('./data/location');
+import Flavor = require('./model/flavor');
+import ContainerSize = require('./model/container-size');
+import ContainerType = require('./model/container-type');
+import Sauce = require('./model/sauce');
+import Addin = require('./model/addin');
+
+
 
 import { flavors } from './data/flavors';
+import { containerSizes } from './data/container-size';
+import { containerTypes } from './data/container-types';
+import { sauces } from './data/sauce';
 import { addins } from './data/addins';
 
 export class DbHelper {
@@ -23,19 +22,23 @@ export class DbHelper {
     }
 
     public resetMetadata() {
-        Flavor.remove({}, error => {
-            if (error) {
-                console.log(error);
-            }
-        });
+
+        Flavor.remove({}, () => { });
+        ContainerSize.remove({}, () => { });
+        ContainerType.remove({}, () => { });
+        Sauce.remove({}, () => { });
+        Addin.remove({}, () => { });
+
     }
 
     public init(): void {
-        console.log(flavors);
 
-        for (let x of flavors) {
-            new Flavor(x).save();
-        }
+        flavors.forEach(x => { new Flavor(x).save(); });
+        containerSizes.forEach(x => { new ContainerSize(x).save(); });
+        containerTypes.forEach(x => { new ContainerType(x).save(); });
+        sauces.forEach(x => { new Sauce(x).save() });
+        addins.forEach(x => { new Addin(x).save(); });
+
     }
     /*
         public reset(): void {

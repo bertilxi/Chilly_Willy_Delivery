@@ -1,6 +1,9 @@
 "use strict";
 const db_1 = require("./db");
-const Flavor = require("./model/flavor");
+const ContainerSize = require("./model/container-size");
+const ContainerType = require("./model/container-type");
+const Sauce = require("./model/sauce");
+const Addin = require("./model/addin");
 const Location = require("./model/location");
 const Notification = require("./model/notification");
 const Order = require("./model/order");
@@ -98,12 +101,31 @@ class Controller {
         this.addReview = (req, res) => { };
     }
     test(req, res) {
-        dbHelper.init();
-        Flavor.find((error, flavors) => {
+        let mData = [];
+        ContainerSize.find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
-            res.status(200).jsonp(flavors);
+            mData.push(data);
+        });
+        ContainerType.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            mData.push(data);
+        });
+        Sauce.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            mData.push(data);
+        });
+        Addin.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            mData.push(data);
+            res.status(200).jsonp(mData);
         });
     }
     root(req, res) {
