@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DataService {
 
-    private static final String localPath = "https://172.10.2.153:8080/";
+    public static final String localPath = "https://172.10.2.153:8080/";
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(localPath)
