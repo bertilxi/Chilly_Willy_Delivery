@@ -5,10 +5,6 @@ import android.graphics.Bitmap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by andres on 06/02/2017.
- */
-
 public class Flavor {
     @SerializedName("name")
     @Expose

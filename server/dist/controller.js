@@ -102,28 +102,34 @@ class Controller {
     }
     test(req, res) {
         let mData = [];
-        ContainerSize.find((error, data) => {
+        ContainerSize
+            .find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
-            mData.push(data);
-        });
-        ContainerType.find((error, data) => {
+        })
+            .then(data => { mData.push(data); });
+        ContainerType
+            .find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
-            mData.push(data);
-        });
-        Sauce.find((error, data) => {
+        })
+            .then(data => { mData.push(data); });
+        Sauce
+            .find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
-            mData.push(data);
-        });
-        Addin.find((error, data) => {
+        })
+            .then(data => { mData.push(data); });
+        Addin
+            .find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
+        })
+            .then(data => {
             mData.push(data);
             res.status(200).jsonp(mData);
         });

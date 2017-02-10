@@ -5,10 +5,6 @@ import android.graphics.Bitmap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by andrés on 08/02/2017.
- */
-
 public class ContainerType {
     @SerializedName("name")
     @Expose

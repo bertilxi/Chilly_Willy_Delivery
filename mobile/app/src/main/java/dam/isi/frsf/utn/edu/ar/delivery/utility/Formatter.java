@@ -2,10 +2,6 @@ package dam.isi.frsf.utn.edu.ar.delivery.utility;
 
 import java.util.List;
 
-/**
- * Created by andres on 05/02/2017.
- */
-
 public class Formatter {
     static public <T> String buildStringFromList(List<T> list){
         StringBuilder stringBuilder = new StringBuilder();
