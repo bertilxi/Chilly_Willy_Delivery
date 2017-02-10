@@ -13,3 +13,4 @@
 /server/db
 /server/node_modules
 *.baseDir.ts*
+npm-debug.log
