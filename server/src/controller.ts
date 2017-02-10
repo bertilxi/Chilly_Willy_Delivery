@@ -14,6 +14,7 @@ import Review = require('./model/review');
 import Session = require('./model/session');
 
 
+
 var dbHelper: DbHelper = new DbHelper();
 
 export class Controller {

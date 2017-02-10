@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const logger = require("morgan");
-const path = require("path");
 const controller_1 = require("./controller");
 const errorHandler = require("errorhandler");
 const methodOverride = require("method-override");
@@ -49,7 +48,7 @@ class Server {
             .post(this.ctrl.addReview);
     }
     config() {
-        this.app.use(express.static(path.join(__dirname, "public")));
+        this.app.use('/static', express.static(__dirname + '/public'));
         this.app.use(logger("dev"));
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({

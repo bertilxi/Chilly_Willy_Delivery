@@ -68,7 +68,7 @@ export class Server {
 
     public config() {
         //add static paths
-        this.app.use(express.static(path.join(__dirname, "public")));
+        this.app.use('/static', express.static(__dirname + '/public'));
 
         //mount logger
         this.app.use(logger("dev"));
