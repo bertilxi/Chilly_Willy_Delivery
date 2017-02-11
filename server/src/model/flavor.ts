@@ -1,13 +1,14 @@
 import mongoose = require("mongoose");
 
 interface IFlavor {
+	/** should it have an identifier attribute? */
     label: string;
-    img: string;
+    imgURL: string;
 }
 
 var FlavorSchema = new mongoose.Schema({
     label: String,
-    img: String
+    imgURL: String
 });
 
 interface IFlavorModel extends IFlavor, mongoose.Document { }

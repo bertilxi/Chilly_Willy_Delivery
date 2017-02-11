@@ -2,10 +2,14 @@ import mongoose = require("mongoose");
 
 interface IContainerType {
     label: string;
+    maxFlavors: number;
+    variableQuantityOfFlavors: boolean;
 }
 
 var ContainerTypeSchema = new mongoose.Schema({
-    label: String
+    label: String,
+    maxFlavors: Number,
+    variableQuantityOfFlavors: Boolean
 });
 
 interface IContainerTypeModel extends IContainerType, mongoose.Document { }

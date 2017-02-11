@@ -1,12 +1,15 @@
 import mongoose = require("mongoose");
 
+import { IFlavor } from './flavor';
+
 interface IOrder {
     items: Array<IOrderItem>;
 }
 
 interface IOrderItem {
     containerType: string;
-    containerSize: string;
+    
+    /** string should be changed for a flavor scheme */
     flavors: Array<string>;
     sauce: string;
     addins: Array<string>;

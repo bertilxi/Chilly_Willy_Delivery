@@ -2,10 +2,12 @@ import mongoose = require("mongoose");
 
 interface IAddin {
     label: string;
+    imgURL: string;
 }
 
 var AddinSchema = new mongoose.Schema({
-    label: String
+    label: String,
+    imgURL: String
 });
 
 interface IAddinModel extends IAddin, mongoose.Document { }
