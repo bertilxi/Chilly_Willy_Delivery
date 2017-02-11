@@ -31,38 +31,44 @@ export class Server {
 
     public api() {
 
-        this.router.route('/')
-            .get(this.ctrl.root);
+        this.router.route('/').get(this.ctrl.root);
+        this.router.route('/test').get(this.ctrl.test);
 
-        this.router.route('/test')
-            .get(this.ctrl.test);
+        //
+        // metadata
+        //
 
-        this.router.route('/reset')
-            .post(this.ctrl.reset);
+        this.router.route('/flavors').get();
+        this.router.route('/containers').get();
+        this.router.route('/addins').get();
+        this.router.route('/sauces').get();
 
-        this.router.route('/session')
-            .get(this.ctrl.getSession);
+        //
+        // core
+        //
 
-        this.router.route('/sessions')
-            .get(this.ctrl.getSessions);
+        this.router.route('/session/:deviceID').post();
 
-        this.router.route('/session/:sessionId/order/:orderId')
-            .get(this.ctrl.getOrder);
+        //
+        // Order
+        //
 
-        this.router.route('/session/:sessionId/order')
-            .get(this.ctrl.getOrders)
-            .post(this.ctrl.addOrder);
+        this.router.route('/order').post();
+        this.router.route('/order/:deviceID').get();
 
-        this.router.route('/session/:sessionId/order/:orderId/location')
-            .get(this.ctrl.getLocation)
-            .post(this.ctrl.addLocation)
-            .put(this.ctrl.updateLocation);
+        //
+        // Location
+        //
 
-        this.router.route('/notification')
-            .get(this.ctrl.getNotification);
+        this.router.route('/location/:deviceID').get();
 
-        this.router.route('/review')
-            .post(this.ctrl.addReview);
+        //
+        // Review
+        //
+
+        this.router.route('/review').post();
+
+
 
     }
 

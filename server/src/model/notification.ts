@@ -1,26 +1,24 @@
 
 import mongoose = require("mongoose");
 
-interface INotification {
+export interface INotification {
     deals: Array<IDeal>;
 }
 
-interface IDeal {
+export interface IDeal {
     title: string;
     description: string;
 }
 
-var DealSchema = new mongoose.Schema({
+export var DealSchema = new mongoose.Schema({
     title: String,
     description: String
 });
 
-var NotificationSchema = new mongoose.Schema({
+export var NotificationSchema = new mongoose.Schema({
     deals: [DealSchema]
 });
 
-interface INotificationModel extends INotification, mongoose.Document { }
+export interface INotificationModel extends INotification, mongoose.Document { }
 
-var Notification = mongoose.model<INotificationModel>("Notification", NotificationSchema);
-
-export = Notification;
+export var Notification = mongoose.model<INotificationModel>("Notification", NotificationSchema);

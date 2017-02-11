@@ -48,65 +48,40 @@ export class Controller {
                 res.status(200).jsonp(mData);
             });
 
-
     }
+
+    //
+    // core
+    //
 
     public root(req, res) {
         res.send("Hello Node TS");
     }
 
-    public reset = (req, res) => {
-
-        Location.remove({}, error => {
-            if (error) {
-                return res.send(500, error.message)
-            }
-            res.status(200).jsonp();
+    public openSession(req, res) {
+        let session = new Session({
+            deviceID: req.params.deviceID,
+            orders: []
         });
-        Session.remove({}, error => {
-            if (error) {
-                return res.send(500, error.message)
+        session.save((error, data)=>{
+            if(error){
+                return res.send(500, error.message);
             }
-            res.status(200).jsonp();
-        });
-        Notification.remove({}, error => {
-            if (error) {
-                return res.send(500, error.message)
-            }
-            res.status(200).jsonp();
-        });
-        Order.remove({}, error => {
-            if (error) {
-                return res.send(500, error.message)
-            }
-            res.status(200).jsonp();
-        });
-        Review.remove({}, error => {
-            if (error) {
-                return res.send(500, error.message)
-            }
-            res.status(200).jsonp();
+            res.status(200).jsonp(data.deviceID);
         });
     }
 
-    public getSession = (req, res) => {
+    //
+    // order
+    //
 
-        let session = new Session();
-
-        session.save((error, mSession) => {
-            if (error) return res.send(500, error.message);
-            res.status(200).jsonp(mSession);
+    public addOrder(req, res){
+        let order = new Order({
+            container
         });
     }
-    public getSessions = (req, res) => {
-        Session.find((error, session) => {
-            if (error) {
-                return res.send(500, error.message)
-            }
-            console.log('GET /sessions');
-            res.status(200).jsonp(session);
-        });
-    }
+
+
 
     public getLocation = (req, res) => {
         Location.findById(req.params.id, (error, location) => {

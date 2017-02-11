@@ -1,41 +1,39 @@
 import mongoose = require("mongoose");
 
-import { IFlavor } from './flavor';
+import { IFlavor, FlavorSchema } from './flavor';
+import { IAddin, AddinSchema } from './addin';
+import { ContainerTypeSchema } from './container-type';
+import { ISauce, SauceSchema } from './sauce';
 
-interface IOrder {
+export interface IOrder {
     items: Array<IOrderItem>;
 }
 
-interface IOrderItem {
-    containerType: string;
-    
-    /** string should be changed for a flavor scheme */
-    flavors: Array<string>;
-    sauce: string;
-    addins: Array<string>;
+export interface IOrderItem {
+    containerType: string;    
+    flavors: Array<IFlavor>;
+    sauce: ISauce;
+    addins: Array<IAddin>;
     quantity: number;
     delivered: boolean;
 
 }
 
-interface IOrderModel extends IOrder, mongoose.Document { }
+export interface IOrderModel extends IOrder, mongoose.Document { }
 
-interface IOrderItemModel extends IOrderItem, mongoose.Document { }
+export interface IOrderItemModel extends IOrderItem, mongoose.Document { }
 
-var OrderItemSchema = new mongoose.Schema({
-    containerType: String,
-    containerSize: String,
-    flavors: [String],
-    sauce: String,
-    addins: [String],
+export var OrderItemSchema = new mongoose.Schema({
+    containerType: ContainerTypeSchema,
+    flavors: [FlavorSchema],
+    sauce: SauceSchema,
+    addins: [AddinSchema],
     quantity: Number,
     delivered: Boolean
 });
 
-var OrderSchema = new mongoose.Schema({
+export var OrderSchema = new mongoose.Schema({
     items: [OrderItemSchema]
 });
 
-var Order = mongoose.model<IOrderModel>("Order", OrderSchema);
-
-export = Order;
+export var Order = mongoose.model<IOrderModel>("Order", OrderSchema);

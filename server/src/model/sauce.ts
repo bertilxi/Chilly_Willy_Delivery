@@ -1,17 +1,15 @@
 import mongoose = require("mongoose");
 
-interface ISauce {
+export interface ISauce {
     label: string;
     imgURL: string;
 }
 
-var SauceSchema = new mongoose.Schema({
+export var SauceSchema = new mongoose.Schema({
     label: String,
     imgURL: String
 });
 
-interface ISauceModel extends ISauce, mongoose.Document { }
+export interface ISauceModel extends ISauce, mongoose.Document { }
 
-var Sauce = mongoose.model<ISauceModel>("Sauce", SauceSchema);
-
-export = Sauce;
+export var Sauce = mongoose.model<ISauceModel>("Sauce", SauceSchema);
