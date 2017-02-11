@@ -35,15 +35,6 @@ public interface Endpoints {
     @GET("sauce")
     Call<List<Sauce>> getSauces();
 
-    //
-    // Core
-    //
-
-    @POST("session/{devID}")
-    Call<String> openSession(@Path("devID") String devID);
-
-    @GET("session/{devID}")
-    Call<String> getSessionID(@Path("devID") String devID);
 
     //
     //
