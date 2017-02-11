@@ -1,11 +1,10 @@
 "use strict";
 const mongoose = require("mongoose");
-var DealSchema = new mongoose.Schema({
+exports.DealSchema = new mongoose.Schema({
     title: String,
     description: String
 });
-var NotificationSchema = new mongoose.Schema({
-    deals: [DealSchema]
+exports.NotificationSchema = new mongoose.Schema({
+    deals: [exports.DealSchema]
 });
-var Notification = mongoose.model("Notification", NotificationSchema);
-module.exports = Notification;
+exports.Notification = mongoose.model("Notification", exports.NotificationSchema);

@@ -1,11 +1,16 @@
-export var addins: Array<any> = [];
+import { IAddin } from '../model/addin';
+
+export var addins: Array<IAddin> = [];
 
 addins.push({
-    "label":"Rocklets"
+    label: "Rocklets",
+    imgURL: ""
 });
 addins.push({
-    "label":"Chispas de chocolate"
+    label: "Chispas de chocolate",
+    imgURL: ""
 });
 addins.push({
-    "label":"Gomitas"
+    label: "Gomitas",
+    imgURL: ""
 });

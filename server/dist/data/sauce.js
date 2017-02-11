@@ -1,11 +1,14 @@
 "use strict";
 exports.sauces = [];
 exports.sauces.push({
-    "label": "Frutilla"
+    label: "Frutilla",
+    imgURL: ""
 });
 exports.sauces.push({
-    "label": "Dulce de leche"
+    label: "Dulce de leche",
+    imgURL: ""
 });
 exports.sauces.push({
-    "label": "Chocolate"
+    label: "Chocolate",
+    imgURL: ""
 });

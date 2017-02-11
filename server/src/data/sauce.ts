@@ -1,11 +1,16 @@
-export var sauces: Array<any> = [];
+import { ISauce } from '../model/sauce';
+
+export var sauces: Array<ISauce> = [];
 
 sauces.push({
-    "label":"Frutilla"
+    label: "Frutilla",
+    imgURL: ""
 });
 sauces.push({
-    "label":"Dulce de leche"
+    label: "Dulce de leche",
+    imgURL: ""
 });
 sauces.push({
-    "label":"Chocolate"
+    label: "Chocolate",
+    imgURL: ""
 });

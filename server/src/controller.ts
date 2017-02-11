@@ -19,34 +19,6 @@ var dbHelper: DbHelper = new DbHelper();
 export class Controller {
 
     public test(req, res) {
-        let mData: Array<any> = [];
-
-        ContainerType
-            .find((error, data) => {
-                if (error) {
-                    return res.send(500, error.message)
-                }
-            })
-            .then(data => { mData.push(data); });
-
-        Sauce
-            .find((error, data) => {
-                if (error) {
-                    return res.send(500, error.message)
-                }
-            })
-            .then(data => { mData.push(data); });
-
-        Addin
-            .find((error, data) => {
-                if (error) {
-                    return res.send(500, error.message)
-                }
-            })
-            .then(data => {
-                mData.push(data);
-                res.status(200).jsonp(mData);
-            });
 
     }
 
@@ -55,7 +27,7 @@ export class Controller {
     //
 
     public root(req, res) {
-        res.send("Hello Node TS");
+        res.send('Hello Node TS');
     }
 
     public openSession(req, res) {
@@ -109,6 +81,45 @@ export class Controller {
             }
             res.status(200).jsonp(data);
         });
+    }
+
+    // TODO: improve this
+    public getMetadata(req, res) {
+        let mData: Array<any> = [];
+
+        Flavor.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+        }).then(data => {
+
+            mData.push(data);
+            ContainerType.find((error, data) => {
+                if (error) {
+                    return res.send(500, error.message)
+                }
+            }).then(data => {
+                mData.push(data);
+                Sauce.find((error, data) => {
+                    if (error) {
+                        return res.send(500, error.message)
+                    }
+                }).then(data => {
+                    mData.push(data);
+                    Addin.find((error, data) => {
+                        if (error) {
+                            return res.send(500, error.message)
+                        }
+                    }).then(data => {
+                        mData.push(data);
+                        res.status(200).jsonp(mData);
+                    });
+                });
+
+            });
+
+        });
+
     }
 
     //

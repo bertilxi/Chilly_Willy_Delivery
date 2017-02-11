@@ -50,9 +50,9 @@ public class LocationActivity extends AppCompatActivity implements
         });
 
         // set my desired location
-        LatLng mLatLon = new LatLng(-31.619276, -60.683970);
-        googleMap.addMarker(new MarkerOptions().position(mLatLon).title(getString(R.string.location_order_label)));
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mLatLon, 15);
+        LatLng mLatLng = new LatLng(-31.619276, -60.683970);
+        googleMap.addMarker(new MarkerOptions().position(mLatLng).title(getString(R.string.location_order_label)));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mLatLng, 15);
         googleMap.animateCamera(cameraUpdate);
 
 

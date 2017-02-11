@@ -1,12 +1,12 @@
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as express from "express";
-import * as logger from "morgan";
-import * as path from "path";
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
+import * as logger from 'morgan';
+import * as path from 'path';
 import { Router } from 'express';
 import { Controller } from './controller';
-import errorHandler = require("errorhandler");
-import methodOverride = require("method-override");
+import errorHandler = require('errorhandler');
+import methodOverride = require('method-override');
 import mongoose = require('mongoose');
 import { DbHelper } from './db';
 
@@ -37,7 +37,7 @@ export class Server {
         //
         // metadata
         //
-
+        this.router.route('/metadata').get(this.ctrl.getMetadata)
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
         this.router.route('/addins').get(this.ctrl.getAddins);
@@ -76,7 +76,7 @@ export class Server {
         this.app.use('/static', express.static(__dirname + '/public'));
 
         //mount logger
-        this.app.use(logger("dev"));
+        this.app.use(logger('dev'));
 
         //mount json form parser
         this.app.use(bodyParser.json());
@@ -87,7 +87,7 @@ export class Server {
         }));
 
         //mount cookie parker
-        this.app.use(cookieParser("SECRET_GOES_HERE"));
+        this.app.use(cookieParser('SECRET_GOES_HERE'));
 
         //mount override?
         this.app.use(methodOverride());

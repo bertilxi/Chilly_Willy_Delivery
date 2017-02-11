@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appConstants.deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        appConstants.deviceID =
+                Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Toast.makeText(MainActivity.this, appConstants.deviceID, Toast.LENGTH_LONG).show();
 

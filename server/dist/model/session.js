@@ -1,19 +1,8 @@
 "use strict";
 const mongoose = require("mongoose");
-var OrderItemSchema = new mongoose.Schema({
-    containerType: String,
-    containerSize: String,
-    flavors: [String],
-    sauce: String,
-    addins: [String],
-    quantity: Number,
-    delivered: Boolean
+const order_1 = require("./order");
+exports.SessionSchema = new mongoose.Schema({
+    deviceID: Number,
+    orders: [order_1.OrderSchema]
 });
-var OrderSchema = new mongoose.Schema({
-    items: [OrderItemSchema]
-});
-var SessionSchema = new mongoose.Schema({
-    orders: [OrderSchema]
-});
-var Session = mongoose.model("Session", SessionSchema);
-module.exports = Session;
+exports.Session = mongoose.model("Session", exports.SessionSchema);

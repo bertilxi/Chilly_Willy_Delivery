@@ -1,8 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
-var FlavorSchema = new mongoose.Schema({
+exports.FlavorSchema = new mongoose.Schema({
     label: String,
-    img: String
+    imgURL: String
 });
-var Flavor = mongoose.model("Flavor", FlavorSchema);
-module.exports = Flavor;
+exports.Flavor = mongoose.model("Flavor", exports.FlavorSchema);

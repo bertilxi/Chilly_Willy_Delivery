@@ -1,14 +1,27 @@
-export var containerTypes: Array<any> = [];
+import { IContainerType } from '../model/container-type';
+
+export var containerTypes: Array<IContainerType> = [];
 
 containerTypes.push({
-    "label":"Cucurucho"
+    label: "Pote - 1/4",
+    maxFlavors: 2,
+    variableQuantityOfFlavors: true,
 });
+
 containerTypes.push({
-    "label":"Pote"
+    label: "Pote - 1/2",
+    maxFlavors: 3,
+    variableQuantityOfFlavors: true,
 });
+
 containerTypes.push({
-    "label":"Capelina"
+    label: "Pote - 3/4",
+    maxFlavors: 4,
+    variableQuantityOfFlavors: true,
 });
+
 containerTypes.push({
-    "label":"Bandeja"
+    label: "Pote - Kilo",
+    maxFlavors: 4,
+    variableQuantityOfFlavors: true,
 });

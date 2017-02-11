@@ -1,9 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
-var LocationSchema = new mongoose.Schema({
+exports.LocationSchema = new mongoose.Schema({
     latitude: Number,
-    longitud: Number,
-    timeStamp: Number
+    longitud: Number
 });
-var Location = mongoose.model("Location", LocationSchema);
-module.exports = Location;
+exports.Location = mongoose.model("Location", exports.LocationSchema);

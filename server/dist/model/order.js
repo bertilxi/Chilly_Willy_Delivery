@@ -1,16 +1,20 @@
 "use strict";
 const mongoose = require("mongoose");
-var OrderItemSchema = new mongoose.Schema({
-    containerType: String,
-    containerSize: String,
-    flavors: [String],
-    sauce: String,
-    addins: [String],
+const flavor_1 = require("./flavor");
+const addin_1 = require("./addin");
+const container_type_1 = require("./container-type");
+const sauce_1 = require("./sauce");
+const location_1 = require("./location");
+exports.OrderItemSchema = new mongoose.Schema({
+    containerType: container_type_1.ContainerTypeSchema,
+    flavors: [flavor_1.FlavorSchema],
+    sauce: sauce_1.SauceSchema,
+    addins: [addin_1.AddinSchema],
     quantity: Number,
     delivered: Boolean
 });
-var OrderSchema = new mongoose.Schema({
-    items: [OrderItemSchema]
+exports.OrderSchema = new mongoose.Schema({
+    items: [exports.OrderItemSchema],
+    lastLocation: location_1.LocationSchema
 });
-var Order = mongoose.model("Order", OrderSchema);
-module.exports = Order;
+exports.Order = mongoose.model("Order", exports.OrderSchema);

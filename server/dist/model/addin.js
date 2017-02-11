@@ -1,7 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
-var AddinSchema = new mongoose.Schema({
-    label: String
+exports.AddinSchema = new mongoose.Schema({
+    label: String,
+    imgURL: String
 });
-var Addin = mongoose.model("Addin", AddinSchema);
-module.exports = Addin;
+exports.Addin = mongoose.model("Addin", exports.AddinSchema);

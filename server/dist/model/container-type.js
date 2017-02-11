@@ -1,7 +1,8 @@
 "use strict";
 const mongoose = require("mongoose");
-var ContainerTypeSchema = new mongoose.Schema({
-    label: String
+exports.ContainerTypeSchema = new mongoose.Schema({
+    label: String,
+    maxFlavors: Number,
+    variableQuantityOfFlavors: Boolean
 });
-var ContainerType = mongoose.model("ContainerType", ContainerTypeSchema);
-module.exports = ContainerType;
+exports.ContainerType = mongoose.model("ContainerType", exports.ContainerTypeSchema);

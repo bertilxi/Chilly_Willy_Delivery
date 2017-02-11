@@ -23,29 +23,18 @@ class Server {
         return new Server(mCtrl);
     }
     api() {
-        this.router.route('/')
-            .get(this.ctrl.root);
-        this.router.route('/test')
-            .get(this.ctrl.test);
-        this.router.route('/reset')
-            .post(this.ctrl.reset);
-        this.router.route('/session')
-            .get(this.ctrl.getSession);
-        this.router.route('/sessions')
-            .get(this.ctrl.getSessions);
-        this.router.route('/session/:sessionId/order/:orderId')
-            .get(this.ctrl.getOrder);
-        this.router.route('/session/:sessionId/order')
-            .get(this.ctrl.getOrders)
-            .post(this.ctrl.addOrder);
-        this.router.route('/session/:sessionId/order/:orderId/location')
-            .get(this.ctrl.getLocation)
-            .post(this.ctrl.addLocation)
-            .put(this.ctrl.updateLocation);
-        this.router.route('/notification')
-            .get(this.ctrl.getNotification);
-        this.router.route('/review')
-            .post(this.ctrl.addReview);
+        this.router.route('/').get(this.ctrl.root);
+        this.router.route('/test').get(this.ctrl.test);
+        this.router.route('/flavors').get(this.ctrl.getFlavors);
+        this.router.route('/containers').get(this.ctrl.getContainers);
+        this.router.route('/addins').get(this.ctrl.getAddins);
+        this.router.route('/sauces').get(this.ctrl.getSauces);
+        this.router.route('/session/:deviceID').post(this.ctrl.openSession);
+        this.router.route('/order').post(this.ctrl.addOrder);
+        this.router.route('/order/:orderID').put(this.ctrl.modifyOrder);
+        this.router.route('/orders/:deviceID').get(this.ctrl.getOrders);
+        this.router.route('/location/:orderID').get(this.ctrl.getLocation);
+        this.router.route('/review').post();
     }
     config() {
         this.app.use('/static', express.static(__dirname + '/public'));

@@ -1,141 +1,149 @@
 "use strict";
 const db_1 = require("./db");
-const ContainerSize = require("./model/container-size");
-const ContainerType = require("./model/container-type");
-const Sauce = require("./model/sauce");
-const Addin = require("./model/addin");
-const Location = require("./model/location");
-const Notification = require("./model/notification");
-const Order = require("./model/order");
-const Review = require("./model/review");
-const Session = require("./model/session");
+const session_1 = require("./model/session");
+const flavor_1 = require("./model/flavor");
+const container_type_1 = require("./model/container-type");
+const addin_1 = require("./model/addin");
+const sauce_1 = require("./model/sauce");
+const order_1 = require("./model/order");
+const review_1 = require("./model/review");
 var dbHelper = new db_1.DbHelper();
 class Controller {
     constructor() {
-        this.reset = (req, res) => {
-            Location.remove({}, error => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                res.status(200).jsonp();
-            });
-            Session.remove({}, error => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                res.status(200).jsonp();
-            });
-            Notification.remove({}, error => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                res.status(200).jsonp();
-            });
-            Order.remove({}, error => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                res.status(200).jsonp();
-            });
-            Review.remove({}, error => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                res.status(200).jsonp();
-            });
-        };
-        this.getSession = (req, res) => {
-            let session = new Session();
-            session.save((error, mSession) => {
-                if (error)
-                    return res.send(500, error.message);
-                res.status(200).jsonp(mSession);
-            });
-        };
-        this.getSessions = (req, res) => {
-            Session.find((error, session) => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                console.log('GET /sessions');
-                res.status(200).jsonp(session);
-            });
-        };
         this.getLocation = (req, res) => {
-            Location.findById(req.params.id, (error, location) => {
+            order_1.Order
+                .findOne({ '_id': req.params.orderID })
+                .exec((error, data) => {
                 if (error) {
-                    return res.send(500, error.message);
+                    res.send(500, error.message);
                 }
-                console.log('GET /location/' + req.params.id);
-                res.status(200).jsonp(location);
+                res.status(200).jsonp(data.lastLocation);
             });
         };
-        this.addLocation = (req, res) => {
-            console.log('POST');
-            console.log(req.body);
-            let location = new Location({
-                latitude: req.body.latitude,
-                longitud: req.body.longitud,
-                timeStamp: req.body.timeStamp
-            });
-            location.save((err, mLocation) => {
-                if (err)
-                    return res.send(500, err.message);
-                res.status(200).jsonp(mLocation);
-            });
-        };
-        this.getLocations = (req, res) => {
-            Location.find((error, location) => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-                console.log('GET /location/');
-                res.status(200).jsonp(location);
-            });
-        };
-        this.getOrder = (req, res) => { };
-        this.getOrders = (req, res) => { };
-        this.addOrder = (req, res) => { };
-        this.updateLocation = (req, res) => { };
-        this.getNotification = (req, res) => { };
-        this.addReview = (req, res) => { };
     }
     test(req, res) {
         let mData = [];
-        ContainerSize
-            .find((error, data) => {
+        flavor_1.Flavor.find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
-        })
-            .then(data => { mData.push(data); });
-        ContainerType
-            .find((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-        })
-            .then(data => { mData.push(data); });
-        Sauce
-            .find((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-        })
-            .then(data => { mData.push(data); });
-        Addin
-            .find((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-        })
-            .then(data => {
+        }).then(data => {
             mData.push(data);
-            res.status(200).jsonp(mData);
+            container_type_1.ContainerType.find((error, data) => {
+                if (error) {
+                    return res.send(500, error.message);
+                }
+            }).then(data => {
+                mData.push(data);
+                sauce_1.Sauce.find((error, data) => {
+                    if (error) {
+                        return res.send(500, error.message);
+                    }
+                }).then(data => {
+                    mData.push(data);
+                    addin_1.Addin.find((error, data) => {
+                        if (error) {
+                            return res.send(500, error.message);
+                        }
+                    }).then(data => {
+                        mData.push(data);
+                        res.status(200).jsonp(mData);
+                    });
+                });
+            });
         });
     }
     root(req, res) {
         res.send("Hello Node TS");
+    }
+    openSession(req, res) {
+        let session = new session_1.Session({
+            deviceID: req.params.deviceID,
+            orders: []
+        });
+        session.save((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data.deviceID);
+        });
+    }
+    getFlavors(req, res) {
+        flavor_1.Flavor.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+    getContainers(req, res) {
+        container_type_1.ContainerType.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+    getAddins(req, res) {
+        addin_1.Addin.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+    getSauces(req, res) {
+        sauce_1.Sauce.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+    addOrder(req, res) {
+        let order = new order_1.Order({
+            containerType: req.body.containerType,
+            flavors: req.body.flavors,
+            sauce: req.body.sauce,
+            addins: req.body.addins,
+            quantity: req.body.quantity,
+            delivered: false
+        });
+        order.save((error, data) => {
+            if (error) {
+                res.send(500, error.message);
+            }
+            res.status(200).jsonp(data._id);
+        });
+    }
+    modifyOrder(req, res) {
+        order_1.Order.update({ _id: req.params.orderID }, req.body, (error, data) => {
+            if (error) {
+                res.send(500, error.message);
+            }
+            res.status(200).jsonp(data._id);
+        });
+    }
+    getOrders(req, res) {
+        order_1.Order.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+    addReview(req, res) {
+        let review = new review_1.Review({
+            rating: req.body.rating,
+            img: req.body.img,
+            comment: req.body.comment
+        });
+        review.save((error, data) => {
+            if (error) {
+                res.send(500, error.message);
+            }
+            res.status(200).jsonp(data._id);
+        });
     }
 }
 exports.Controller = Controller;

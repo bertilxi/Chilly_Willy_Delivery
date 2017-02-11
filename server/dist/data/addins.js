@@ -1,11 +1,14 @@
 "use strict";
 exports.addins = [];
 exports.addins.push({
-    "label": "Rocklets"
+    label: "Rocklets",
+    imgURL: ""
 });
 exports.addins.push({
-    "label": "Chispas de chocolate"
+    label: "Chispas de chocolate",
+    imgURL: ""
 });
 exports.addins.push({
-    "label": "Gomitas"
+    label: "Gomitas",
+    imgURL: ""
 });

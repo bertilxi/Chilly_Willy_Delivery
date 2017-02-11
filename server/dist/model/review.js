@@ -1,9 +1,8 @@
 "use strict";
 const mongoose = require("mongoose");
-var ReviewSchema = new mongoose.Schema({
+exports.ReviewSchema = new mongoose.Schema({
     rating: Number,
-    imgUrl: String,
-    comment: String,
+    img: String,
+    comment: String
 });
-var Review = mongoose.model("Review", ReviewSchema);
-module.exports = Review;
+exports.Review = mongoose.model("Review", exports.ReviewSchema);

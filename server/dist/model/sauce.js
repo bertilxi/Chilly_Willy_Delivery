@@ -1,7 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
-var SauceSchema = new mongoose.Schema({
-    label: String
+exports.SauceSchema = new mongoose.Schema({
+    label: String,
+    imgURL: String
 });
-var Sauce = mongoose.model("Sauce", SauceSchema);
-module.exports = Sauce;
+exports.Sauce = mongoose.model("Sauce", exports.SauceSchema);
