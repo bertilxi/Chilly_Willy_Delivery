@@ -1,18 +1,18 @@
 import mongoose = require('mongoose');
 import { DbHelper } from './db';
-
-import Flavor = require('./model/flavor');
-import ContainerType = require('./model/container-type');
-import Sauce = require('./model/sauce');
-import Addin = require('./model/addin');
-
-import Location = require('./model/location');
-import Notification = require('./model/notification');
-import Order = require('./model/order');
-import Review = require('./model/review');
-import Session = require('./model/session');
-
-
+// core
+import { Session } from './model/session';
+// metadata
+import { Flavor } from './model/flavor';
+import { ContainerType } from './model/container-type';
+import { Addin } from './model/addin';
+import { Sauce } from './model/sauce';
+// order
+import { Order } from './model/order';
+// location
+import { Location } from './model/location';
+// review
+import { Review } from './model/review';
 
 var dbHelper: DbHelper = new DbHelper();
 
@@ -63,8 +63,8 @@ export class Controller {
             deviceID: req.params.deviceID,
             orders: []
         });
-        session.save((error, data)=>{
-            if(error){
+        session.save((error, data) => {
+            if (error) {
                 return res.send(500, error.message);
             }
             res.status(200).jsonp(data.deviceID);
@@ -72,63 +72,112 @@ export class Controller {
     }
 
     //
+    // metadata
+    //
+
+    public getFlavors(req, res) {
+        Flavor.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+
+    public getContainers(req, res) {
+        ContainerType.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+
+    public getAddins(req, res) {
+        Addin.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+
+    public getSauces(req, res) {
+        Sauce.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+
+    //
     // order
     //
 
-    public addOrder(req, res){
+    public addOrder(req, res) {
         let order = new Order({
-            container
+            containerType: req.body.containerType,
+            flavors: req.body.flavors,
+            sauce: req.body.sauce,
+            addins: req.body.addins,
+            quantity: req.body.quantity,
+            delivered: false
+        });
+
+        order.save((error, data) => {
+            if (error) {
+                res.send(500, error.message);
+            }
+            res.status(200).jsonp(data._id);
         });
     }
 
+    public modifyOrder(req, res) {
 
+    }
+
+    public getOrders(req, res) {
+        Order.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+
+    //
+    // location
+    //
 
     public getLocation = (req, res) => {
-        Location.findById(req.params.id, (error, location) => {
+        Order
+            .findOne({ '_id': req.params.orderID })
+            .exec((error, data) => {
+                if (error) {
+                    res.send(500, error.message)
+                }
+                res.status(200).jsonp(data.lastLocation);
+            })
+    }
+
+    //
+    // review
+    //
+
+    public addReview(req, res) {
+        let review = new Review({
+            rating: req.body.rating,
+            img: req.body.img,
+            comment: req.body.comment
+        });
+        review.save((error, data) => {
             if (error) {
-                return res.send(500, error.message)
+                res.send(500, error.message);
             }
-            console.log('GET /location/' + req.params.id);
-            res.status(200).jsonp(location);
+            res.status(200).jsonp(data._id);
         });
     }
-    public addLocation = (req, res) => {
-        console.log('POST');
-        console.log(req.body);
-
-        let location = new Location({
-            latitude: req.body.latitude,
-            longitud: req.body.longitud,
-            timeStamp: req.body.timeStamp
-        });
-
-        location.save((err, mLocation) => {
-            if (err) return res.send(500, err.message);
-            res.status(200).jsonp(mLocation);
-        });
-    }
-
-    public getLocations = (req, res) => {
-        Location.find((error, location) => {
-            if (error) {
-                return res.send(500, error.message)
-            }
-            console.log('GET /location/');
-            res.status(200).jsonp(location);
-        });
-    }
-
-    public getOrder = (req, res) => { }
-
-    public getOrders = (req, res) => { }
-
-    public addOrder = (req, res) => { }
-
-    public updateLocation = (req, res) => { }
-
-    public getNotification = (req, res) => { }
-
-    public addReview = (req, res) => { }
 
 }
 

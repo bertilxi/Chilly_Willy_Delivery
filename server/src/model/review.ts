@@ -3,14 +3,14 @@ import mongoose = require("mongoose");
 
 export interface IReview {
     rating: number;
-    img: any;
+    img: string; // base64 image
     comment: string;
 }
 
 export var ReviewSchema = new mongoose.Schema({
     rating: Number,
-    imgUrl: String,
-    comment: String,
+    img: String, // base64 image
+    comment: String
 });
 
 export interface IReviewModel extends IReview, mongoose.Document { }

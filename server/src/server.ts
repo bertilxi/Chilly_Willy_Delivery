@@ -38,29 +38,30 @@ export class Server {
         // metadata
         //
 
-        this.router.route('/flavors').get();
-        this.router.route('/containers').get();
-        this.router.route('/addins').get();
-        this.router.route('/sauces').get();
+        this.router.route('/flavors').get(this.ctrl.getFlavors);
+        this.router.route('/containers').get(this.ctrl.getContainers);
+        this.router.route('/addins').get(this.ctrl.getAddins);
+        this.router.route('/sauces').get(this.ctrl.getSauces);
 
         //
         // core
         //
 
-        this.router.route('/session/:deviceID').post();
+        this.router.route('/session/:deviceID').post(this.ctrl.openSession);
 
         //
         // Order
         //
 
-        this.router.route('/order').post();
-        this.router.route('/order/:deviceID').get();
+        this.router.route('/order').post(this.ctrl.addOrder);
+        this.router.route('/order/:orderID').post(this.ctrl.modifyOrder);
+        this.router.route('/orders/:deviceID').get(this.ctrl.getOrders);
 
         //
         // Location
         //
 
-        this.router.route('/location/:deviceID').get();
+        this.router.route('/location/:orderID').get(this.ctrl.getLocation);
 
         //
         // Review
