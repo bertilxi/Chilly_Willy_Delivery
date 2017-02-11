@@ -121,6 +121,30 @@ status 200
 body orderID
 ```
 
+### PUT /order/:orderID
+
+Modify an order and send it to the server
+
+#### body
+```javascript
+interface Order {
+  _id: number;
+  containerType: ContainerType;
+  flavors: Array<Flavor>;
+  sauce: Sauce;
+  addins: Array<Addin>;
+  quatity: number;
+  delivered: boolean; // false by default
+}
+```
+
+#### response
+
+```javascript
+status 200
+body orderID
+```
+
 ### GET /orders/:deviceID
 
 Get all the not delivered orders by the deviceID

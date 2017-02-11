@@ -29,7 +29,7 @@ export class Server {
         dbHelper.init();
     }
 
-    public api() {
+    private api(): void {
 
         this.router.route('/').get(this.ctrl.root);
         this.router.route('/test').get(this.ctrl.test);
@@ -54,7 +54,7 @@ export class Server {
         //
 
         this.router.route('/order').post(this.ctrl.addOrder);
-        this.router.route('/order/:orderID').post(this.ctrl.modifyOrder);
+        this.router.route('/order/:orderID').put(this.ctrl.modifyOrder);
         this.router.route('/orders/:deviceID').get(this.ctrl.getOrders);
 
         //
@@ -69,11 +69,9 @@ export class Server {
 
         this.router.route('/review').post();
 
-
-
     }
 
-    public config() {
+    private config(): void {
         //add static paths
         this.app.use('/static', express.static(__dirname + '/public'));
 
