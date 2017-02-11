@@ -10,16 +10,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
-import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
-import dam.isi.frsf.utn.edu.ar.delivery.service.Endpoints;
 
 public class LocationActivity extends AppCompatActivity implements
         OnMapReadyCallback {
-
-    Endpoints data = new DataService().getmService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +35,18 @@ public class LocationActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        googleMap.setOnMapLongClickListener(latLng -> {
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
 
+            }
         });
 
-        googleMap.setOnInfoWindowClickListener(marker -> {
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
 
+            }
         });
 
         // set my desired location

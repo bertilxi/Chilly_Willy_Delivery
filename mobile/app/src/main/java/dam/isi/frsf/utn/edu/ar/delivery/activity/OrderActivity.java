@@ -15,8 +15,6 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +36,14 @@ public class OrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view ->
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show());
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         ViewStub stub = (ViewStub) findViewById(R.id.content_order);
 
@@ -84,17 +87,16 @@ public class OrderActivity extends AppCompatActivity {
                 row.setTag(holder);
                 holder.numberPickerQuantity.setMinValue(1);
                 holder.numberPickerQuantity.setMaxValue(10);
-                holder.numberPickerQuantity.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
-                    this.getItem(position).setQuantity(newVal);
+
+                holder.numberPickerQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                        // this.getItem(position).setQuantity(newVal);
+                    }
                 });
             }
 
             //read about glide here https://github.com/bumptech/glide
-            Glide
-                    .with(getContext())
-                    .load("ACA VA LA URI DE LA IMAGEN")
-                    //.placeholder(R.drawable.someSpiningImage)
-                    .into(holder.containerPic);
 
             holder.textViewContainer.setText(this.getItem(position).getContainerType().getName());
             holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));

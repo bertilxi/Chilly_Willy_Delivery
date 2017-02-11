@@ -1,45 +1,61 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
 import dam.isi.frsf.utn.edu.ar.delivery.R;
-import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
-import dam.isi.frsf.utn.edu.ar.delivery.service.Endpoints;
 import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
-import okhttp3.OkHttpClient;
+import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Endpoints data = new DataService().getmService();
+    DataService data = new DataService(getApplicationContext());
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Stetho.initializeWithDefaults(this);
-        new OkHttpClient.Builder()
-                .addNetworkInterceptor(new StethoInterceptor())
-                .build();
         setContentView(R.layout.activity_main);
+
+        appConstants.deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Toast.makeText(MainActivity.this, appConstants.deviceID, Toast.LENGTH_LONG).show();
 
         // the device open a new session
-        data.openSession(appConstants.deviceID);
+        try {
+            data.openSession(appConstants.deviceID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Button btnOrder = (Button) findViewById(R.id.btnOrder);
         Button btnLocation = (Button) findViewById(R.id.btnLocation);
         Button btnReview = (Button) findViewById(R.id.btnReview);
 
-        btnOrder.setOnClickListener(view -> gotoOrderActivity());
-        btnLocation.setOnClickListener(view -> gotoLocationActivity());
-        btnReview.setOnClickListener(view -> gotoReviewActivity());
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoOrderActivity();
+            }
+        });
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoLocationActivity();
+            }
+        });
+        btnReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoReviewActivity();
+            }
+        });
 
     }
 

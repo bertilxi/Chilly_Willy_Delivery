@@ -2,17 +2,12 @@
 
 buildscript {
     repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath "gradle.plugin.me.tatarka:gradle-retrolambda:3.5.0"
     }
 }
-
-apply plugin: "me.tatarka.retrolambda"
 
 allprojects {
     repositories {
