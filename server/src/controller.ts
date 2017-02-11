@@ -2,7 +2,6 @@ import mongoose = require('mongoose');
 import { DbHelper } from './db';
 
 import Flavor = require('./model/flavor');
-import ContainerSize = require('./model/container-size');
 import ContainerType = require('./model/container-type');
 import Sauce = require('./model/sauce');
 import Addin = require('./model/addin');
@@ -21,14 +20,6 @@ export class Controller {
 
     public test(req, res) {
         let mData: Array<any> = [];
-
-        ContainerSize
-            .find((error, data) => {
-                if (error) {
-                    return res.send(500, error.message)
-                }
-            })
-            .then(data => { mData.push(data); });
 
         ContainerType
             .find((error, data) => {
