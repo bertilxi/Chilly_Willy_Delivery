@@ -22,39 +22,9 @@ class Controller {
         };
     }
     test(req, res) {
-        let mData = [];
-        flavor_1.Flavor.find((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-        }).then(data => {
-            mData.push(data);
-            container_type_1.ContainerType.find((error, data) => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-            }).then(data => {
-                mData.push(data);
-                sauce_1.Sauce.find((error, data) => {
-                    if (error) {
-                        return res.send(500, error.message);
-                    }
-                }).then(data => {
-                    mData.push(data);
-                    addin_1.Addin.find((error, data) => {
-                        if (error) {
-                            return res.send(500, error.message);
-                        }
-                    }).then(data => {
-                        mData.push(data);
-                        res.status(200).jsonp(mData);
-                    });
-                });
-            });
-        });
     }
     root(req, res) {
-        res.send("Hello Node TS");
+        res.send('Hello Node TS');
     }
     openSession(req, res) {
         let session = new session_1.Session({
@@ -98,6 +68,38 @@ class Controller {
                 return res.send(500, error.message);
             }
             res.status(200).jsonp(data);
+        });
+    }
+    getMetadata(req, res) {
+        let mData = [];
+        flavor_1.Flavor.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+        }).then(data => {
+            mData.push(data);
+            container_type_1.ContainerType.find((error, data) => {
+                if (error) {
+                    return res.send(500, error.message);
+                }
+            }).then(data => {
+                mData.push(data);
+                sauce_1.Sauce.find((error, data) => {
+                    if (error) {
+                        return res.send(500, error.message);
+                    }
+                }).then(data => {
+                    mData.push(data);
+                    addin_1.Addin.find((error, data) => {
+                        if (error) {
+                            return res.send(500, error.message);
+                        }
+                    }).then(data => {
+                        mData.push(data);
+                        res.status(200).jsonp(mData);
+                    });
+                });
+            });
         });
     }
     addOrder(req, res) {
