@@ -9,9 +9,10 @@ public class ContainerType {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("picture")
+
+    @SerializedName("imgURL")
     @Expose
-    private Bitmap picture;
+    private String imgURL;
 
     public String getName() {
         return name;
@@ -26,16 +27,16 @@ public class ContainerType {
         return this;
     }
 
-    public Bitmap getPicture() {
-        return picture;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
-    public ContainerType withPicture(Bitmap picture) {
-        this.picture = picture;
+    public ContainerType withImgURL(String imgURL) {
+        this.imgURL = imgURL;
         return this;
     }
 }

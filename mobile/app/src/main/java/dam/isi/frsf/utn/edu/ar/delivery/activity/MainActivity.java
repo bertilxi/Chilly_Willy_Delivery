@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,11 +16,12 @@ import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
 public class MainActivity extends AppCompatActivity {
 
-    DataService data = new DataService(getApplicationContext());
+    DataService data = new DataService(MainActivity.this);
 
     @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MIRAME", "onCreate: llegue aca");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

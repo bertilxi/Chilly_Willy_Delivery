@@ -38,4 +38,8 @@ public class Flavor {
         this.picture = picture;
         return this;
     }
+
+    public String toString(){
+        return name;
+    }
 }

@@ -1,10 +1,12 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +17,30 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
+import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Order_;
 import dam.isi.frsf.utn.edu.ar.delivery.utility.Formatter;
 
 public class OrderActivity extends AppCompatActivity {
 
-    List<Order.Order_> items = null;
+    List<Order_> items = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Ion.getDefault(this).configure().setLogging("ion-sample", Log.DEBUG);
 
         setContentView(R.layout.activity_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,30 +58,44 @@ public class OrderActivity extends AppCompatActivity {
 
         ViewStub stub = (ViewStub) findViewById(R.id.content_order);
 
-        int contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
+        int contentState;
+        if(savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.order_content_key))){
+            contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
+        }
+        else{
+            contentState = OrderActivityConstants.CONTENT_ORDER_ITEMS;
+        }
 
         switch (contentState){
             case OrderActivityConstants.CONTENT_ORDER_ITEMS:
                 stub.setLayoutResource(R.layout.listview_order_item);
                 ListView listViewItems = (ListView) stub.inflate();
                 getSupportActionBar().setTitle("TU PEDIDO");
-                items = getItems();
+                items = new ArrayList<Order_>();
+
+                //TEST
+                List<Flavor> testFlavors = new ArrayList<>();
+                testFlavors.add(new Flavor().withName("frutilla"));
+
+                Order_ testOrder = new Order_()
+                        .withContainerType(new ContainerType()
+                                .withName("pote 1 kilo")
+                                .withImgURL(getString(R.string.test_url)))
+                        .withFlavors(testFlavors)
+                        .withQuantity(2);
+
+                items.add(testOrder);
+                //TEST
+
                 listViewItems.setAdapter(new OrderAdapter(items));
         }
-
-
     }
 
-    private List<Order.Order_> getItems(){
-        //TODO Descargar items del server
-        return new ArrayList<>();
-    }
-
-    class OrderAdapter extends ArrayAdapter<Order.Order_> {
+    class OrderAdapter extends ArrayAdapter<Order_> {
 
         LayoutInflater inflater;
 
-        OrderAdapter(List<Order.Order_> items) {
+        OrderAdapter(List<Order_> items) {
             super(OrderActivity.this, R.layout.listview_row_order_item, items);
             inflater = LayoutInflater.from(getContext());
         }
@@ -91,17 +116,22 @@ public class OrderActivity extends AppCompatActivity {
                 holder.numberPickerQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                     @Override
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                        // this.getItem(position).setQuantity(newVal);
+                        int myPosition=(int)picker.getTag();
+                        getItem(myPosition).setQuantity(newVal);
                     }
                 });
             }
 
-            //read about glide here https://github.com/bumptech/glide
-
+            Ion.with(holder.containerPic)
+                    .fitCenter()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
+                    .load(this.getItem(position).getContainerType().getImgURL());
             holder.textViewContainer.setText(this.getItem(position).getContainerType().getName());
             holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
             holder.textViewAddins.setText(Formatter.buildStringFromList(this.getItem(position).getAddins()));
             holder.numberPickerQuantity.setValue(this.getItem(position).getQuantity());
+            holder.numberPickerQuantity.setTag(position);
 
             return (row);
         }

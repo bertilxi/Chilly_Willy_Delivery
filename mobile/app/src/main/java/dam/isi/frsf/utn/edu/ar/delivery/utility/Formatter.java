@@ -4,6 +4,9 @@ import java.util.List;
 
 public class Formatter {
     static public <T> String buildStringFromList(List<T> list){
+        if(list == null) {
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < list.size(); i++){
             stringBuilder.append(list.get(i).toString());
