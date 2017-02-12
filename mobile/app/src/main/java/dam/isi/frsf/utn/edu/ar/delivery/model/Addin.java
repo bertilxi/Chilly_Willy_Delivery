@@ -1,45 +1,44 @@
 package dam.isi.frsf.utn.edu.ar.delivery.model;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Addin {
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("Picture")
-    @Expose
-    private Bitmap picture;
+import java.io.Serializable;
 
-    public String getName() {
-        return name;
+public class Addin implements Serializable {
+
+    private final static long serialVersionUID = 1588113798071471128L;
+    @SerializedName("label")
+    @Expose
+    private String label;
+    @SerializedName("imgURL")
+    @Expose
+    private String imgURL;
+
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public Addin withName(String name) {
-        this.name = name;
+    public Addin withLabel(String label) {
+        this.label = label;
         return this;
     }
 
-    public Bitmap getPicture() {
-        return picture;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
-    public Addin withPicture(Bitmap picture) {
-        this.picture = picture;
+    public Addin withImgURL(String imgURL) {
+        this.imgURL = imgURL;
         return this;
     }
 
-    public String toString(){
-        return name;
-    }
 }

@@ -1,7 +1,6 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +16,7 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +25,12 @@ import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
-import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
-import dam.isi.frsf.utn.edu.ar.delivery.model.Order_;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Item;
 import dam.isi.frsf.utn.edu.ar.delivery.utility.Formatter;
 
 public class OrderActivity extends AppCompatActivity {
 
-    List<Order_> items = null;
+    List<Item> items = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +67,13 @@ public class OrderActivity extends AppCompatActivity {
                 stub.setLayoutResource(R.layout.listview_order_item);
                 ListView listViewItems = (ListView) stub.inflate();
                 getSupportActionBar().setTitle("TU PEDIDO");
-                items = new ArrayList<Order_>();
+                items = new ArrayList<Item>();
 
                 //TEST
                 List<Flavor> testFlavors = new ArrayList<>();
                 testFlavors.add(new Flavor().withName("frutilla"));
 
-                Order_ testOrder = new Order_()
+                Item testOrder = new Item()
                         .withContainerType(new ContainerType()
                                 .withName("pote 1 kilo")
                                 .withImgURL(getString(R.string.test_url)))
@@ -91,11 +87,11 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
-    class OrderAdapter extends ArrayAdapter<Order_> {
+    class OrderAdapter extends ArrayAdapter<Item> {
 
         LayoutInflater inflater;
 
-        OrderAdapter(List<Order_> items) {
+        OrderAdapter(List<Item> items) {
             super(OrderActivity.this, R.layout.listview_row_order_item, items);
             inflater = LayoutInflater.from(getContext());
         }

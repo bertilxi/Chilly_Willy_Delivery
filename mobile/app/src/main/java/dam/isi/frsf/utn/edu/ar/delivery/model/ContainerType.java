@@ -1,42 +1,60 @@
 package dam.isi.frsf.utn.edu.ar.delivery.model;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ContainerType {
-    @SerializedName("name")
-    @Expose
-    private String name;
+import java.io.Serializable;
 
-    @SerializedName("imgURL")
-    @Expose
-    private String imgURL;
+public class ContainerType implements Serializable {
 
-    public String getName() {
-        return name;
+    private final static long serialVersionUID = -1868699267217336955L;
+    @SerializedName("label")
+    @Expose
+    private String label;
+    @SerializedName("maxFlavors")
+    @Expose
+    private Long maxFlavors;
+    @SerializedName("variableQuantityOfFlavors")
+    @Expose
+    private Boolean variableQuantityOfFlavors;
+
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public ContainerType withName(String name) {
-        this.name = name;
+    public ContainerType withLabel(String label) {
+        this.label = label;
         return this;
     }
 
-    public String getImgURL() {
-        return imgURL;
+    public Long getMaxFlavors() {
+        return maxFlavors;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setMaxFlavors(Long maxFlavors) {
+        this.maxFlavors = maxFlavors;
     }
 
-    public ContainerType withImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public ContainerType withMaxFlavors(Long maxFlavors) {
+        this.maxFlavors = maxFlavors;
         return this;
     }
+
+    public Boolean getVariableQuantityOfFlavors() {
+        return variableQuantityOfFlavors;
+    }
+
+    public void setVariableQuantityOfFlavors(Boolean variableQuantityOfFlavors) {
+        this.variableQuantityOfFlavors = variableQuantityOfFlavors;
+    }
+
+    public ContainerType withVariableQuantityOfFlavors(Boolean variableQuantityOfFlavors) {
+        this.variableQuantityOfFlavors = variableQuantityOfFlavors;
+        return this;
+    }
+
 }

@@ -8,21 +8,70 @@ import java.util.List;
 
 public class Order implements Serializable {
 
-    private final static long serialVersionUID = -2279704856180096455L;
-    @SerializedName("orders")
+    private final static long serialVersionUID = 2664721738017429616L;
+    @SerializedName("destination")
     @Expose
-    private List<Order_> orders = null;
+    private String destination;
+    @SerializedName("lastLocation")
+    @Expose
+    private String lastLocation;
+    @SerializedName("requestTime")
+    @Expose
+    private String requestTime;
+    @SerializedName("items")
+    @Expose
+    private List<Item> items = null;
 
-    public List<Order_> getOrders() {
-        return orders;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setOrders(List<Order_> orders) {
-        this.orders = orders;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
-    public Order withOrders(List<Order_> orders) {
-        this.orders = orders;
+    public Order withDestination(String destination) {
+        this.destination = destination;
         return this;
     }
+
+    public String getLastLocation() {
+        return lastLocation;
+    }
+
+    public void setLastLocation(String lastLocation) {
+        this.lastLocation = lastLocation;
+    }
+
+    public Order withLastLocation(String lastLocation) {
+        this.lastLocation = lastLocation;
+        return this;
+    }
+
+    public String getRequestTime() {
+        return requestTime;
+    }
+
+    public void setRequestTime(String requestTime) {
+        this.requestTime = requestTime;
+    }
+
+    public Order withRequestTime(String requestTime) {
+        this.requestTime = requestTime;
+        return this;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public Order withItems(List<Item> items) {
+        this.items = items;
+        return this;
+    }
+
 }
