@@ -6,26 +6,24 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by andrés on 12/02/2017.
- */
+public class OrderItem implements Serializable {
 
-public class Order_ implements Serializable {
-
-    private final static long serialVersionUID = 7835795979035955017L;
+    private final static long serialVersionUID = -1304651736295621925L;
     @SerializedName("containerType")
     @Expose
     private ContainerType containerType;
     @SerializedName("flavors")
     @Expose
     private List<Flavor> flavors = null;
+    @SerializedName("sauce")
+    @Expose
+    private Sauce sauce;
     @SerializedName("addins")
     @Expose
     private List<Addin> addins = null;
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
-    //TODO shouldn't it be in Order class?
     @SerializedName("delivered")
     @Expose
     private Boolean delivered;
@@ -38,7 +36,7 @@ public class Order_ implements Serializable {
         this.containerType = containerType;
     }
 
-    public Order_ withContainerType(ContainerType containerType) {
+    public OrderItem withContainerType(ContainerType containerType) {
         this.containerType = containerType;
         return this;
     }
@@ -51,8 +49,21 @@ public class Order_ implements Serializable {
         this.flavors = flavors;
     }
 
-    public Order_ withFlavors(List<Flavor> flavors) {
+    public OrderItem withFlavors(List<Flavor> flavors) {
         this.flavors = flavors;
+        return this;
+    }
+
+    public Sauce getSauce() {
+        return sauce;
+    }
+
+    public void setSauce(Sauce sauce) {
+        this.sauce = sauce;
+    }
+
+    public OrderItem withSauce(Sauce sauce) {
+        this.sauce = sauce;
         return this;
     }
 
@@ -64,7 +75,7 @@ public class Order_ implements Serializable {
         this.addins = addins;
     }
 
-    public Order_ withAddins(List<Addin> addins) {
+    public OrderItem withAddins(List<Addin> addins) {
         this.addins = addins;
         return this;
     }
@@ -77,7 +88,7 @@ public class Order_ implements Serializable {
         this.quantity = quantity;
     }
 
-    public Order_ withQuantity(Integer quantity) {
+    public OrderItem withQuantity(Integer quantity) {
         this.quantity = quantity;
         return this;
     }
@@ -90,8 +101,9 @@ public class Order_ implements Serializable {
         this.delivered = delivered;
     }
 
-    public Order_ withDelivered(Boolean delivered) {
+    public OrderItem withDelivered(Boolean delivered) {
         this.delivered = delivered;
         return this;
     }
+
 }

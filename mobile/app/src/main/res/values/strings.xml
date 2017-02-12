@@ -14,4 +14,15 @@
     <string name="location_order_label">Tu pedido</string>
     <!-- delete later -->
     <string name="test_url">http://192.168.1.6:8080/static/containerImages/pote.jpg</string>
+    <string-array name="Planets">
+        <item>Sun</item>
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

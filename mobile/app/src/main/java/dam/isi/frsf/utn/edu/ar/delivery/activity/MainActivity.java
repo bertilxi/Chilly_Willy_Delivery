@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //
+
         Button btnOrder = (Button) findViewById(R.id.btnOrder);
         Button btnLocation = (Button) findViewById(R.id.btnLocation);
         Button btnReview = (Button) findViewById(R.id.btnReview);

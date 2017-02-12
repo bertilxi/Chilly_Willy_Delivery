@@ -8,7 +8,9 @@ import { ILocation, LocationSchema } from './location';
 
 export interface IOrder {
     items: Array<IOrderItem>;
+    destination: ILocation; 
     lastLocation: ILocation;
+    requestTime: string;
 }
 
 export interface IOrderItem {
@@ -35,7 +37,9 @@ export var OrderItemSchema = new mongoose.Schema({
 
 export var OrderSchema = new mongoose.Schema({
     items: [OrderItemSchema],
-    lastLocation: LocationSchema
+    destination: LocationSchema,
+    lastLocation: LocationSchema,
+    requestTime: String
 });
 
 export var Order = mongoose.model<IOrderModel>("Order", OrderSchema);

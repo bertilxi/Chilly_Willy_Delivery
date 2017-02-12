@@ -3,11 +3,11 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as path from 'path';
-import { Router } from 'express';
-import { Controller } from './controller';
 import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
 import mongoose = require('mongoose');
+import { Router } from 'express';
+import { Controller } from './controller';
 import { DbHelper } from './db';
 
 var mCtrl = new Controller();
@@ -37,6 +37,7 @@ export class Server {
         //
         // metadata
         //
+        
         this.router.route('/metadata').get(this.ctrl.getMetadata)
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
