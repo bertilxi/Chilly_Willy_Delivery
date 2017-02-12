@@ -44,18 +44,4 @@ public class DataService {
         return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {});
     }
 
-/*
-    public void getTweets(Context context) throws Exception {
-        Ion.with(context)
-                .load("http://example.com/api/tweets")
-                .as(new TypeToken<List<Tweet>>() {
-                })
-                .setCallback(new FutureCallback<List<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, List<String> result) {
-
-                    }
-                });
-    }
-    */
 }
