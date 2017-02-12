@@ -4,12 +4,14 @@ export interface IContainerType {
     label: string;
     maxFlavors: number;
     variableQuantityOfFlavors: boolean;
+    priceInCents: number;
 }
 
 export var ContainerTypeSchema = new mongoose.Schema({
     label: String,
     maxFlavors: Number,
-    variableQuantityOfFlavors: Boolean
+    variableQuantityOfFlavors: Boolean,
+    priceInCents: Number
 });
 
 export interface IContainerTypeModel extends IContainerType, mongoose.Document { }
