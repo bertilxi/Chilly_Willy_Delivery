@@ -25,12 +25,12 @@ import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
-import dam.isi.frsf.utn.edu.ar.delivery.model.Item;
+import dam.isi.frsf.utn.edu.ar.delivery.model.OrderItem;
 import dam.isi.frsf.utn.edu.ar.delivery.utility.Formatter;
 
 public class OrderActivity extends AppCompatActivity {
 
-    List<Item> items = null;
+    List<OrderItem> orderItems = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,32 +67,32 @@ public class OrderActivity extends AppCompatActivity {
                 stub.setLayoutResource(R.layout.listview_order_item);
                 ListView listViewItems = (ListView) stub.inflate();
                 getSupportActionBar().setTitle("TU PEDIDO");
-                items = new ArrayList<Item>();
+                orderItems = new ArrayList<OrderItem>();
 
                 //TEST
                 List<Flavor> testFlavors = new ArrayList<>();
-                testFlavors.add(new Flavor().withName("frutilla"));
+                testFlavors.add(new Flavor().withLabel("frutilla"));
 
-                Item testOrder = new Item()
+                OrderItem testOrder = new OrderItem()
                         .withContainerType(new ContainerType()
-                                .withName("pote 1 kilo")
+                                .withLabel("pote 1 kilo")
                                 .withImgURL(getString(R.string.test_url)))
                         .withFlavors(testFlavors)
                         .withQuantity(2);
 
-                items.add(testOrder);
+                orderItems.add(testOrder);
                 //TEST
 
-                listViewItems.setAdapter(new OrderAdapter(items));
+                listViewItems.setAdapter(new OrderAdapter(orderItems));
         }
     }
 
-    class OrderAdapter extends ArrayAdapter<Item> {
+    class OrderAdapter extends ArrayAdapter<OrderItem> {
 
         LayoutInflater inflater;
 
-        OrderAdapter(List<Item> items) {
-            super(OrderActivity.this, R.layout.listview_row_order_item, items);
+        OrderAdapter(List<OrderItem> orderItems) {
+            super(OrderActivity.this, R.layout.listview_row_order_item, orderItems);
             inflater = LayoutInflater.from(getContext());
         }
 
@@ -123,7 +123,7 @@ public class OrderActivity extends AppCompatActivity {
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.error)
                     .load(this.getItem(position).getContainerType().getImgURL());
-            holder.textViewContainer.setText(this.getItem(position).getContainerType().getName());
+            holder.textViewContainer.setText(this.getItem(position).getContainerType().getLabel());
             holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
             holder.textViewAddins.setText(Formatter.buildStringFromList(this.getItem(position).getAddins()));
             holder.numberPickerQuantity.setValue(this.getItem(position).getQuantity());

@@ -1,3 +1,4 @@
+
 package dam.isi.frsf.utn.edu.ar.delivery.model;
 
 import com.google.gson.annotations.Expose;
@@ -5,18 +6,22 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ContainerType implements Serializable {
+public class ContainerType implements Serializable
+{
 
-    private final static long serialVersionUID = -1868699267217336955L;
     @SerializedName("label")
     @Expose
     private String label;
+    @SerializedName("imgURL")
+    @Expose
+    private String imgURL;
     @SerializedName("maxFlavors")
     @Expose
     private Long maxFlavors;
     @SerializedName("variableQuantityOfFlavors")
     @Expose
     private Boolean variableQuantityOfFlavors;
+    private final static long serialVersionUID = -2667461013612687786L;
 
     public String getLabel() {
         return label;
@@ -28,6 +33,19 @@ public class ContainerType implements Serializable {
 
     public ContainerType withLabel(String label) {
         this.label = label;
+        return this;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    public ContainerType withImgURL(String imgURL) {
+        this.imgURL = imgURL;
         return this;
     }
 

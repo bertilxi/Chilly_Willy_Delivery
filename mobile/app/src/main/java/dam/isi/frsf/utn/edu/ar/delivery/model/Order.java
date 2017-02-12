@@ -18,9 +18,9 @@ public class Order implements Serializable {
     @SerializedName("requestTime")
     @Expose
     private String requestTime;
-    @SerializedName("items")
+    @SerializedName("orderItems")
     @Expose
-    private List<Item> items = null;
+    private List<OrderItem> orderItems = null;
 
     public String getDestination() {
         return destination;
@@ -61,16 +61,16 @@ public class Order implements Serializable {
         return this;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public Order withItems(List<Item> items) {
-        this.items = items;
+    public Order withItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
         return this;
     }
 

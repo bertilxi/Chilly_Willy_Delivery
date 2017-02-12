@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class Item implements Serializable {
+public class OrderItem implements Serializable {
 
-    private final static long serialVersionUID = -5868371086955936821L;
+    private final static long serialVersionUID = -1304651736295621925L;
     @SerializedName("containerType")
     @Expose
     private ContainerType containerType;
@@ -21,9 +21,9 @@ public class Item implements Serializable {
     @SerializedName("addins")
     @Expose
     private List<Addin> addins = null;
-    @SerializedName("quatity")
+    @SerializedName("quantity")
     @Expose
-    private Long quatity;
+    private Integer quantity;
     @SerializedName("delivered")
     @Expose
     private Boolean delivered;
@@ -36,7 +36,7 @@ public class Item implements Serializable {
         this.containerType = containerType;
     }
 
-    public Item withContainerType(ContainerType containerType) {
+    public OrderItem withContainerType(ContainerType containerType) {
         this.containerType = containerType;
         return this;
     }
@@ -49,7 +49,7 @@ public class Item implements Serializable {
         this.flavors = flavors;
     }
 
-    public Item withFlavors(List<Flavor> flavors) {
+    public OrderItem withFlavors(List<Flavor> flavors) {
         this.flavors = flavors;
         return this;
     }
@@ -62,7 +62,7 @@ public class Item implements Serializable {
         this.sauce = sauce;
     }
 
-    public Item withSauce(Sauce sauce) {
+    public OrderItem withSauce(Sauce sauce) {
         this.sauce = sauce;
         return this;
     }
@@ -75,21 +75,21 @@ public class Item implements Serializable {
         this.addins = addins;
     }
 
-    public Item withAddins(List<Addin> addins) {
+    public OrderItem withAddins(List<Addin> addins) {
         this.addins = addins;
         return this;
     }
 
-    public Long getQuatity() {
-        return quatity;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setQuatity(Long quatity) {
-        this.quatity = quatity;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
-    public Item withQuatity(Long quatity) {
-        this.quatity = quatity;
+    public OrderItem withQuantity(Integer quantity) {
+        this.quantity = quantity;
         return this;
     }
 
@@ -101,7 +101,7 @@ public class Item implements Serializable {
         this.delivered = delivered;
     }
 
-    public Item withDelivered(Boolean delivered) {
+    public OrderItem withDelivered(Boolean delivered) {
         this.delivered = delivered;
         return this;
     }
