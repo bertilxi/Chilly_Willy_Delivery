@@ -12,7 +12,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 
 public class DataService {
 
-    public static final String localPath = "https://172.10.2.153:8080/";
+    public static final String localPath = "https://192.168.1.6:8080/";
     private Context context;
 
     public DataService(Context context) {
