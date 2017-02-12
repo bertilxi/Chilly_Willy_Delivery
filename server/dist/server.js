@@ -25,6 +25,7 @@ class Server {
     api() {
         this.router.route('/').get(this.ctrl.root);
         this.router.route('/test').get(this.ctrl.test);
+        this.router.route('/metadata').get(this.ctrl.getMetadata);
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
         this.router.route('/addins').get(this.ctrl.getAddins);
@@ -38,12 +39,12 @@ class Server {
     }
     config() {
         this.app.use('/static', express.static(__dirname + '/public'));
-        this.app.use(logger("dev"));
+        this.app.use(logger('dev'));
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({
             extended: true
         }));
-        this.app.use(cookieParser("SECRET_GOES_HERE"));
+        this.app.use(cookieParser('SECRET_GOES_HERE'));
         this.app.use(methodOverride());
         this.app.use((err, req, res, next) => {
             err.status = 404;
