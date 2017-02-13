@@ -9,6 +9,7 @@ import com.koushikdutta.ion.future.ResponseFuture;
 import java.util.List;
 import java.util.Set;
 
+import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 
 public class DataService {
@@ -30,9 +31,9 @@ public class DataService {
         return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {});
     }
 
-    public ResponseFuture<Set<Flavor>> getContainers() throws Exception {
+    public ResponseFuture<List<ContainerType>> getContainers() throws Exception {
         String path = localPath + "containers";
-        return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {});
+        return Ion.with(context).load(path).as(new TypeToken<List<ContainerType>>() {});
     }
 
     public ResponseFuture<Set<Flavor>> getAddins() throws Exception {

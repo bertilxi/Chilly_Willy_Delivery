@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
+
 public class ContainerType implements Serializable
 {
 
@@ -88,6 +90,10 @@ public class ContainerType implements Serializable
     public ContainerType withVariableQuantityOfFlavors(Boolean variableQuantityOfFlavors) {
         this.variableQuantityOfFlavors = variableQuantityOfFlavors;
         return this;
+    }
+
+    public String getCompleteImgURL() {
+        return appConstants.staticPath + "containerImages/" + imgURL;
     }
 
 }

@@ -1,7 +1,6 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -23,13 +21,11 @@ import android.widget.TextView;
 
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
-import com.koushikdutta.ion.future.ResponseFuture;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.zip.Inflater;
 
 import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
@@ -43,8 +39,11 @@ public class OrderActivity extends AppCompatActivity {
 
     List<OrderItem> orderItems = null;
     List<Flavor> flavors = new ArrayList<>();
+    List<ContainerType> containers = new ArrayList<>();
     ViewGroup insertPoint;
     FlavorsAdapter flavorsAdapter;
+    ContainersAdapter containersAdapter;
+    int contentState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,6 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-        int contentState;
         if(savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.order_content_key))){
             contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
         }
@@ -109,40 +107,142 @@ public class OrderActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_order_item, menu);
+        getMenuInflater().inflate(R.menu.menu_order_activity, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        switch (contentState){
+            case OrderActivityConstants.CONTENT_ORDER_ITEMS:
+                menu.setGroupVisible(R.id.group_containers_menu, false);
+                menu.setGroupVisible(R.id.gridview_flavor_choice, false);
+                menu.setGroupVisible(R.id.group_order_item_menu, true);
+                return true;
+            case OrderActivityConstants.CONTENT_FLAVORS:
+                menu.setGroupVisible(R.id.group_order_item_menu, false);
+                menu.setGroupVisible(R.id.group_containers_menu, false);
+                menu.setGroupVisible(R.id.gridview_flavor_choice, true);
+                return true;
+            case OrderActivityConstants.CONTENT_CONTAINERS:
+                menu.setGroupVisible(R.id.group_order_item_menu, false);
+                menu.setGroupVisible(R.id.gridview_flavor_choice, false);
+                menu.setGroupVisible(R.id.group_containers_menu, true);
+                return true;
+            case OrderActivityConstants.CONTENT_ADDINS:
+                //TODO cuando este hecha
+                return true;
+            default:
+                return true;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.moar_icecream:
-                LayoutInflater inflater = getLayoutInflater();
-                final GridView gridViewFlavors = (GridView) inflater.inflate(R.layout.gridview_flavor_choice,null);
-                if(insertPoint.getChildCount() != 0){
-                    insertPoint.removeAllViews();
-                }
-                insertPoint.addView(gridViewFlavors, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                getSupportActionBar().setTitle("ELEGÍ LOS SABORES");
-                DataService dataService = new DataService(OrderActivity.this);
-                try {
-                    dataService.getFlavors().setCallback(new FutureCallback<List<Flavor>>() {
-                        @Override
-                        public void onCompleted(Exception e, List<Flavor> result) {
-                            flavors.addAll(result);
-                            flavorsAdapter = new FlavorsAdapter(flavors);
-                            gridViewFlavors.setAdapter(flavorsAdapter);
-                            Log.d("MIRAME", "onCompleted: exito! flavors: "+ flavors.size());
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                loadContainers();
+                return true;
+            case R.id.container_ready:
+                loadFlavors();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void loadContainers() {
+        contentState = OrderActivityConstants.CONTENT_CONTAINERS;
+        LayoutInflater inflater = getLayoutInflater();
+        View containersView = inflater.inflate(R.layout.listview_containers, null);
+        insertPoint.removeAllViews();
+        insertPoint.addView(containersView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        final ListView listViewContainers = (ListView) containersView.findViewById(R.id.listview_containers);
+
+        DataService dataService = new DataService(OrderActivity.this);
+        try {
+            dataService.getContainers().setCallback(new FutureCallback<List<ContainerType>>() {
+                @Override
+                public void onCompleted(Exception e, List<ContainerType> result) {
+                    containers.addAll(result);
+                    containersAdapter = new ContainersAdapter(containers);
+                    listViewContainers.setAdapter(containersAdapter);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        getSupportActionBar().setTitle("ELEGÍ TU FAVORITO");
+        invalidateOptionsMenu();
+    }
+
+    private void loadFlavors() {
+        contentState = OrderActivityConstants.CONTENT_FLAVORS;
+        LayoutInflater inflater = getLayoutInflater();
+        final GridView gridViewFlavors = (GridView) inflater.inflate(R.layout.gridview_flavor_choice,null);
+        insertPoint.removeAllViews();
+        insertPoint.addView(gridViewFlavors, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        DataService dataService = new DataService(OrderActivity.this);
+        try {
+            dataService.getFlavors().setCallback(new FutureCallback<List<Flavor>>() {
+                @Override
+                public void onCompleted(Exception e, List<Flavor> result) {
+                    flavors.addAll(result);
+                    flavorsAdapter = new FlavorsAdapter(flavors);
+                    gridViewFlavors.setAdapter(flavorsAdapter);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        getSupportActionBar().setTitle("ELEGÍ LOS SABORES");
+        invalidateOptionsMenu();
+    }
+
+    class ContainersAdapter extends ArrayAdapter<ContainerType> {
+        LayoutInflater inflater;
+
+        ContainersAdapter(List<ContainerType> containers) {
+            super(OrderActivity.this, R.layout.listview_containers, containers);
+            inflater = LayoutInflater.from(getContext());
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            View row = convertView;
+            if(row == null) {
+                row = inflater.inflate(R.layout.listview_containers_row, parent, false);
+            }
+            ContainerHolder holder = (ContainerHolder) row.getTag();
+            if(holder == null) {
+                holder = new ContainerHolder(row);
+                row.setTag(holder);
+            }
+
+            Ion.with(holder.containerPic)
+                    .fitCenter()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
+                    .load(this.getItem(position).getCompleteImgURL());
+            holder.containerName.setText(this.getItem(position).getLabel());
+            holder.containerPrice.setText(NumberFormat.getCurrencyInstance().format(
+                    this.getItem(position).getPriceInCents()*0.01
+            ));
+
+            return row;
+        }
+
+        class ContainerHolder {
+            ImageView containerPic = null;
+            TextView containerName = null;
+            TextView containerPrice = null;
+            ContainerHolder(View row){
+                containerPic = (ImageView) row.findViewById(R.id.imageview_container);
+                containerName = (TextView) row.findViewById(R.id.containerName);
+                containerPrice = (TextView) row.findViewById(R.id.container_price);
+            }
         }
     }
 
