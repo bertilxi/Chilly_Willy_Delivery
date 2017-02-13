@@ -18,7 +18,7 @@ flavors.push({
 
 flavors.push({
     label: 'Cereza',
-    imgURL: 'cereza.jpg'
+    imgURL: 'cereza.png'
 });
 
 flavors.push({

@@ -28,10 +28,9 @@ public class DataService {
         });
     }
 
-    public ResponseFuture<Set<Flavor>> getFlavors() throws Exception {
+    public ResponseFuture<List<Flavor>> getFlavors() throws Exception {
         String path = localPath + "flavors";
-        return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {
-        });
+        return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {});
     }
 
     public ResponseFuture<Set<Flavor>> getContainers() throws Exception {
