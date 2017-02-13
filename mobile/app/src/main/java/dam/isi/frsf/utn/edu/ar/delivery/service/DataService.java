@@ -6,13 +6,14 @@ import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.future.ResponseFuture;
 
+import java.util.List;
 import java.util.Set;
 
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 
 public class DataService {
 
-    public static final String localPath = "https://192.168.1.6:8080/";
+    public static final String localPath = "http://192.168.1.5:8080/";
     private Context context;
 
     public DataService(Context context) {
@@ -24,9 +25,9 @@ public class DataService {
         return Ion.with(context).load(path).as(new TypeToken<String>() {});
     }
 
-    public ResponseFuture<Set<Flavor>> getFlavors() throws Exception {
+    public ResponseFuture<List<Flavor>> getFlavors() throws Exception {
         String path = localPath + "flavors";
-        return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {});
+        return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {});
     }
 
     public ResponseFuture<Set<Flavor>> getContainers() throws Exception {
