@@ -6,6 +6,8 @@ import { Flavor } from './model/flavor';
 import { ContainerType } from './model/container-type';
 import { Addin } from './model/addin';
 import { Sauce } from './model/sauce';
+// core
+import { Notification } from './model/notification';
 // order
 import { Order } from './model/order';
 // location
@@ -27,6 +29,15 @@ export class Controller {
 
     public root(req, res) {
         res.send('Hello Node TS');
+    }
+
+    public getLastDeal(req, res) {
+        Notification.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
     }
 
     //

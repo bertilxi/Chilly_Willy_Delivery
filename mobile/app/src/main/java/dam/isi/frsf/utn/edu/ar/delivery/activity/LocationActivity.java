@@ -35,13 +35,13 @@ import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 public class LocationActivity extends AppCompatActivity implements
         OnMapReadyCallback {
 
+    private static final LatLng mLocation = new LatLng(-31.619276, -60.683970);
     private GoogleMap googleMap;
     private AlertDialog.Builder noOrders;
     private DataService data;
     private List<Order> orders = new ArrayList<>();
     private ListView mListView;
     private OrderAdapter mOrderAdapter;
-    private LatLng mLocation = new LatLng(-31.619276, -60.683970);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +55,11 @@ public class LocationActivity extends AppCompatActivity implements
         noOrders = new AlertDialog.Builder(LocationActivity.this)
                 .setTitle("No hiciste pedidos recientes")
                 .setMessage("Haz un pedido y luego vuelve a intentarlo")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
+
                     }
                 });
-
-
 
 
         try {
@@ -84,7 +77,7 @@ public class LocationActivity extends AppCompatActivity implements
                         return;
                     }
 
-                    if (result.size() == 0){
+                    if (result.size() == 0) {
                         noOrders.show();
                         return;
                     }
