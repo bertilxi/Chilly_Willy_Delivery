@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,17 +70,25 @@ public class LocationActivity extends AppCompatActivity implements
                 @Override
                 public void onCompleted(Exception e, List<Order> result) {
 
+                    final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(LocationActivity.this);
+                    mapFragment.getView().setVisibility(View.GONE);
+
                     if (result == null) {
-
-                        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                .findFragmentById(R.id.map);
-                        mapFragment.getMapAsync(LocationActivity.this);
-                        mapFragment.getView().setVisibility(View.GONE);
-
                         noOrders.show();
-
                         return;
                     }
+/*
+
+                    StringBuilder str = new StringBuilder();
+
+                    for (Order o : result) {
+                        str.append(o.getDestination()).append(o.getOrderItems());
+                    }
+
+                    Log.v("Order list", str.toString());
+*/
 
                     orders = result;
                     mListView = (ListView) findViewById(R.id.location_order_list);
@@ -90,10 +99,8 @@ public class LocationActivity extends AppCompatActivity implements
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             mLatLng = orders.get(position).getLastLocation();
-
-                            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                    .findFragmentById(R.id.map);
-                            mapFragment.getMapAsync(LocationActivity.this);
+                            Log.v("Order list", mLatLng.toString());
+                            mapFragment.getView().setVisibility(View.VISIBLE);
                         }
                     });
 
