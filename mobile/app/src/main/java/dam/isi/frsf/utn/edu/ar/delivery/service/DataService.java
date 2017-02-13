@@ -2,6 +2,7 @@ package dam.isi.frsf.utn.edu.ar.delivery.service;
 
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.future.ResponseFuture;
@@ -9,13 +10,15 @@ import com.koushikdutta.ion.future.ResponseFuture;
 import java.util.List;
 import java.util.Set;
 
-import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Review;
+
+import static dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.deviceID;
+import static dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.localPath;
 
 public class DataService {
 
-    public static final String localPath = appConstants.localPath;
     private Context context;
 
     public DataService(Context context) {
@@ -30,7 +33,8 @@ public class DataService {
 
     public ResponseFuture<List<Flavor>> getFlavors() throws Exception {
         String path = localPath + "flavors";
-        return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {});
+        return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {
+        });
     }
 
     public ResponseFuture<Set<Flavor>> getContainers() throws Exception {
@@ -51,9 +55,33 @@ public class DataService {
         });
     }
 
-    public ResponseFuture<List<Order>> getOrders(String deviceID) throws Exception {
-        String path = localPath + "orders/" + deviceID;
+    public ResponseFuture<String> addOrder(Order order) throws Exception {
+        String path = localPath + "session/" + deviceID + "/order";
+        return Ion.with(context).load(path).setJsonPojoBody(order).as(new TypeToken<String>() {
+        });
+    }
+
+    public ResponseFuture<String> modifyOrder(String orderID, Order order) throws Exception {
+        String path = localPath + "session/" + deviceID + "/order/" + orderID;
+        return Ion.with(context).load(path).setJsonPojoBody(order).as(new TypeToken<String>() {
+        });
+    }
+
+    public ResponseFuture<List<Order>> getOrders() throws Exception {
+        String path = localPath + "session/" + deviceID + "/orders";
         return Ion.with(context).load(path).as(new TypeToken<List<Order>>() {
+        });
+    }
+
+    public ResponseFuture<LatLng> getlocation(String orderID) throws Exception {
+        String path = localPath + "location/" + orderID;
+        return Ion.with(context).load(path).as(new TypeToken<LatLng>() {
+        });
+    }
+
+    public ResponseFuture<String> addReview(Review review) throws Exception {
+        String path = localPath + "review";
+        return Ion.with(context).load(path).setJsonPojoBody(review).as(new TypeToken<String>() {
         });
     }
 

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
-import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
@@ -64,7 +63,7 @@ public class LocationActivity extends AppCompatActivity implements
 
 
         try {
-            data.getOrders(appConstants.deviceID).setCallback(new FutureCallback<List<Order>>() {
+            data.getOrders().setCallback(new FutureCallback<List<Order>>() {
                 @Override
                 public void onCompleted(Exception e, List<Order> result) {
 
