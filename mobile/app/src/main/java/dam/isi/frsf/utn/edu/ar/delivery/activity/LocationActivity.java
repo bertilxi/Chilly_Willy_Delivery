@@ -155,7 +155,7 @@ public class LocationActivity extends AppCompatActivity implements
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.delivery))
                 .title(""));
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 15);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 13);
         googleMap.animateCamera(cameraUpdate);
     }
 
