@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.koushikdutta.async.future.FutureCallback;
+
 import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
 
 
@@ -35,7 +37,16 @@ public class NotificationService extends IntentService {
 
         @Override
         protected Deal doInBackground(Void... params) {
+            try {
+                data.getLastDeal().setCallback(new FutureCallback<Deal>() {
+                    @Override
+                    public void onCompleted(Exception e, Deal result) {
 
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
 

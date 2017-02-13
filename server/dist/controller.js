@@ -4,6 +4,7 @@ const flavor_1 = require("./model/flavor");
 const container_type_1 = require("./model/container-type");
 const addin_1 = require("./model/addin");
 const sauce_1 = require("./model/sauce");
+const deal_1 = require("./model/deal");
 const order_1 = require("./model/order");
 const review_1 = require("./model/review");
 var dbHelper = new db_1.DbHelper();
@@ -24,6 +25,14 @@ class Controller {
     }
     root(req, res) {
         res.send('Hello Node TS');
+    }
+    getLastDeal(req, res) {
+        deal_1.Deal.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            res.status(200).jsonp(data);
+        });
     }
     getFlavors(req, res) {
         flavor_1.Flavor.find((error, data) => {

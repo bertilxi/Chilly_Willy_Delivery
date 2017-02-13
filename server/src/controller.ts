@@ -7,7 +7,7 @@ import { ContainerType } from './model/container-type';
 import { Addin } from './model/addin';
 import { Sauce } from './model/sauce';
 // core
-import { Notification } from './model/notification';
+import { Deal } from './model/deal';
 // order
 import { Order } from './model/order';
 // location
@@ -32,7 +32,7 @@ export class Controller {
     }
 
     public getLastDeal(req, res) {
-        Notification.find((error, data) => {
+        Deal.find((error, data) => {
             if (error) {
                 return res.send(500, error.message)
             }
