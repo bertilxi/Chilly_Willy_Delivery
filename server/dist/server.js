@@ -30,7 +30,6 @@ class Server {
         this.router.route('/containers').get(this.ctrl.getContainers);
         this.router.route('/addins').get(this.ctrl.getAddins);
         this.router.route('/sauces').get(this.ctrl.getSauces);
-        this.router.route('/session/:deviceID').post(this.ctrl.openSession);
         this.router.route('/session/:deviceID/order').post(this.ctrl.addOrder);
         this.router.route('/session/:deviceID/order/:orderID').put(this.ctrl.modifyOrder);
         this.router.route('/session/:deviceID/orders').get(this.ctrl.getOrders);

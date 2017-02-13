@@ -48,7 +48,7 @@ export class Server {
         // core
         //
 
-        this.router.route('/session/:deviceID').post(this.ctrl.openSession);
+
 
         //
         // Order
