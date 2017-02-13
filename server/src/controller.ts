@@ -1,7 +1,6 @@
 import mongoose = require('mongoose');
 import { DbHelper } from './db';
-// core
-import { Session } from './model/session';
+
 // metadata
 import { Flavor } from './model/flavor';
 import { ContainerType } from './model/container-type';
@@ -28,19 +27,6 @@ export class Controller {
 
     public root(req, res) {
         res.send('Hello Node TS');
-    }
-
-    public openSession(req, res) {
-        let session = new Session({
-            deviceID: req.params.deviceID,
-            orders: []
-        });
-        session.save((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-            res.status(200).jsonp(data.deviceID);
-        });
     }
 
     //
@@ -131,7 +117,8 @@ export class Controller {
             items: req.body.items,
             destination: req.body.destination,
             lastLocation: req.body.lastLocation,
-            requestTime: req.body.requestTime
+            requestTime: req.body.requestTime,
+            deviceID: req.params.deviceID
         });
 
         order.save((error, data) => {
@@ -140,6 +127,7 @@ export class Controller {
             }
             res.status(200).jsonp(data._id);
         });
+
     }
 
     public modifyOrder(req, res) {
@@ -153,10 +141,12 @@ export class Controller {
     }
 
     public getOrders(req, res) {
+
         Order.find((error, data) => {
             if (error) {
                 return res.send(500, error.message)
             }
+            data = data.filter(x => x.deviceID == req.params.deviceID);
             res.status(200).jsonp(data);
         });
     }

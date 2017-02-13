@@ -33,19 +33,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 public class LocationActivity extends AppCompatActivity implements
         OnMapReadyCallback {
 
-    private final AlertDialog.Builder noOrders = new AlertDialog.Builder(LocationActivity.this)
-            .setTitle("No hiciste pedidos recientes")
-            .setMessage("Haz un pedido y luego vuelve a intentarlo")
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // continue with delete
-                }
-            })
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // do nothing
-                }
-            });
+    private AlertDialog.Builder noOrders;
     private DataService data;
     private List<Order> orders = new ArrayList<>();
     private ListView mListView;
@@ -60,6 +48,20 @@ public class LocationActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         data = new DataService(LocationActivity.this);
+
+        noOrders = new AlertDialog.Builder(LocationActivity.this)
+                .setTitle("No hiciste pedidos recientes")
+                .setMessage("Haz un pedido y luego vuelve a intentarlo")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
 
 
         try {
