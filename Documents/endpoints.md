@@ -97,7 +97,7 @@ body deviceID
 
 ## Order
 
-### POST /order
+### POST /session/:deviceID/order
 
 Send new order to the server
 
@@ -121,7 +121,7 @@ status 200
 body orderID
 ```
 
-### PUT /order/:orderID
+### PUT /session/:deviceID/order/:orderID
 
 Modify an order and send it to the server
 
@@ -145,7 +145,7 @@ status 200
 body orderID
 ```
 
-### GET /orders/:deviceID
+### GET /session/:deviceID/orders
 
 Get all the not delivered orders by the deviceID
 

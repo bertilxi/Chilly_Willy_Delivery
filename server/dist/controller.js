@@ -1,6 +1,5 @@
 "use strict";
 const db_1 = require("./db");
-const session_1 = require("./model/session");
 const flavor_1 = require("./model/flavor");
 const container_type_1 = require("./model/container-type");
 const addin_1 = require("./model/addin");
@@ -25,18 +24,6 @@ class Controller {
     }
     root(req, res) {
         res.send('Hello Node TS');
-    }
-    openSession(req, res) {
-        let session = new session_1.Session({
-            deviceID: req.params.deviceID,
-            orders: []
-        });
-        session.save((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-            res.status(200).jsonp(data.deviceID);
-        });
     }
     getFlavors(req, res) {
         flavor_1.Flavor.find((error, data) => {
@@ -104,12 +91,11 @@ class Controller {
     }
     addOrder(req, res) {
         let order = new order_1.Order({
-            containerType: req.body.containerType,
-            flavors: req.body.flavors,
-            sauce: req.body.sauce,
-            addins: req.body.addins,
-            quantity: req.body.quantity,
-            delivered: false
+            items: req.body.items,
+            destination: req.body.destination,
+            lastLocation: req.body.lastLocation,
+            requestTime: req.body.requestTime,
+            deviceID: req.params.deviceID
         });
         order.save((error, data) => {
             if (error) {
@@ -127,6 +113,15 @@ class Controller {
         });
     }
     getOrders(req, res) {
+        order_1.Order.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message);
+            }
+            data = data.filter(x => x.deviceID == req.params.deviceID);
+            res.status(200).jsonp(data);
+        });
+    }
+    getAllOrders(req, res) {
         order_1.Order.find((error, data) => {
             if (error) {
                 return res.send(500, error.message);

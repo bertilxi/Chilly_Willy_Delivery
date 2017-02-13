@@ -32,4 +32,5 @@ containerTypes.push({
     variableQuantityOfFlavors: true,
     priceInCents: 9050,
     imgURL: "pote1.png"
+    imgURL: ""
 });

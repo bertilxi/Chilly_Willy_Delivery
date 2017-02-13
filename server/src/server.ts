@@ -48,15 +48,16 @@ export class Server {
         // core
         //
 
-        this.router.route('/session/:deviceID').post(this.ctrl.openSession);
+
 
         //
         // Order
         //
 
-        this.router.route('/order').post(this.ctrl.addOrder);
-        this.router.route('/order/:orderID').put(this.ctrl.modifyOrder);
-        this.router.route('/orders/:deviceID').get(this.ctrl.getOrders);
+        this.router.route('/session/:deviceID/order').post(this.ctrl.addOrder);
+        this.router.route('/session/:deviceID/order/:orderID').put(this.ctrl.modifyOrder);
+        this.router.route('/session/:deviceID/orders').get(this.ctrl.getOrders);
+        this.router.route('/orders').get(this.ctrl.getAllOrders);
 
         //
         // Location

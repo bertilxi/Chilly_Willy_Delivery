@@ -11,10 +11,10 @@ public class Order implements Serializable {
     private final static long serialVersionUID = 2664721738017429616L;
     @SerializedName("destination")
     @Expose
-    private String destination;
+    private Location destination;
     @SerializedName("lastLocation")
     @Expose
-    private String lastLocation;
+    private Location lastLocation;
     @SerializedName("requestTime")
     @Expose
     private String requestTime;
@@ -22,28 +22,28 @@ public class Order implements Serializable {
     @Expose
     private List<OrderItem> orderItems = null;
 
-    public String getDestination() {
+    public Location getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Location destination) {
         this.destination = destination;
     }
 
-    public Order withDestination(String destination) {
+    public Order withDestination(Location destination) {
         this.destination = destination;
         return this;
     }
 
-    public String getLastLocation() {
+    public Location getLastLocation() {
         return lastLocation;
     }
 
-    public void setLastLocation(String lastLocation) {
+    public void setLastLocation(Location lastLocation) {
         this.lastLocation = lastLocation;
     }
 
-    public Order withLastLocation(String lastLocation) {
+    public Order withLastLocation(Location lastLocation) {
         this.lastLocation = lastLocation;
         return this;
     }

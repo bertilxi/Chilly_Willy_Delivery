@@ -25,10 +25,9 @@ import com.koushikdutta.ion.Ion;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
+import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 import dam.isi.frsf.utn.edu.ar.delivery.model.OrderItem;
@@ -66,18 +65,17 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-        if(savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.order_content_key))){
+        if(savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.order_content_key))) {
             contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
-        }
-        else{
+        } else {
             contentState = OrderActivityConstants.CONTENT_ORDER_ITEMS;
         }
 
-        switch (contentState){
+        switch (contentState) {
             case OrderActivityConstants.CONTENT_ORDER_ITEMS:
                 LayoutInflater inflater = getLayoutInflater();
-                View orderItemsView = inflater.inflate(R.layout.listview_order_item,null);
-                if(insertPoint.getChildCount() != 0){
+                View orderItemsView = inflater.inflate(R.layout.listview_order_item, null);
+                if (insertPoint.getChildCount() != 0) {
                     insertPoint.removeAllViews();
                 }
                 insertPoint.addView(orderItemsView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -258,11 +256,11 @@ public class OrderActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             View cell = convertView;
-            if(cell == null) {
+            if (cell == null) {
                 cell = inflater.inflate(R.layout.gridview_cell_flavor_choice, parent, false);
             }
             FlavorHolder holder = (FlavorHolder) cell.getTag();
-            if(holder == null) {
+            if (holder == null) {
                 holder = new FlavorHolder(cell);
                 cell.setTag(holder);
             }
@@ -274,7 +272,7 @@ public class OrderActivity extends AppCompatActivity {
                     .load(this.getItem(position).getCompleteImgURL());
             holder.textViewName.setText(this.getItem(position).getLabel());
 
-            return(cell);
+            return (cell);
         }
     }
 
@@ -306,8 +304,8 @@ public class OrderActivity extends AppCompatActivity {
             if (row == null) {
                 row = inflater.inflate(R.layout.listview_row_order_item, parent, false);
             }
-            OrderHolder holder = (OrderHolder)row.getTag();
-            if(holder == null){
+            OrderHolder holder = (OrderHolder) row.getTag();
+            if (holder == null) {
                 holder = new OrderHolder(row);
                 row.setTag(holder);
                 holder.numberPickerQuantity.setMinValue(1);
@@ -316,7 +314,7 @@ public class OrderActivity extends AppCompatActivity {
                 holder.numberPickerQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                     @Override
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                        int myPosition=(int)picker.getTag();
+                        int myPosition = (int) picker.getTag();
                         getItem(myPosition).setQuantity(newVal);
                     }
                 });
@@ -336,14 +334,14 @@ public class OrderActivity extends AppCompatActivity {
             return (row);
         }
 
-        class OrderHolder{
+        class OrderHolder {
             ImageView containerPic = null;
             TextView textViewContainer = null;
             TextView textViewFlavors = null;
             TextView textViewAddins = null;
             NumberPicker numberPickerQuantity = null;
 
-            OrderHolder(View row){
+            OrderHolder(View row) {
                 this.containerPic = (ImageView) row.findViewById(R.id.imageview_order_item_picture);
                 this.textViewContainer = (TextView) row.findViewById(R.id.textview_order_item_container);
                 this.textViewFlavors = (TextView) row.findViewById(R.id.textview_order_item_flavors);

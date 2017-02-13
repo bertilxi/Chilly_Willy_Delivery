@@ -2,6 +2,6 @@
 const mongoose = require("mongoose");
 exports.LocationSchema = new mongoose.Schema({
     latitude: Number,
-    longitud: Number
+    longitude: Number
 });
 exports.Location = mongoose.model("Location", exports.LocationSchema);

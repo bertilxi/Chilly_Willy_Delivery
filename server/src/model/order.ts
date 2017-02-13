@@ -7,8 +7,9 @@ import { ISauce, SauceSchema } from './sauce';
 import { ILocation, LocationSchema } from './location';
 
 export interface IOrder {
+    deviceID: string;
     items: Array<IOrderItem>;
-    destination: ILocation; 
+    destination: ILocation;
     lastLocation: ILocation;
     requestTime: string;
 }
@@ -36,6 +37,7 @@ export var OrderItemSchema = new mongoose.Schema({
 });
 
 export var OrderSchema = new mongoose.Schema({
+    deviceID: String,
     items: [OrderItemSchema],
     destination: LocationSchema,
     lastLocation: LocationSchema,

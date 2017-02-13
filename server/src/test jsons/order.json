@@ -1,0 +1,33 @@
+{
+    "destination": {
+        "latitude": -31.62,
+        "longitude": -60.72
+    },
+    "lastLocation": {
+        "latitude": -31.62,
+        "longitude": -60.71
+    },
+    "requestTime": "hoy",
+    "items": [{
+        "containerType": {
+            "label": "",
+            "maxFlavors": 0,
+            "variableQuantityOfFlavors": false,
+            "priceInCents": 0
+        },
+        "flavors": [{
+            "label": "",
+            "imgURL": ""
+        }],
+        "sauce": {
+            "label": "",
+            "imgURL": ""
+        },
+        "addins": [{
+            "label": "",
+            "imgURL": ""
+        }],
+        "quantity": 0,
+        "delivered": false
+    }]
+}

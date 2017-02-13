@@ -7,7 +7,7 @@ export interface ILocation {
 
 export var LocationSchema = new mongoose.Schema({
     latitude: Number,
-    longitud: Number
+    longitude: Number
 });
 
 export interface ILocationModel extends ILocation, mongoose.Document { }

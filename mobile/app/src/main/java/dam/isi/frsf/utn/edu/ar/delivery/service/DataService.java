@@ -11,10 +11,15 @@ import java.util.Set;
 
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Review;
+
+import static dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.deviceID;
+import static dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.localPath;
 
 public class DataService {
 
-    public static final String localPath = "http://192.168.1.5:8080/";
     private Context context;
 
     public DataService(Context context) {
@@ -44,6 +49,36 @@ public class DataService {
     public ResponseFuture<Set<Flavor>> getSauces() throws Exception {
         String path = localPath + "sauces";
         return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {});
+    }
+
+    public ResponseFuture<String> addOrder(Order order) throws Exception {
+        String path = localPath + "session/" + deviceID + "/order";
+        return Ion.with(context).load(path).setJsonPojoBody(order).as(new TypeToken<String>() {
+        });
+    }
+
+    public ResponseFuture<String> modifyOrder(String orderID, Order order) throws Exception {
+        String path = localPath + "session/" + deviceID + "/order/" + orderID;
+        return Ion.with(context).load(path).setJsonPojoBody(order).as(new TypeToken<String>() {
+        });
+    }
+
+    public ResponseFuture<List<Order>> getOrders() throws Exception {
+        String path = localPath + "session/" + deviceID + "/orders";
+        return Ion.with(context).load(path).as(new TypeToken<List<Order>>() {
+        });
+    }
+
+    public ResponseFuture<Location> getlocation(String orderID) throws Exception {
+        String path = localPath + "location/" + orderID;
+        return Ion.with(context).load(path).as(new TypeToken<Location>() {
+        });
+    }
+
+    public ResponseFuture<String> addReview(Review review) throws Exception {
+        String path = localPath + "review";
+        return Ion.with(context).load(path).setJsonPojoBody(review).as(new TypeToken<String>() {
+        });
     }
 
 }

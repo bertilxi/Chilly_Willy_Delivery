@@ -12,11 +12,8 @@ import android.widget.Toast;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
-import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
 public class MainActivity extends AppCompatActivity {
-
-    DataService data = new DataService(MainActivity.this);
 
     @SuppressLint("HardwareIds")
     @Override
@@ -29,15 +26,6 @@ public class MainActivity extends AppCompatActivity {
                 Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Toast.makeText(MainActivity.this, appConstants.deviceID, Toast.LENGTH_LONG).show();
-
-        // the device open a new session
-        try {
-            data.openSession(appConstants.deviceID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //
 
         Button btnOrder = (Button) findViewById(R.id.btnOrder);
         Button btnLocation = (Button) findViewById(R.id.btnLocation);
