@@ -15,6 +15,8 @@ exports.OrderItemSchema = new mongoose.Schema({
 });
 exports.OrderSchema = new mongoose.Schema({
     items: [exports.OrderItemSchema],
-    lastLocation: location_1.LocationSchema
+    destination: location_1.LocationSchema,
+    lastLocation: location_1.LocationSchema,
+    requestTime: String
 });
 exports.Order = mongoose.model("Order", exports.OrderSchema);

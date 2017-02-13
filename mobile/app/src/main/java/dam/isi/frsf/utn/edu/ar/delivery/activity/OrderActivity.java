@@ -171,7 +171,7 @@ public class OrderActivity extends AppCompatActivity {
                     .fitCenter()
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.error)
-                    .load(this.getItem(position).getImgURL());
+                    .load(this.getItem(position).getCompleteImgURL());
             holder.textViewName.setText(this.getItem(position).getLabel());
 
             return(cell);

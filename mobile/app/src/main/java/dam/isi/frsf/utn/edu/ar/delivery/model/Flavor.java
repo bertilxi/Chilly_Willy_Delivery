@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
+
 public class Flavor implements Serializable {
 
     private final static long serialVersionUID = -5244957648397091990L;
@@ -41,4 +43,7 @@ public class Flavor implements Serializable {
         return this;
     }
 
+    public String getCompleteImgURL() {
+        return appConstants.staticPath + "flavorImages/" + imgURL;
+    }
 }

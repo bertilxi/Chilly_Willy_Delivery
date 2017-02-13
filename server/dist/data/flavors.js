@@ -14,7 +14,7 @@ exports.flavors.push({
 });
 exports.flavors.push({
     label: 'Cereza',
-    imgURL: 'cereza.jpg'
+    imgURL: 'cereza.png'
 });
 exports.flavors.push({
     label: 'Dulce de Leche',
