@@ -16,7 +16,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
 public class MainActivity extends AppCompatActivity {
 
-    DataService data = new DataService(MainActivity.this);
+    private DataService data;
 
     @SuppressLint("HardwareIds")
     @Override
@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MIRAME", "onCreate: llegue aca");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        data = new DataService(MainActivity.this);
 
         appConstants.deviceID =
                 Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);

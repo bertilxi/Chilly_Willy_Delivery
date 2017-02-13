@@ -57,6 +57,7 @@ export class Server {
         this.router.route('/order').post(this.ctrl.addOrder);
         this.router.route('/order/:orderID').put(this.ctrl.modifyOrder);
         this.router.route('/orders/:deviceID').get(this.ctrl.getOrders);
+        this.router.route('/orders').get(this.ctrl.getAllOrders);
 
         //
         // Location

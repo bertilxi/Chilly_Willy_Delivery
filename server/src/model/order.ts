@@ -8,7 +8,7 @@ import { ILocation, LocationSchema } from './location';
 
 export interface IOrder {
     items: Array<IOrderItem>;
-    destination: ILocation; 
+    destination: ILocation;
     lastLocation: ILocation;
     requestTime: string;
 }

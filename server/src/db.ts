@@ -6,6 +6,8 @@ import { Flavor } from './model/flavor';
 import { ContainerType } from './model/container-type';
 import { Addin } from './model/addin';
 import { Sauce } from './model/sauce';
+
+import { Order } from './model/order';
 // data
 import { flavors } from './data/flavors';
 import { containerTypes } from './data/container-types';
@@ -23,6 +25,7 @@ export class DbHelper {
         ContainerType.remove({}, () => { });
         Sauce.remove({}, () => { });
         Addin.remove({}, () => { });
+        Order.remove({}, () => { });
 
     }
 

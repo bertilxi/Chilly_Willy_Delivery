@@ -5,13 +5,15 @@ export interface IContainerType {
     maxFlavors: number;
     variableQuantityOfFlavors: boolean;
     priceInCents: number;
+    imgURL: string;
 }
 
 export var ContainerTypeSchema = new mongoose.Schema({
     label: String,
     maxFlavors: Number,
     variableQuantityOfFlavors: Boolean,
-    priceInCents: Number
+    priceInCents: Number,
+    imgURL: String
 });
 
 export interface IContainerTypeModel extends IContainerType, mongoose.Document { }

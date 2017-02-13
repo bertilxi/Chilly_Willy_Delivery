@@ -128,12 +128,10 @@ export class Controller {
 
     public addOrder(req, res) {
         let order = new Order({
-            containerType: req.body.containerType,
-            flavors: req.body.flavors,
-            sauce: req.body.sauce,
-            addins: req.body.addins,
-            quantity: req.body.quantity,
-            delivered: false
+            items: req.body.items,
+            destination: req.body.destination,
+            lastLocation: req.body.lastLocation,
+            requestTime: req.body.requestTime
         });
 
         order.save((error, data) => {
@@ -155,6 +153,15 @@ export class Controller {
     }
 
     public getOrders(req, res) {
+        Order.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
+    }
+
+    public getAllOrders(req, res) {
         Order.find((error, data) => {
             if (error) {
                 return res.send(500, error.message)

@@ -7,6 +7,7 @@ containerTypes.push({
     maxFlavors: 2,
     variableQuantityOfFlavors: true,
     priceInCents: 3000,
+    imgURL: ""
 });
 
 containerTypes.push({
@@ -14,6 +15,7 @@ containerTypes.push({
     maxFlavors: 3,
     variableQuantityOfFlavors: true,
     priceInCents: 5050,
+    imgURL: ""
 });
 
 containerTypes.push({
@@ -21,6 +23,7 @@ containerTypes.push({
     maxFlavors: 4,
     variableQuantityOfFlavors: true,
     priceInCents: 7000,
+    imgURL: ""
 });
 
 containerTypes.push({
@@ -28,4 +31,5 @@ containerTypes.push({
     maxFlavors: 4,
     variableQuantityOfFlavors: true,
     priceInCents: 9050,
+    imgURL: ""
 });

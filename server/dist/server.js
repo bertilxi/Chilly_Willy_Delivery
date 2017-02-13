@@ -3,10 +3,10 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const logger = require("morgan");
-const controller_1 = require("./controller");
 const errorHandler = require("errorhandler");
 const methodOverride = require("method-override");
 const mongoose = require("mongoose");
+const controller_1 = require("./controller");
 const db_1 = require("./db");
 var mCtrl = new controller_1.Controller();
 var dbHelper = new db_1.DbHelper();
@@ -34,6 +34,7 @@ class Server {
         this.router.route('/order').post(this.ctrl.addOrder);
         this.router.route('/order/:orderID').put(this.ctrl.modifyOrder);
         this.router.route('/orders/:deviceID').get(this.ctrl.getOrders);
+        this.router.route('/orders').get(this.ctrl.getAllOrders);
         this.router.route('/location/:orderID').get(this.ctrl.getLocation);
         this.router.route('/review').post();
     }
