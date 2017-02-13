@@ -1,6 +1,5 @@
 package dam.isi.frsf.utn.edu.ar.delivery.model;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,10 +11,10 @@ public class Order implements Serializable {
     private final static long serialVersionUID = 2664721738017429616L;
     @SerializedName("destination")
     @Expose
-    private LatLng destination;
+    private Location destination;
     @SerializedName("lastLocation")
     @Expose
-    private LatLng lastLocation;
+    private Location lastLocation;
     @SerializedName("requestTime")
     @Expose
     private String requestTime;
@@ -23,28 +22,28 @@ public class Order implements Serializable {
     @Expose
     private List<OrderItem> orderItems = null;
 
-    public LatLng getDestination() {
+    public Location getDestination() {
         return destination;
     }
 
-    public void setDestination(LatLng destination) {
+    public void setDestination(Location destination) {
         this.destination = destination;
     }
 
-    public Order withDestination(LatLng destination) {
+    public Order withDestination(Location destination) {
         this.destination = destination;
         return this;
     }
 
-    public LatLng getLastLocation() {
+    public Location getLastLocation() {
         return lastLocation;
     }
 
-    public void setLastLocation(LatLng lastLocation) {
+    public void setLastLocation(Location lastLocation) {
         this.lastLocation = lastLocation;
     }
 
-    public Order withLastLocation(LatLng lastLocation) {
+    public Order withLastLocation(Location lastLocation) {
         this.lastLocation = lastLocation;
         return this;
     }

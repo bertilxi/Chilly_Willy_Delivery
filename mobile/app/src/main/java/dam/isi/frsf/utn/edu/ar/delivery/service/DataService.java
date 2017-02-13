@@ -2,7 +2,6 @@ package dam.isi.frsf.utn.edu.ar.delivery.service;
 
 import android.content.Context;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.future.ResponseFuture;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Review;
 
@@ -73,9 +73,9 @@ public class DataService {
         });
     }
 
-    public ResponseFuture<LatLng> getlocation(String orderID) throws Exception {
+    public ResponseFuture<Location> getlocation(String orderID) throws Exception {
         String path = localPath + "location/" + orderID;
-        return Ion.with(context).load(path).as(new TypeToken<LatLng>() {
+        return Ion.with(context).load(path).as(new TypeToken<Location>() {
         });
     }
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -28,18 +28,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
 public class LocationActivity extends AppCompatActivity implements
         OnMapReadyCallback {
 
+    private GoogleMap googleMap;
     private AlertDialog.Builder noOrders;
     private DataService data;
     private List<Order> orders = new ArrayList<>();
     private ListView mListView;
     private OrderAdapter mOrderAdapter;
-    private LatLng mLatLng = new LatLng(-31.619276, -60.683970);
+    private LatLng mLocation = new LatLng(-31.619276, -60.683970);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +81,6 @@ public class LocationActivity extends AppCompatActivity implements
                         noOrders.show();
                         return;
                     }
-/*
-
-                    StringBuilder str = new StringBuilder();
-
-                    for (Order o : result) {
-                        str.append(o.getDestination()).append(o.getOrderItems());
-                    }
-
-                    Log.v("Order list", str.toString());
-*/
 
                     orders = result;
                     mListView = (ListView) findViewById(R.id.location_order_list);
@@ -98,9 +90,17 @@ public class LocationActivity extends AppCompatActivity implements
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            mLatLng = orders.get(position).getLastLocation();
-                            Log.v("Order list", mLatLng.toString());
+                            Location destination = orders.get(position).getDestination();
+                            Location currentLocation = orders.get(position).getLastLocation();
+
+                            LatLng destinationLatLng =
+                                    new LatLng(destination.getLatitude(), destination.getLongitude());
+                            LatLng currentLocationLatLng =
+                                    new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+
                             mapFragment.getView().setVisibility(View.VISIBLE);
+                            updateMap(destinationLatLng, currentLocationLatLng);
                         }
                     });
 
@@ -113,7 +113,9 @@ public class LocationActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap mMap) {
+
+        googleMap = mMap;
 
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -129,11 +131,32 @@ public class LocationActivity extends AppCompatActivity implements
             }
         });
 
-        // set my desired location
-        googleMap.addMarker(new MarkerOptions().position(mLatLng).title(getString(R.string.location_order_label)));
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mLatLng, 15);
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(mLocation)
+                .title("Chilly Willy")
+                .snippet("heladeria")
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.logo))
+        );
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mLocation, 15);
         googleMap.animateCamera(cameraUpdate);
 
+    }
+
+    private void updateMap(LatLng destination, LatLng currentLocation) {
+        googleMap.addMarker(new MarkerOptions()
+                .position(destination)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.home))
+                .title(""));
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(currentLocation)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.delivery))
+                .title(""));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 15);
+        googleMap.animateCamera(cameraUpdate);
     }
 
     class OrderAdapter extends ArrayAdapter<Order> {
