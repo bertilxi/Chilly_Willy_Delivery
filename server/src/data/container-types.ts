@@ -7,7 +7,7 @@ containerTypes.push({
     maxFlavors: 2,
     variableQuantityOfFlavors: true,
     priceInCents: 3000,
-    imgURL: ""
+    imgURL: "pote1-4.png"
 });
 
 containerTypes.push({
@@ -15,7 +15,7 @@ containerTypes.push({
     maxFlavors: 3,
     variableQuantityOfFlavors: true,
     priceInCents: 5050,
-    imgURL: ""
+    imgURL: "pote1-2.png"
 });
 
 containerTypes.push({
@@ -23,7 +23,7 @@ containerTypes.push({
     maxFlavors: 4,
     variableQuantityOfFlavors: true,
     priceInCents: 7000,
-    imgURL: ""
+    imgURL: "pote3-4.png"
 });
 
 containerTypes.push({
@@ -31,5 +31,6 @@ containerTypes.push({
     maxFlavors: 4,
     variableQuantityOfFlavors: true,
     priceInCents: 9050,
+    imgURL: "pote1.png"
     imgURL: ""
 });
