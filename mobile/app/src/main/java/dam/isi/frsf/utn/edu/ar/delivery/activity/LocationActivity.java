@@ -67,6 +67,8 @@ public class LocationActivity extends AppCompatActivity implements
                 });
 
 
+
+
         try {
             data.getOrders().setCallback(new FutureCallback<List<Order>>() {
                 @Override
@@ -78,6 +80,11 @@ public class LocationActivity extends AppCompatActivity implements
                     mapFragment.getView().setVisibility(View.GONE);
 
                     if (result == null) {
+                        noOrders.show();
+                        return;
+                    }
+
+                    if (result.size() == 0){
                         noOrders.show();
                         return;
                     }
