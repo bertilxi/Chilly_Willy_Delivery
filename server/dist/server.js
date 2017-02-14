@@ -24,18 +24,16 @@ class Server {
     }
     api() {
         this.router.route('/').get(this.ctrl.root);
-        this.router.route('/test').get(this.ctrl.test);
-        this.router.route('/metadata').get(this.ctrl.getMetadata);
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
         this.router.route('/toppings').get(this.ctrl.getToppings);
         this.router.route('/sauces').get(this.ctrl.getSauces);
+        this.router.route('/deals').get(this.ctrl.getLastDeal);
         this.router.route('/session/:deviceID/order').post(this.ctrl.addOrder);
         this.router.route('/session/:deviceID/order/:orderID').put(this.ctrl.modifyOrder);
         this.router.route('/session/:deviceID/orders').get(this.ctrl.getOrders);
         this.router.route('/orders').get(this.ctrl.getAllOrders);
-        this.router.route('/location/:orderID').get(this.ctrl.getLocation);
-        this.router.route('/review').post();
+        this.router.route('/review').post(this.ctrl.addReview);
     }
     config() {
         this.app.use('/static', express.static(__dirname + '/public'));

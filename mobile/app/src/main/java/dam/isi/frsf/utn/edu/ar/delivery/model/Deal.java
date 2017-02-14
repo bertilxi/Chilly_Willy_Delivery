@@ -7,13 +7,16 @@ import java.io.Serializable;
 
 public class Deal implements Serializable {
 
-    private final static long serialVersionUID = -3321640646449085067L;
+    private final static long serialVersionUID = 5036268205924751260L;
     @SerializedName("title")
     @Expose
     private String title;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("isLastDeal")
+    @Expose
+    private Boolean isLastDeal;
 
     public String getTitle() {
         return title;
@@ -38,6 +41,19 @@ public class Deal implements Serializable {
 
     public Deal withDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public Boolean getIsLastDeal() {
+        return isLastDeal;
+    }
+
+    public void setIsLastDeal(Boolean isLastDeal) {
+        this.isLastDeal = isLastDeal;
+    }
+
+    public Deal withIsLastDeal(Boolean isLastDeal) {
+        this.isLastDeal = isLastDeal;
         return this;
     }
 

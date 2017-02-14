@@ -6,6 +6,8 @@ import { Flavor } from './model/flavor';
 import { ContainerType } from './model/container-type';
 import { Topping } from './model/topping';
 import { Sauce } from './model/sauce';
+// core
+import { Deal } from './model/deal';
 // order
 import { Order } from './model/order';
 // location
@@ -27,6 +29,15 @@ export class Controller {
 
     public root(req, res) {
         res.send('Hello Node TS');
+    }
+
+    public getLastDeal(req, res) {
+        Deal.find((error, data) => {
+            if (error) {
+                return res.send(500, error.message)
+            }
+            res.status(200).jsonp(data);
+        });
     }
 
     //

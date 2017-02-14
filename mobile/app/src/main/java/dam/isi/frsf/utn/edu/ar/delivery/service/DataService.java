@@ -10,6 +10,7 @@ import java.util.List;
 
 import dam.isi.frsf.utn.edu.ar.delivery.model.Topping;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
@@ -27,19 +28,22 @@ public class DataService {
         this.context = context;
     }
 
-    public ResponseFuture<String> openSession(String deviceID) throws Exception {
-        String path = localPath + "session/" + deviceID;
-        return Ion.with(context).load(path).as(new TypeToken<String>() {});
+    public ResponseFuture<Deal> getLastDeal() throws Exception {
+        String path = localPath + "deals";
+        return Ion.with(context).load(path).as(new TypeToken<Deal>() {
+        });
     }
 
     public ResponseFuture<List<Flavor>> getFlavors() throws Exception {
         String path = localPath + "flavors";
-        return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {});
+        return Ion.with(context).load(path).as(new TypeToken<List<Flavor>>() {
+        });
     }
 
     public ResponseFuture<List<ContainerType>> getContainers() throws Exception {
         String path = localPath + "containers";
-        return Ion.with(context).load(path).as(new TypeToken<List<ContainerType>>() {});
+        return Ion.with(context).load(path).as(new TypeToken<List<ContainerType>>() {
+        });
     }
 
     public ResponseFuture<List<Topping>> getToppings() throws Exception {

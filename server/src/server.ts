@@ -32,13 +32,13 @@ export class Server {
     private api(): void {
 
         this.router.route('/').get(this.ctrl.root);
-        this.router.route('/test').get(this.ctrl.test);
+        // this.router.route('/test').get(this.ctrl.test);
 
         //
         // metadata
         //
         
-        this.router.route('/metadata').get(this.ctrl.getMetadata)
+        // this.router.route('/metadata').get(this.ctrl.getMetadata)
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
         this.router.route('/toppings').get(this.ctrl.getToppings);
@@ -48,7 +48,7 @@ export class Server {
         // core
         //
 
-
+        this.router.route('/deals').get(this.ctrl.getLastDeal);
 
         //
         // Order
@@ -63,13 +63,13 @@ export class Server {
         // Location
         //
 
-        this.router.route('/location/:orderID').get(this.ctrl.getLocation);
+        // this.router.route('/location/:orderID').get(this.ctrl.getLocation);
 
         //
         // Review
         //
 
-        this.router.route('/review').post();
+        this.router.route('/review').post(this.ctrl.addReview);
 
     }
 
