@@ -1,14 +1,14 @@
 "use strict";
 exports.sauces = [];
 exports.sauces.push({
-    label: "Frutilla",
+    label: "Salsa de frutilla",
     imgURL: "frutilla.png"
 });
 exports.sauces.push({
-    label: "Dulce de leche",
+    label: "Salsa de dulce de leche",
     imgURL: "dulce_de_leche.png"
 });
 exports.sauces.push({
-    label: "Chocolate",
+    label: "Salsa de chocolate",
     imgURL: "chocolate.png"
 });

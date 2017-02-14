@@ -24,4 +24,5 @@
     <!-- Location activity strings -->
     <string name="location_order_label">Tu pedido</string>
     <string name="title_activity_order_send">OrderSendActivity</string>
+    <string name="order_key">orden</string>
 </resources>

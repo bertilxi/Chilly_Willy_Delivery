@@ -104,7 +104,9 @@ class Controller {
             destination: req.body.destination,
             lastLocation: req.body.lastLocation,
             requestTime: req.body.requestTime,
-            deviceID: req.params.deviceID
+            deviceID: req.params.deviceID,
+            phone: req.params.phone,
+            hasChange: req.params.phone,
         });
         order.save((error, data) => {
             if (error) {

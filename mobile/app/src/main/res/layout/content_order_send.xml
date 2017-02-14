@@ -25,16 +25,16 @@
         android:ems="10"
         android:layout_below="@+id/phone_title"
         android:layout_alignStart="@+id/phone_title"
-        android:id="@+id/editText" />
+        android:id="@+id/phone_edittext" />
 
     <CheckedTextView
         android:text="Pago con cambio"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/phone_edittext"
+        android:layout_alignStart="@+id/phone_edittext"
         android:layout_marginTop="31dp"
-        android:id="@+id/checkedTextView"
+        android:id="@+id/checkedTextView_hasChange"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="18sp" />
 
@@ -46,7 +46,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background">
 
         <TextView
             android:text="ENVIAR"
@@ -59,7 +60,6 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/button4"
             android:background="@drawable/send"/>
 
     </LinearLayout>
