@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:text="Salsas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:id="@+id/sauces_title"
+        android:background="@color/lightBlue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <ListView
+        android:id="@+id/listview_sauces"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:layout_below="@id/sauces_title"
+        android:layout_above="@+id/toppings_title"
+        android:layout_alignParentStart="true"
+        android:listSelector="@color/pressed_color"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:id="@+id/toppings_title"
+        android:text="Tops"
+        android:background="@color/lightBlue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <ListView
+        android:id="@+id/listview_toppings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toppings_title"
+        android:layout_alignParentStart="true"
+        android:choiceMode="multipleChoice"/>
+</RelativeLayout>

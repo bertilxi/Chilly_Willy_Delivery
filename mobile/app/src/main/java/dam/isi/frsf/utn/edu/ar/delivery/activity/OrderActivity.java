@@ -1,23 +1,28 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -25,24 +30,36 @@ import com.koushikdutta.ion.Ion;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Addin;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 import dam.isi.frsf.utn.edu.ar.delivery.model.OrderItem;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Sauce;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Topping;
 import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 import dam.isi.frsf.utn.edu.ar.delivery.utility.Formatter;
 
 public class OrderActivity extends AppCompatActivity {
 
-    List<OrderItem> orderItems = null;
-    List<Flavor> flavors = new ArrayList<>();
-    List<ContainerType> containers = new ArrayList<>();
+    List<OrderItem> orderItems;
+    List<Flavor> flavors;
+    List<ContainerType> containers;
+    List<Sauce> sauces;
+    List<Topping> toppings;
+    ListView listViewItems;
+    ListView listviewToppings;
+    ListView listviewSauces;
+    ListView listViewContainers;
+    GridView gridViewFlavors;
     ViewGroup insertPoint;
-    FlavorsAdapter flavorsAdapter;
-    ContainersAdapter containersAdapter;
-    int contentState;
+    int contentState = -1;
+    OrderItem itemInConstruction;
+    DataService dataService;
+    TextView textViewTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +72,7 @@ public class OrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         insertPoint = (ViewGroup) findViewById(R.id.view_insert_point);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+/**        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,42 +81,28 @@ public class OrderActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+**/
+        dataService = new DataService(OrderActivity.this);
+        orderItems = new ArrayList<>();
 
-        if(savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.order_content_key))) {
-            contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
-        } else {
-            contentState = OrderActivityConstants.CONTENT_ORDER_ITEMS;
+        processSavedState(savedInstanceState);
+        if(contentState == -1) {
+            contentState = OrderActivityConstants.CONTENT_CONTAINERS;
         }
 
         switch (contentState) {
             case OrderActivityConstants.CONTENT_ORDER_ITEMS:
-                LayoutInflater inflater = getLayoutInflater();
-                View orderItemsView = inflater.inflate(R.layout.listview_order_item, null);
-                if (insertPoint.getChildCount() != 0) {
-                    insertPoint.removeAllViews();
-                }
-                insertPoint.addView(orderItemsView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                ListView listViewItems = (ListView) orderItemsView.findViewById(R.id.listview_order_item);
-
-                getSupportActionBar().setTitle("TU PEDIDO");
-                orderItems = new ArrayList<OrderItem>();
-
-                //TEST
-                List<Flavor> testFlavors = new ArrayList<>();
-                testFlavors.add(new Flavor().withLabel("frutilla"));
-
-                OrderItem testOrder = new OrderItem()
-                        .withContainerType(new ContainerType()
-                                .withLabel("pote 1 kilo")
-                                .withImgURL(getString(R.string.test_url)))
-                        .withFlavors(testFlavors)
-                        .withQuantity(2);
-
-                orderItems.add(testOrder);
-                //TEST
-
-                listViewItems.setAdapter(new OrderAdapter(orderItems));
+                loadOrderItems();
+                break;
+            case OrderActivityConstants.CONTENT_CONTAINERS:
+                loadContainers();
+                break;
+            case OrderActivityConstants.CONTENT_FLAVORS:
+                loadFlavors();
+                break;
+            case OrderActivityConstants.CONTENT_ADDINS:
+                loadAddins();
+                break;
         }
     }
 
@@ -114,21 +117,27 @@ public class OrderActivity extends AppCompatActivity {
         switch (contentState){
             case OrderActivityConstants.CONTENT_ORDER_ITEMS:
                 menu.setGroupVisible(R.id.group_containers_menu, false);
-                menu.setGroupVisible(R.id.gridview_flavor_choice, false);
+                menu.setGroupVisible(R.id.group_flavors_menu, false);
+                menu.setGroupVisible(R.id.group_addins_menu, false);
                 menu.setGroupVisible(R.id.group_order_item_menu, true);
                 return true;
             case OrderActivityConstants.CONTENT_FLAVORS:
                 menu.setGroupVisible(R.id.group_order_item_menu, false);
                 menu.setGroupVisible(R.id.group_containers_menu, false);
-                menu.setGroupVisible(R.id.gridview_flavor_choice, true);
+                menu.setGroupVisible(R.id.group_addins_menu, false);
+                menu.setGroupVisible(R.id.group_flavors_menu, true);
                 return true;
             case OrderActivityConstants.CONTENT_CONTAINERS:
                 menu.setGroupVisible(R.id.group_order_item_menu, false);
-                menu.setGroupVisible(R.id.gridview_flavor_choice, false);
+                menu.setGroupVisible(R.id.group_flavors_menu, false);
+                menu.setGroupVisible(R.id.group_addins_menu, false);
                 menu.setGroupVisible(R.id.group_containers_menu, true);
                 return true;
             case OrderActivityConstants.CONTENT_ADDINS:
-                //TODO cuando este hecha
+                menu.setGroupVisible(R.id.group_order_item_menu, false);
+                menu.setGroupVisible(R.id.group_containers_menu, false);
+                menu.setGroupVisible(R.id.group_flavors_menu, false);
+                menu.setGroupVisible(R.id.group_addins_menu, true);
                 return true;
             default:
                 return true;
@@ -141,12 +150,163 @@ public class OrderActivity extends AppCompatActivity {
             case R.id.moar_icecream:
                 loadContainers();
                 return true;
+
             case R.id.container_ready:
+                if(listViewContainers.getAdapter() == null){
+                    return true;
+                }
+                int posContainer = listViewContainers.getCheckedItemPosition();
+                ContainerType selectedContainer = (ContainerType) listViewContainers.getAdapter().getItem(posContainer);
+                if(selectedContainer == null) {
+                    Toast.makeText(OrderActivity.this, "Selecciona un recipiente", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                itemInConstruction = new OrderItem();
+                itemInConstruction.setContainerType(selectedContainer);
                 loadFlavors();
                 return true;
+
+            case R.id.flavors_ready:
+                int len = gridViewFlavors.getCount();
+                SparseBooleanArray checkedFlavor = gridViewFlavors.getCheckedItemPositions();
+                List<Flavor> selectedFlavors = new ArrayList<>();
+                int selectedFlavorsQuantity = 0;
+                for (int i = 0; i < len; i++) {
+                    if (checkedFlavor.get(i)) {
+                        selectedFlavors.add(flavors.get(i));
+                        selectedFlavorsQuantity++;
+                    }
+                }
+                if (selectedFlavorsQuantity > itemInConstruction.getContainerType().getMaxFlavors()) {
+                    Toast.makeText(OrderActivity.this,
+                            "Solo podés elegir "+ itemInConstruction.getContainerType().getMaxFlavors(),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                    return true;
+                }
+                if (selectedFlavorsQuantity < itemInConstruction.getContainerType().getMaxFlavors() &&
+                        itemInConstruction.getContainerType().getVariableQuantityOfFlavors() == false) {
+                    Toast.makeText(OrderActivity.this,
+                            "Debés elegir "+itemInConstruction.getContainerType().getMaxFlavors()+" sabores",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                    return true;
+                }
+                itemInConstruction.setFlavors(selectedFlavors);
+                loadAddins();
+                return true;
+
+            case R.id.addins_ready:
+                if(listviewSauces.getAdapter() == null){
+                    return true;
+                }
+                int posSauce = listviewSauces.getCheckedItemPosition();
+                Sauce selectedSauce = (Sauce) listviewSauces.getAdapter().getItem(posSauce);
+                if(selectedSauce.getLabel() == getString(R.string.no_sauce_label)){
+                    selectedSauce = null;
+                }
+                List<Topping> selectedToppings = new ArrayList<>();
+                SparseBooleanArray checkedTopping = listviewToppings.getCheckedItemPositions();
+                int selectedToppingsQuantity = 0;
+                for (int i = 0; i < listviewToppings.getCount(); i++) {
+                    if (checkedTopping.get(i)) {
+                        selectedToppings.add(toppings.get(i));
+                        selectedToppingsQuantity++;
+                    }
+                }
+                itemInConstruction.setSauce(selectedSauce);
+                itemInConstruction.setToppings(selectedToppings);
+                orderItems.add(itemInConstruction);
+                itemInConstruction = null;
+                loadOrderItems();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void loadOrderItems() {
+        contentState = OrderActivityConstants.CONTENT_ORDER_ITEMS;
+        LayoutInflater inflater = getLayoutInflater();
+        View orderItemsView = inflater.inflate(R.layout.listview_order_item, null);
+        insertPoint.removeAllViews();
+        insertPoint.addView(orderItemsView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        listViewItems = (ListView) orderItemsView.findViewById(R.id.listview_order_item);
+        listViewItems.setAdapter(new OrderAdapter(orderItems));
+
+        getSupportActionBar().setTitle("TU PEDIDO");
+        invalidateOptionsMenu();
+
+        textViewTotal = (TextView) orderItemsView.findViewById(R.id.total);
+        calculateTotal();
+    }
+
+    private void loadAddins() {
+        contentState = OrderActivityConstants.CONTENT_ADDINS;
+        LayoutInflater inflater = getLayoutInflater();
+        View addinsView = inflater.inflate(R.layout.listview_addins, null);
+        insertPoint.removeAllViews();
+        insertPoint.addView(addinsView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        listviewSauces = (ListView) addinsView.findViewById(R.id.listview_sauces);
+        listviewToppings = (ListView) addinsView.findViewById(R.id.listview_toppings);
+
+        DataService dataService = new DataService(OrderActivity.this);
+
+        if(sauces != null){
+            AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
+            listviewSauces.setAdapter(saucesAdapter);
+        } else {
+            try {
+                dataService.getSauces().setCallback(new FutureCallback<List<Sauce>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Sauce> result) {
+                        sauces = new ArrayList<>();
+                        sauces.add(new Sauce().withImgURL("").withLabel(getString(R.string.no_sauce_label)));
+                        sauces.addAll(result);
+                        AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
+                        listviewSauces.setAdapter(saucesAdapter);
+                        listviewSauces.setItemChecked(0,true);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (toppings != null){
+            AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
+            listviewToppings.setAdapter(toppingsAdapter);
+        } else {
+            try {
+                dataService.getToppings().setCallback(new FutureCallback<List<Topping>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Topping> result) {
+                        Log.d("MIRAME", "onCompleted: result está vacío? "+(result==null?"SI":"NO"));
+                        toppings = result;
+                        AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
+                        listviewToppings.setAdapter(toppingsAdapter);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        listviewToppings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(gridViewFlavors.isItemChecked(i)) {
+                    view.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
+                } else {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                }
+            }
+        });
+
+        getSupportActionBar().setTitle("MEJORÁ TU HELADO");
+        invalidateOptionsMenu();
     }
 
     private void loadContainers() {
@@ -155,54 +315,125 @@ public class OrderActivity extends AppCompatActivity {
         View containersView = inflater.inflate(R.layout.listview_containers, null);
         insertPoint.removeAllViews();
         insertPoint.addView(containersView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        final ListView listViewContainers = (ListView) containersView.findViewById(R.id.listview_containers);
+        listViewContainers = (ListView) containersView.findViewById(R.id.listview_containers);
+        fillListViewContainers();
+        getSupportActionBar().setTitle("ELEGÍ TU FAVORITO");
+        invalidateOptionsMenu();
+    }
 
-        DataService dataService = new DataService(OrderActivity.this);
+    private void fillListViewContainers() {
+        if(containers != null){
+            ContainersAdapter containersAdapter = new ContainersAdapter(containers);
+            listViewContainers.setAdapter(containersAdapter);
+            return;
+        }
         try {
             dataService.getContainers().setCallback(new FutureCallback<List<ContainerType>>() {
                 @Override
                 public void onCompleted(Exception e, List<ContainerType> result) {
-                    containers.addAll(result);
-                    containersAdapter = new ContainersAdapter(containers);
+                    if(result == null){
+                        Log.d("MIRAME", "onCompleted: RESULTADO GET CONTENEDORES VACIO");
+                        fillListViewContainers();
+                        return;
+                    }
+                    containers = result;
+                    ContainersAdapter containersAdapter = new ContainersAdapter(containers);
                     listViewContainers.setAdapter(containersAdapter);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getSupportActionBar().setTitle("ELEGÍ TU FAVORITO");
-        invalidateOptionsMenu();
     }
 
     private void loadFlavors() {
         contentState = OrderActivityConstants.CONTENT_FLAVORS;
         LayoutInflater inflater = getLayoutInflater();
-        final GridView gridViewFlavors = (GridView) inflater.inflate(R.layout.gridview_flavor_choice,null);
+        gridViewFlavors = (GridView) inflater.inflate(R.layout.gridview_flavor_choice,null);
         insertPoint.removeAllViews();
         insertPoint.addView(gridViewFlavors, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        DataService dataService = new DataService(OrderActivity.this);
-        try {
-            dataService.getFlavors().setCallback(new FutureCallback<List<Flavor>>() {
-                @Override
-                public void onCompleted(Exception e, List<Flavor> result) {
-                    flavors.addAll(result);
-                    flavorsAdapter = new FlavorsAdapter(flavors);
-                    gridViewFlavors.setAdapter(flavorsAdapter);
+        gridViewFlavors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ImageView checkedIcon = (ImageView) view.findViewById(R.id.flavor_checked);
+                if(gridViewFlavors.isItemChecked(i)) {
+                    checkedIcon.setVisibility(View.VISIBLE);
+                } else {
+                    checkedIcon.setVisibility(View.INVISIBLE);
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+            }
+        });
+
+        DataService dataService = new DataService(OrderActivity.this);
+        if(flavors != null){
+            FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
+            gridViewFlavors.setAdapter(flavorsAdapter);
+        } else {
+            try {
+                dataService.getFlavors().setCallback(new FutureCallback<List<Flavor>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Flavor> result) {
+                        flavors = result;
+                        FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
+                        gridViewFlavors.setAdapter(flavorsAdapter);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         getSupportActionBar().setTitle("ELEGÍ LOS SABORES");
         invalidateOptionsMenu();
+    }
+
+    class AddinsAdapter extends ArrayAdapter<Addin> {
+        LayoutInflater inflater;
+
+        AddinsAdapter(List<? extends Addin> addins) {
+            super(OrderActivity.this, R.layout.listview_addins_row, (List<Addin>) addins);
+            inflater = LayoutInflater.from(getContext());
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            View row = convertView;
+            if(row == null) {
+                row = inflater.inflate(R.layout.listview_addins_row, parent, false);
+            }
+            AddinHolder holder = (AddinHolder) row.getTag();
+            if(holder == null) {
+                holder = new AddinHolder(row);
+                row.setTag(holder);
+            }
+            if(this.getItem(position).getLabel() != getString(R.string.no_sauce_label)){
+                Ion.with(holder.addinPic)
+                        .fitCenter()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.error)
+                        .load(this.getItem(position).getCompleteImgURL());
+            }
+            holder.textViewName.setText(this.getItem(position).getLabel());
+
+            return row;
+        }
+
+        class AddinHolder {
+            TextView textViewName = null;
+            ImageView addinPic = null;
+            AddinHolder(View row) {
+                textViewName = (TextView) row.findViewById(R.id.addin_name);
+                addinPic = (ImageView) row.findViewById(R.id.imageview_addin);
+            }
+        }
     }
 
     class ContainersAdapter extends ArrayAdapter<ContainerType> {
         LayoutInflater inflater;
 
         ContainersAdapter(List<ContainerType> containers) {
-            super(OrderActivity.this, R.layout.listview_containers, containers);
+            super(OrderActivity.this, R.layout.listview_containers_row, containers);
             inflater = LayoutInflater.from(getContext());
         }
 
@@ -226,7 +457,7 @@ public class OrderActivity extends AppCompatActivity {
                     .error(R.drawable.error)
                     .load(this.getItem(position).getCompleteImgURL());
             holder.containerName.setText(this.getItem(position).getLabel());
-            holder.containerPrice.setText(NumberFormat.getCurrencyInstance().format(
+            holder.containerPrice.setText(NumberFormat.getCurrencyInstance(Locale.US).format(
                     this.getItem(position).getPriceInCents()*0.01
             ));
 
@@ -238,7 +469,7 @@ public class OrderActivity extends AppCompatActivity {
             TextView containerName = null;
             TextView containerPrice = null;
             ContainerHolder(View row){
-                containerPic = (ImageView) row.findViewById(R.id.imageview_container);
+                containerPic = (ImageView) row.findViewById(R.id.imageview_addin);
                 containerName = (TextView) row.findViewById(R.id.containerName);
                 containerPrice = (TextView) row.findViewById(R.id.container_price);
             }
@@ -317,6 +548,7 @@ public class OrderActivity extends AppCompatActivity {
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                         int myPosition = (int) picker.getTag();
                         getItem(myPosition).setQuantity(newVal);
+                        calculateTotal();
                     }
                 });
             }
@@ -325,10 +557,13 @@ public class OrderActivity extends AppCompatActivity {
                     .fitCenter()
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.error)
-                    .load(this.getItem(position).getContainerType().getImgURL());
+                    .load(this.getItem(position).getContainerType().getCompleteImgURL());
             holder.textViewContainer.setText(this.getItem(position).getContainerType().getLabel());
             holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
-            holder.textViewAddins.setText(Formatter.buildStringFromList(this.getItem(position).getAddins()));
+            List<Addin> addins = new ArrayList<Addin>();
+            addins.add(this.getItem(position).getSauce());
+            addins.addAll(this.getItem(position).getToppings());
+            holder.textViewAddins.setText(Formatter.buildStringFromList(addins));
             holder.numberPickerQuantity.setValue(this.getItem(position).getQuantity());
             holder.numberPickerQuantity.setTag(position);
 
@@ -350,5 +585,52 @@ public class OrderActivity extends AppCompatActivity {
                 this.numberPickerQuantity = (NumberPicker) row.findViewById(R.id.item_quantity);
             }
         }
+    }
+
+    private void calculateTotal() {
+        int totalCents = 0;
+        for(OrderItem o: orderItems){
+            totalCents += o.getContainerType().getPriceInCents() * o.getQuantity();
+        }
+        textViewTotal.setText(NumberFormat.getCurrencyInstance(Locale.US).format( totalCents * 0.01 ));
+    }
+
+    private void processSavedState(Bundle savedInstanceState) {
+        if(savedInstanceState == null) {
+            return;
+        }
+        if(savedInstanceState.containsKey(getString(R.string.order_content_key))) {
+            contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
+        }
+        if(savedInstanceState.containsKey(getString(R.string.item_in_construction_key))) {
+            itemInConstruction = (OrderItem) savedInstanceState.get(getString(R.string.item_in_construction_key));
+        }
+        if(savedInstanceState.containsKey(getString(R.string.order_items_key))) {
+            orderItems = (ArrayList<OrderItem>) savedInstanceState.get(getString(R.string.order_items_key));
+        }
+        if(savedInstanceState.containsKey(getString(R.string.containers_key))) {
+            containers = (ArrayList<ContainerType>) savedInstanceState.get(getString(R.string.containers_key));
+        }
+        if(savedInstanceState.containsKey(getString(R.string.flavors_key))) {
+            flavors = (ArrayList<Flavor>) savedInstanceState.get(getString(R.string.flavors_key));
+        }
+        if(savedInstanceState.containsKey(getString(R.string.sauces_key))) {
+            sauces = (ArrayList<Sauce>) savedInstanceState.get(getString(R.string.sauces_key));
+        }
+        if(savedInstanceState.containsKey(getString(R.string.toppings_key))) {
+            toppings = (ArrayList<Topping>) savedInstanceState.get(getString(R.string.toppings_key));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(getString(R.string.order_content_key),contentState);
+        outState.putSerializable(getString(R.string.item_in_construction_key),itemInConstruction);
+        outState.putSerializable(getString(R.string.order_items_key), (ArrayList<OrderItem>) orderItems);
+        outState.putSerializable(getString(R.string.containers_key), (ArrayList<ContainerType>) containers);
+        outState.putSerializable(getString(R.string.flavors_key), (ArrayList<Flavor>) flavors);
+        outState.putSerializable(getString(R.string.sauces_key), (ArrayList<Sauce>) sauces);
+        outState.putSerializable(getString(R.string.toppings_key), (ArrayList<Topping>) toppings);
     }
 }

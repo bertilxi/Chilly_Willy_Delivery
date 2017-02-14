@@ -2,13 +2,13 @@
 exports.sauces = [];
 exports.sauces.push({
     label: "Frutilla",
-    imgURL: ""
+    imgURL: "frutilla.png"
 });
 exports.sauces.push({
     label: "Dulce de leche",
-    imgURL: ""
+    imgURL: "dulce_de_leche.png"
 });
 exports.sauces.push({
     label: "Chocolate",
-    imgURL: ""
+    imgURL: "chocolate.png"
 });

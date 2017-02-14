@@ -7,9 +7,9 @@ import java.io.Serializable;
 
 import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
 
-public class Sauce implements Serializable, Addin {
+public class Topping implements Serializable, Addin {
 
-    private final static long serialVersionUID = 5447605698079137247L;
+    private final static long serialVersionUID = 1588113798071471128L;
     @SerializedName("label")
     @Expose
     private String label;
@@ -25,7 +25,7 @@ public class Sauce implements Serializable, Addin {
         this.label = label;
     }
 
-    public Sauce withLabel(String label) {
+    public Topping withLabel(String label) {
         this.label = label;
         return this;
     }
@@ -38,13 +38,13 @@ public class Sauce implements Serializable, Addin {
         this.imgURL = imgURL;
     }
 
-    public Sauce withImgURL(String imgURL) {
+    public Topping withImgURL(String imgURL) {
         this.imgURL = imgURL;
         return this;
     }
 
     public String getCompleteImgURL() {
-        return appConstants.staticPath + "sauceImages/" + imgURL;
+        return appConstants.staticPath + "toppingImages/" + imgURL;
     }
 
     @Override

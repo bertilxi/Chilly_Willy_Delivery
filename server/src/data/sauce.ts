@@ -3,14 +3,14 @@ import { ISauce } from '../model/sauce';
 export var sauces: Array<ISauce> = [];
 
 sauces.push({
-    label: "Frutilla",
-    imgURL: ""
+    label: "Salsa de frutilla",
+    imgURL: "frutilla.png"
 });
 sauces.push({
-    label: "Dulce de leche",
-    imgURL: ""
+    label: "Salsa de dulce de leche",
+    imgURL: "dulce_de_leche.png"
 });
 sauces.push({
-    label: "Chocolate",
-    imgURL: ""
+    label: "Salsa de chocolate",
+    imgURL: "chocolate.png"
 });

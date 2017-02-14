@@ -2,13 +2,13 @@
 exports.toppings = [];
 exports.toppings.push({
     label: "Rocklets",
-    imgURL: ""
+    imgURL: "rocklets.jpg"
 });
 exports.toppings.push({
     label: "Chispas de chocolate",
-    imgURL: ""
+    imgURL: "chispas_de_chocolate.jpg"
 });
 exports.toppings.push({
     label: "Gomitas",
-    imgURL: ""
+    imgURL: "gomitas.jpg"
 });

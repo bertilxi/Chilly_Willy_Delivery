@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import com.koushikdutta.async.future.FutureCallback;
 
+import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
 
 
@@ -13,8 +14,8 @@ public class NotificationService extends IntentService {
 
     private DataService data;
 
-    public NotificationService(String name) {
-        super(name);
+    public NotificationService() {
+        super("NotificationService");
         data = new DataService(NotificationService.this);
     }
 

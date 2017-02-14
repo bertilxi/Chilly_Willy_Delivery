@@ -8,8 +8,19 @@
     <string name="add_image_label">Agregar imágen</string>
     <string name="add_opinion_label">¿Que opinas?</string>
     <string name="take_picture_label">Saca una foto</string>
+    <string name="no_sauce_label">Ninguna</string>
     <!-- bundle keys -->
     <string name="order_content_key">order content key</string>
+    <string name="item_in_construction_key">item in construction key</string>
+    <string name="order_items_key">order items key</string>
+    <string name="flavors_key">flavors key</string>
+    <string name="containers_key">containers key</string>
+    <string name="sauces_key">sauces key</string>
+    <string name="toppings_key">toppings key</string>
+    <string name="listview_order_items_key">listview order items key</string>
+    <string name="listview_containers_key">listview containers key</string>
+    <string name="gridview_flavors_key">gridview flavors key</string>
+    <string name="listview_toppings_key">listview toppings key</string>
     <!-- Location activity strings -->
     <string name="location_order_label">Tu pedido</string>
 </resources>

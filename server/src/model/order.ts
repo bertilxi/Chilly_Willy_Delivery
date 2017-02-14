@@ -1,7 +1,7 @@
 import mongoose = require("mongoose");
 
 import { IFlavor, FlavorSchema } from './flavor';
-import { IAddin, AddinSchema } from './addin';
+import { ITopping, ToppingSchema } from './topping';
 import { IContainerType, ContainerTypeSchema } from './container-type';
 import { ISauce, SauceSchema } from './sauce';
 import { ILocation, LocationSchema } from './location';
@@ -18,7 +18,7 @@ export interface IOrderItem {
     containerType: IContainerType;
     flavors: Array<IFlavor>;
     sauce: ISauce;
-    addins: Array<IAddin>;
+    toppings: Array<ITopping>;
     quantity: number;
     delivered: boolean;
 }
@@ -31,7 +31,7 @@ export var OrderItemSchema = new mongoose.Schema({
     containerType: ContainerTypeSchema,
     flavors: [FlavorSchema],
     sauce: SauceSchema,
-    addins: [AddinSchema],
+    toppings: [ToppingSchema],
     quantity: Number,
     delivered: Boolean
 });
