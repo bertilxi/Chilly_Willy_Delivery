@@ -4,7 +4,7 @@ import mongoose = require('mongoose');
 // models
 import { Flavor } from './model/flavor';
 import { ContainerType } from './model/container-type';
-import { Addin } from './model/addin';
+import { Topping } from './model/topping';
 import { Sauce } from './model/sauce';
 
 import { Order } from './model/order';
@@ -12,7 +12,7 @@ import { Order } from './model/order';
 import { flavors } from './data/flavors';
 import { containerTypes } from './data/container-types';
 import { sauces } from './data/sauce';
-import { addins } from './data/addins';
+import { toppings } from './data/toppings';
 
 export class DbHelper {
     constructor() {
@@ -24,7 +24,7 @@ export class DbHelper {
         Flavor.remove({}, () => { });
         ContainerType.remove({}, () => { });
         Sauce.remove({}, () => { });
-        Addin.remove({}, () => { });
+        Topping.remove({}, () => { });
         Order.remove({}, () => { });
 
     }
@@ -34,7 +34,7 @@ export class DbHelper {
         flavors.forEach(x => { new Flavor(x).save(); });
         containerTypes.forEach(x => { new ContainerType(x).save(); });
         sauces.forEach(x => { new Sauce(x).save() });
-        addins.forEach(x => { new Addin(x).save(); });
+        toppings.forEach(x => { new Topping(x).save(); });
 
     }
 }

@@ -4,13 +4,13 @@ export var toppings: Array<ITopping> = [];
 
 toppings.push({
     label: "Rocklets",
-    imgURL: ""
+    imgURL: "rocklets.jpg"
 });
 toppings.push({
     label: "Chispas de chocolate",
-    imgURL: ""
+    imgURL: "chispas_de_chocolate.jpg"
 });
 toppings.push({
     label: "Gomitas",
-    imgURL: ""
+    imgURL: "gomitas.jpg"
 });

@@ -4,7 +4,7 @@ import { DbHelper } from './db';
 // metadata
 import { Flavor } from './model/flavor';
 import { ContainerType } from './model/container-type';
-import { Addin } from './model/addin';
+import { Topping } from './model/topping';
 import { Sauce } from './model/sauce';
 // order
 import { Order } from './model/order';
@@ -51,8 +51,8 @@ export class Controller {
         });
     }
 
-    public getAddins(req, res) {
-        Addin.find((error, data) => {
+    public getToppings(req, res) {
+        Topping.find((error, data) => {
             if (error) {
                 return res.send(500, error.message)
             }
@@ -92,7 +92,7 @@ export class Controller {
                     }
                 }).then(data => {
                     mData.push(data);
-                    Addin.find((error, data) => {
+                    Topping.find((error, data) => {
                         if (error) {
                             return res.send(500, error.message)
                         }

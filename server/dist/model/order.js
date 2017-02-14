@@ -1,7 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 const flavor_1 = require("./flavor");
-const addin_1 = require("./addin");
+const topping_1 = require("./topping");
 const container_type_1 = require("./container-type");
 const sauce_1 = require("./sauce");
 const location_1 = require("./location");
@@ -9,7 +9,7 @@ exports.OrderItemSchema = new mongoose.Schema({
     containerType: container_type_1.ContainerTypeSchema,
     flavors: [flavor_1.FlavorSchema],
     sauce: sauce_1.SauceSchema,
-    addins: [addin_1.AddinSchema],
+    toppings: [topping_1.ToppingSchema],
     quantity: Number,
     delivered: Boolean
 });

@@ -41,7 +41,7 @@ export class Server {
         this.router.route('/metadata').get(this.ctrl.getMetadata)
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
-        this.router.route('/addins').get(this.ctrl.getAddins);
+        this.router.route('/toppings').get(this.ctrl.getToppings);
         this.router.route('/sauces').get(this.ctrl.getSauces);
 
         //

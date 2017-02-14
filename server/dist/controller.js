@@ -2,7 +2,7 @@
 const db_1 = require("./db");
 const flavor_1 = require("./model/flavor");
 const container_type_1 = require("./model/container-type");
-const addin_1 = require("./model/addin");
+const topping_1 = require("./model/topping");
 const sauce_1 = require("./model/sauce");
 const order_1 = require("./model/order");
 const review_1 = require("./model/review");
@@ -41,8 +41,8 @@ class Controller {
             res.status(200).jsonp(data);
         });
     }
-    getAddins(req, res) {
-        addin_1.Addin.find((error, data) => {
+    getToppings(req, res) {
+        topping_1.Topping.find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
             }
@@ -77,7 +77,7 @@ class Controller {
                     }
                 }).then(data => {
                     mData.push(data);
-                    addin_1.Addin.find((error, data) => {
+                    topping_1.Topping.find((error, data) => {
                         if (error) {
                             return res.send(500, error.message);
                         }

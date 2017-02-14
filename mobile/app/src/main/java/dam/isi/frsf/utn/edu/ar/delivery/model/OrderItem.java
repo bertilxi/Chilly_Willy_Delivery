@@ -18,12 +18,12 @@ public class OrderItem implements Serializable {
     @SerializedName("sauce")
     @Expose
     private Sauce sauce;
-    @SerializedName("addins")
+    @SerializedName("toppings")
     @Expose
-    private List<Addin> addins = null;
+    private List<Topping> toppings = null;
     @SerializedName("quantity")
     @Expose
-    private Integer quantity;
+    private Integer quantity = 1;
     @SerializedName("delivered")
     @Expose
     private Boolean delivered;
@@ -67,16 +67,16 @@ public class OrderItem implements Serializable {
         return this;
     }
 
-    public List<Addin> getAddins() {
-        return addins;
+    public List<Topping> getToppings() {
+        return toppings;
     }
 
-    public void setAddins(List<Addin> addins) {
-        this.addins = addins;
+    public void setToppings(List<Topping> toppings) {
+        this.toppings = toppings;
     }
 
-    public OrderItem withAddins(List<Addin> addins) {
-        this.addins = addins;
+    public OrderItem withToppings(List<Topping> toppings) {
+        this.toppings = toppings;
         return this;
     }
 

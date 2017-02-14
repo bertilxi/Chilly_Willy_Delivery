@@ -23,4 +23,11 @@
             android:title="Listo"
             app:showAsAction="ifRoom"/>
     </group>
+    <group android:id="@+id/group_addins_menu"
+        android:visible="false">
+        <item
+            android:id="@+id/addins_ready"
+            android:title="Listo"
+            app:showAsAction="ifRoom"/>
+    </group>
 </menu>

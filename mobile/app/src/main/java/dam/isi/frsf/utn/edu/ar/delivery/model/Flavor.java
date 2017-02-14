@@ -46,4 +46,9 @@ public class Flavor implements Serializable {
     public String getCompleteImgURL() {
         return appConstants.staticPath + "flavorImages/" + imgURL;
     }
+
+    @Override
+    public String toString() {
+        return label;
+    }
 }

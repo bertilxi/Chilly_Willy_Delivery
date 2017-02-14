@@ -7,13 +7,14 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.future.ResponseFuture;
 
 import java.util.List;
-import java.util.Set;
 
+import dam.isi.frsf.utn.edu.ar.delivery.model.Topping;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Review;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Sauce;
 
 import static dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.deviceID;
 import static dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.localPath;
@@ -41,14 +42,14 @@ public class DataService {
         return Ion.with(context).load(path).as(new TypeToken<List<ContainerType>>() {});
     }
 
-    public ResponseFuture<Set<Flavor>> getAddins() throws Exception {
-        String path = localPath + "addins";
-        return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {});
+    public ResponseFuture<List<Topping>> getToppings() throws Exception {
+        String path = localPath + "toppings";
+        return Ion.with(context).load(path).as(new TypeToken<List<Topping>>() {});
     }
 
-    public ResponseFuture<Set<Flavor>> getSauces() throws Exception {
+    public ResponseFuture<List<Sauce>> getSauces() throws Exception {
         String path = localPath + "sauces";
-        return Ion.with(context).load(path).as(new TypeToken<Set<Flavor>>() {});
+        return Ion.with(context).load(path).as(new TypeToken<List<Sauce>>() {});
     }
 
     public ResponseFuture<String> addOrder(Order order) throws Exception {

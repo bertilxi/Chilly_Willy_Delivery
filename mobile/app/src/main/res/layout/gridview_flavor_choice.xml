@@ -8,4 +8,5 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
-        android:id="@+id/gridview_flavor_choice" />
+        android:choiceMode="multipleChoice"
+        android:id="@+id/gridview_flavor_choice"/>
