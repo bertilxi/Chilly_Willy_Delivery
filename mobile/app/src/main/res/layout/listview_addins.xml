@@ -13,7 +13,7 @@
         android:paddingBottom="15dp"
         android:paddingEnd="15dp"
         android:id="@+id/sauces_title"
-        android:background="@color/lightPink"
+        android:background="@color/lightBlue"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <ListView
@@ -23,7 +23,8 @@
         android:choiceMode="singleChoice"
         android:layout_below="@id/sauces_title"
         android:layout_above="@+id/toppings_title"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:listSelector="@color/pressed_color"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
         android:paddingEnd="15dp"
         android:id="@+id/toppings_title"
         android:text="Tops"
-        android:background="@color/lightPink"
+        android:background="@color/lightBlue"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <ListView

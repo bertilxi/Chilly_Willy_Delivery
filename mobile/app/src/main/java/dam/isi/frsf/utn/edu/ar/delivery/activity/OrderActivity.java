@@ -1,9 +1,11 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,7 +37,6 @@ import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Addin;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
-import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.model.OrderItem;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Sauce;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Topping;
@@ -44,11 +45,11 @@ import dam.isi.frsf.utn.edu.ar.delivery.utility.Formatter;
 
 public class OrderActivity extends AppCompatActivity {
 
-    List<OrderItem> orderItems = null;
-    List<Flavor> flavors = new ArrayList<>();
+    List<OrderItem> orderItems;
+    List<Flavor> flavors;
     List<ContainerType> containers;
-    List<Sauce> sauces = new ArrayList<>();
-    List<Topping> toppings = new ArrayList<>();
+    List<Sauce> sauces;
+    List<Topping> toppings;
     ListView listViewItems;
     ListView listviewToppings;
     ListView listviewSauces;
@@ -58,6 +59,7 @@ public class OrderActivity extends AppCompatActivity {
     int contentState = -1;
     OrderItem itemInConstruction;
     DataService dataService;
+    TextView textViewTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class OrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         insertPoint = (ViewGroup) findViewById(R.id.view_insert_point);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+/**        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +81,7 @@ public class OrderActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+**/
         dataService = new DataService(OrderActivity.this);
         orderItems = new ArrayList<>();
 
@@ -150,6 +152,9 @@ public class OrderActivity extends AppCompatActivity {
                 return true;
 
             case R.id.container_ready:
+                if(listViewContainers.getAdapter() == null){
+                    return true;
+                }
                 int posContainer = listViewContainers.getCheckedItemPosition();
                 ContainerType selectedContainer = (ContainerType) listViewContainers.getAdapter().getItem(posContainer);
                 if(selectedContainer == null) {
@@ -192,6 +197,9 @@ public class OrderActivity extends AppCompatActivity {
                 return true;
 
             case R.id.addins_ready:
+                if(listviewSauces.getAdapter() == null){
+                    return true;
+                }
                 int posSauce = listviewSauces.getCheckedItemPosition();
                 Sauce selectedSauce = (Sauce) listviewSauces.getAdapter().getItem(posSauce);
                 if(selectedSauce.getLabel() == getString(R.string.no_sauce_label)){
@@ -230,6 +238,9 @@ public class OrderActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("TU PEDIDO");
         invalidateOptionsMenu();
+
+        textViewTotal = (TextView) orderItemsView.findViewById(R.id.total);
+        calculateTotal();
     }
 
     private void loadAddins() {
@@ -242,29 +253,57 @@ public class OrderActivity extends AppCompatActivity {
         listviewToppings = (ListView) addinsView.findViewById(R.id.listview_toppings);
 
         DataService dataService = new DataService(OrderActivity.this);
-        try {
-            dataService.getSauces().setCallback(new FutureCallback<List<Sauce>>() {
-                @Override
-                public void onCompleted(Exception e, List<Sauce> result) {
-                    sauces.add(new Sauce().withImgURL("").withLabel(getString(R.string.no_sauce_label)));
-                    sauces.addAll(result);
-                    AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
-                    listviewSauces.setAdapter(saucesAdapter);
-                }
-            });
-            dataService.getToppings().setCallback(new FutureCallback<List<Topping>>() {
-                @Override
-                public void onCompleted(Exception e, List<Topping> result) {
-                    Log.d("MIRAME", "onCompleted: result está vacío? "+(result==null?"SI":"NO"));
-                    toppings = new ArrayList<>();
-                    toppings.addAll(result);
-                    AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
-                    listviewToppings.setAdapter(toppingsAdapter);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        if(sauces != null){
+            AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
+            listviewSauces.setAdapter(saucesAdapter);
+        } else {
+            try {
+                dataService.getSauces().setCallback(new FutureCallback<List<Sauce>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Sauce> result) {
+                        sauces = new ArrayList<>();
+                        sauces.add(new Sauce().withImgURL("").withLabel(getString(R.string.no_sauce_label)));
+                        sauces.addAll(result);
+                        AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
+                        listviewSauces.setAdapter(saucesAdapter);
+                        listviewSauces.setItemChecked(0,true);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        if (toppings != null){
+            AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
+            listviewToppings.setAdapter(toppingsAdapter);
+        } else {
+            try {
+                dataService.getToppings().setCallback(new FutureCallback<List<Topping>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Topping> result) {
+                        Log.d("MIRAME", "onCompleted: result está vacío? "+(result==null?"SI":"NO"));
+                        toppings = result;
+                        AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
+                        listviewToppings.setAdapter(toppingsAdapter);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        listviewToppings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(gridViewFlavors.isItemChecked(i)) {
+                    view.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
+                } else {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                }
+            }
+        });
 
         getSupportActionBar().setTitle("MEJORÁ TU HELADO");
         invalidateOptionsMenu();
@@ -283,6 +322,11 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void fillListViewContainers() {
+        if(containers != null){
+            ContainersAdapter containersAdapter = new ContainersAdapter(containers);
+            listViewContainers.setAdapter(containersAdapter);
+            return;
+        }
         try {
             dataService.getContainers().setCallback(new FutureCallback<List<ContainerType>>() {
                 @Override
@@ -292,8 +336,7 @@ public class OrderActivity extends AppCompatActivity {
                         fillListViewContainers();
                         return;
                     }
-                    containers = new ArrayList<>();
-                    containers.addAll(result);
+                    containers = result;
                     ContainersAdapter containersAdapter = new ContainersAdapter(containers);
                     listViewContainers.setAdapter(containersAdapter);
                 }
@@ -323,17 +366,22 @@ public class OrderActivity extends AppCompatActivity {
         });
 
         DataService dataService = new DataService(OrderActivity.this);
-        try {
-            dataService.getFlavors().setCallback(new FutureCallback<List<Flavor>>() {
-                @Override
-                public void onCompleted(Exception e, List<Flavor> result) {
-                    flavors.addAll(result);
-                    FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
-                    gridViewFlavors.setAdapter(flavorsAdapter);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(flavors != null){
+            FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
+            gridViewFlavors.setAdapter(flavorsAdapter);
+        } else {
+            try {
+                dataService.getFlavors().setCallback(new FutureCallback<List<Flavor>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Flavor> result) {
+                        flavors = result;
+                        FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
+                        gridViewFlavors.setAdapter(flavorsAdapter);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         getSupportActionBar().setTitle("ELEGÍ LOS SABORES");
         invalidateOptionsMenu();
@@ -499,6 +547,7 @@ public class OrderActivity extends AppCompatActivity {
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                         int myPosition = (int) picker.getTag();
                         getItem(myPosition).setQuantity(newVal);
+                        calculateTotal();
                     }
                 });
             }
@@ -507,7 +556,7 @@ public class OrderActivity extends AppCompatActivity {
                     .fitCenter()
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.error)
-                    .load(this.getItem(position).getContainerType().getImgURL());
+                    .load(this.getItem(position).getContainerType().getCompleteImgURL());
             holder.textViewContainer.setText(this.getItem(position).getContainerType().getLabel());
             holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
             List<Addin> addins = new ArrayList<Addin>();
@@ -535,6 +584,14 @@ public class OrderActivity extends AppCompatActivity {
                 this.numberPickerQuantity = (NumberPicker) row.findViewById(R.id.item_quantity);
             }
         }
+    }
+
+    private void calculateTotal() {
+        int totalCents = 0;
+        for(OrderItem o: orderItems){
+            totalCents += o.getContainerType().getPriceInCents() * o.getQuantity();
+        }
+        textViewTotal.setText(NumberFormat.getCurrencyInstance(Locale.US).format( totalCents * 0.01 ));
     }
 
     private void processSavedState(Bundle savedInstanceState) {
