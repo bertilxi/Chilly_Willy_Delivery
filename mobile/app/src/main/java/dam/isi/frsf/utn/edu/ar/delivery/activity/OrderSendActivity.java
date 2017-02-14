@@ -14,6 +14,8 @@ import com.koushikdutta.async.future.FutureCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
@@ -47,6 +49,10 @@ public class OrderSendActivity extends AppCompatActivity {
                 CheckedTextView checkedTextViewHasChange = (CheckedTextView) findViewById(R.id.checkedTextView_hasChange);
                 Boolean hasChange = checkedTextViewHasChange.isChecked();
                 order.setHasChange(hasChange);
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                Date today = Calendar.getInstance().getTime();
+                String orderDate = df.format(today);
+                order.setRequestTime(orderDate);
                 DataService dataService = new DataService(OrderSendActivity.this);
                 try {
                     dataService.addOrder(order).setCallback(new FutureCallback<String>() {
@@ -58,7 +64,6 @@ public class OrderSendActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
 
                 finish();
             }
