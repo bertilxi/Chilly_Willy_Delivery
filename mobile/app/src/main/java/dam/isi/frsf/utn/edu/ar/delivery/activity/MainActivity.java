@@ -17,6 +17,8 @@ import android.widget.Toast;
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants;
 
+import static dam.isi.frsf.utn.edu.ar.delivery.task.AlarmSetter.configureAlarm;
+
 public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("HardwareIds")
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        configureAlarm(getApplicationContext());
     }
 
     private void gotoOrderActivity() {
@@ -87,5 +90,4 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
     }
-
 }
