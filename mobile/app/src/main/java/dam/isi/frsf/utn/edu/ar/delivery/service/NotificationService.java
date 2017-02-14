@@ -10,11 +10,6 @@ import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
 
 
 public class NotificationService extends IntentService {
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
 
     private DataService data;
 

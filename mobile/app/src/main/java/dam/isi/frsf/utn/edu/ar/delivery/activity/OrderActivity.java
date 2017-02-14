@@ -214,6 +214,7 @@ public class OrderActivity extends AppCompatActivity {
                 row = inflater.inflate(R.layout.listview_containers_row, parent, false);
             }
             ContainerHolder holder = (ContainerHolder) row.getTag();
+
             if(holder == null) {
                 holder = new ContainerHolder(row);
                 row.setTag(holder);
