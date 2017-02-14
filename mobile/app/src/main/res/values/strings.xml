@@ -23,4 +23,5 @@
     <string name="listview_toppings_key">listview toppings key</string>
     <!-- Location activity strings -->
     <string name="location_order_label">Tu pedido</string>
+    <string name="title_activity_order_send">OrderSendActivity</string>
 </resources>

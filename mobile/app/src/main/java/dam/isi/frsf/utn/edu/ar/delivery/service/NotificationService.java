@@ -28,35 +28,4 @@ public class NotificationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
     }
-
-    private class updateDeals extends AsyncTask<Void, Void, Deal> {
-
-        @Override
-        protected void onPostExecute(Deal result) {
-
-        }
-
-        @Override
-        protected Deal doInBackground(Void... params) {
-            try {
-                data.getLastDeal().setCallback(new FutureCallback<Deal>() {
-                    @Override
-                    public void onCompleted(Exception e, Deal result) {
-
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
-    }
 }
