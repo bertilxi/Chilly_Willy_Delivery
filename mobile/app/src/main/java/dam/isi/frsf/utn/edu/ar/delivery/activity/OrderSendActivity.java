@@ -43,6 +43,17 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
         order = (Order) extras.get(getString(R.string.order_key));
 
         View sendButton = findViewById(R.id.send_button);
+        checkedTextViewHasChange = (CheckedTextView) findViewById(R.id.checkedTextView_hasChange);
+        checkedTextViewHasChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkedTextViewHasChange.isChecked())
+                    checkedTextViewHasChange.setChecked(false);
+                else
+                    checkedTextViewHasChange.setChecked(true);
+
+            }
+        });
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

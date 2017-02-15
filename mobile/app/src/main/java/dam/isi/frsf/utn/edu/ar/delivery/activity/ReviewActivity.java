@@ -48,7 +48,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         PackageManager pm = ReviewActivity.this.getPackageManager();
         cameraAvailable = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
-        if (cameraAvailable) {
+        if (!cameraAvailable) {
             imageViewReview.setVisibility(View.INVISIBLE);
             addPicButton.setVisibility(View.INVISIBLE);
             return;
