@@ -24,9 +24,9 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <TextView
             android:id="@+id/phone_title"
@@ -52,14 +52,17 @@
 
         <CheckedTextView
             android:id="@+id/checkedTextView_hasChange"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/phone_edittext"
             android:layout_below="@+id/phone_edittext"
             android:layout_marginTop="31dp"
+            android:gravity="center"
             android:text="Pago con cambio"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_alignEnd="@+id/phone_edittext" />
 
         <LinearLayout
             android:id="@+id/send_button"

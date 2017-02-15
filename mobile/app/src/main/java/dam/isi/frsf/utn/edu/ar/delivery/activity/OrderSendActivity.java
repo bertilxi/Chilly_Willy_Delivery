@@ -25,6 +25,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 public class OrderSendActivity extends AppCompatActivity implements DialogMapFragment.OnCompleteListener  {
 
     Order order;
+    CheckedTextView checkedTextViewHasChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,17 @@ public class OrderSendActivity extends AppCompatActivity implements DialogMapFra
         order = (Order) extras.get(getString(R.string.order_key));
 
         View sendButton = findViewById(R.id.send_button);
+        checkedTextViewHasChange = (CheckedTextView) findViewById(R.id.checkedTextView_hasChange);
+        checkedTextViewHasChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkedTextViewHasChange.isChecked())
+                    checkedTextViewHasChange.setChecked(false);
+                else
+                    checkedTextViewHasChange.setChecked(true);
+
+            }
+        });
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,7 +59,6 @@ public class OrderSendActivity extends AppCompatActivity implements DialogMapFra
                     return;
                 }
                 order.setPhone(phone);
-                CheckedTextView checkedTextViewHasChange = (CheckedTextView) findViewById(R.id.checkedTextView_hasChange);
                 Boolean hasChange = checkedTextViewHasChange.isChecked();
                 order.setHasChange(hasChange);
                 DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
