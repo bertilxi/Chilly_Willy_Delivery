@@ -5,11 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.Switch;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.text.DateFormat;
@@ -22,9 +27,10 @@ import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
-public class OrderSendActivity extends AppCompatActivity implements DialogMapFragment.OnCompleteListener  {
+public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Order order;
+    private Order order;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +52,17 @@ public class OrderSendActivity extends AppCompatActivity implements DialogMapFra
                     phoneEditText.setError("Ingrese un numero de telefono, por favor");
                     return;
                 }
+
+                Location location = order.getDestination();
+
+                if(location == null){
+                    phoneEditText.setError("Mantenga presionado sobre su direccion e intente nuevamente");
+                    return;
+                }
+
                 order.setPhone(phone);
-                CheckedTextView checkedTextViewHasChange = (CheckedTextView) findViewById(R.id.checkedTextView_hasChange);
-                Boolean hasChange = checkedTextViewHasChange.isChecked();
+                Switch mSwitch = (Switch) findViewById(R.id.switch_has_change);
+                Boolean hasChange = mSwitch.isChecked();
                 order.setHasChange(hasChange);
                 DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date today = Calendar.getInstance().getTime();
@@ -70,24 +84,37 @@ public class OrderSendActivity extends AppCompatActivity implements DialogMapFra
             }
         });
 
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map_destination);
+        mapFragment.getMapAsync(OrderSendActivity.this);
 
-        Button buttonAddress = (Button) findViewById(R.id.button_address);
-
-        buttonAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogMapFragment mapFragment = new DialogMapFragment();
-                mapFragment.show(getSupportFragmentManager(), "map");
-            }
-        });
 
     }
 
     @Override
-    public void onComplete(LatLng latLng) {
-        Location mLocation = new Location()
-                .withLatitude(latLng.latitude)
-                .withLongitude(latLng.longitude);
-        order.setDestination(mLocation);
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        LatLng santaFe = new LatLng(-31.619276, -60.683970);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(santaFe, 13);
+        mMap.animateCamera(cameraUpdate);
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title("Tu ubicación"));
+                
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+                mMap.animateCamera(cameraUpdate);
+
+                order.withDestination(new Location()
+                        .withLatitude(latLng.latitude)
+                        .withLongitude(latLng.longitude));
+            }
+        });
+
     }
 }

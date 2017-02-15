@@ -25,77 +25,82 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_location">
+
+        <fragment
+            android:id="@+id/map_destination"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
-        <TextView
-            android:id="@+id/phone_title"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="17dp"
-            android:text="Teléfono"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:background="@drawable/button_background">
 
-        <EditText
-            android:id="@+id/phone_edittext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/phone_title"
-            android:layout_below="@+id/phone_title"
-            android:ems="10"
-            android:inputType="phone" />
+            <EditText
+                android:id="@+id/phone_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:ems="10"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:textColor="@android:color/primary_text_dark" />
 
-        <CheckedTextView
-            android:id="@+id/checkedTextView_hasChange"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/phone_edittext"
-            android:layout_below="@+id/phone_edittext"
-            android:layout_marginTop="31dp"
-            android:text="Pago con cambio"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textSize="18sp" />
+            <Switch
+                android:id="@+id/switch_has_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phone_edittext"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:padding="10dp"
+                android:text="Pago con cambio"
+                android:textColor="@android:color/primary_text_dark"
+                android:textSize="18sp" />
 
-        <LinearLayout
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:id="@+id/send_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_alignParentStart="true"
             android:background="@drawable/button_background"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/send" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/imageView"
                 android:text="ENVIAR"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/primary_text_dark" />
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/send" />
-
-        </LinearLayout>
-
-        <Button
-            android:text="Donde queres el pedido?"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="85dp"
-            android:id="@+id/button_address"
-            android:layout_below="@+id/checkedTextView_hasChange"
-            android:layout_centerHorizontal="true" />
-
+        </RelativeLayout>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
