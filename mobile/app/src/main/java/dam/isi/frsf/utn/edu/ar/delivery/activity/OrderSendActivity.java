@@ -1,6 +1,5 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.text.DateFormat;
@@ -18,10 +18,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Location;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.service.DataService;
 
-public class OrderSendActivity extends AppCompatActivity {
+public class OrderSendActivity extends AppCompatActivity implements DialogMapFragment.OnCompleteListener  {
 
     Order order;
 
@@ -41,7 +42,7 @@ public class OrderSendActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText phoneEditText = (EditText) findViewById(R.id.phone_edittext);
                 String phone = phoneEditText.getText().toString();
-                if(phone == null || phone.isEmpty()){
+                if (phone == null || phone.isEmpty()) {
                     phoneEditText.setError("Ingrese un numero de telefono, por favor");
                     return;
                 }
@@ -49,7 +50,7 @@ public class OrderSendActivity extends AppCompatActivity {
                 CheckedTextView checkedTextViewHasChange = (CheckedTextView) findViewById(R.id.checkedTextView_hasChange);
                 Boolean hasChange = checkedTextViewHasChange.isChecked();
                 order.setHasChange(hasChange);
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date today = Calendar.getInstance().getTime();
                 String orderDate = df.format(today);
                 order.setRequestTime(orderDate);
@@ -58,7 +59,7 @@ public class OrderSendActivity extends AppCompatActivity {
                     dataService.addOrder(order).setCallback(new FutureCallback<String>() {
                         @Override
                         public void onCompleted(Exception e, String result) {
-                            Log.d("MIRAME", "onAddOrderCompleted: "+ result);
+                            Log.d("MIRAME", "onAddOrderCompleted: " + result);
                         }
                     });
                 } catch (Exception e) {
@@ -68,6 +69,25 @@ public class OrderSendActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        Button buttonAddress = (Button) findViewById(R.id.button_address);
+
+        buttonAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogMapFragment mapFragment = new DialogMapFragment();
+                mapFragment.show(getSupportFragmentManager(), "map");
+            }
+        });
+
     }
 
+    @Override
+    public void onComplete(LatLng latLng) {
+        Location mLocation = new Location()
+                .withLatitude(latLng.latitude)
+                .withLongitude(latLng.longitude);
+        order.setDestination(mLocation);
+    }
 }

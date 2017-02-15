@@ -127,7 +127,10 @@ export class Controller {
         let order = new Order({
             items: req.body.items,
             destination: req.body.destination,
-            lastLocation: req.body.lastLocation,
+            lastLocation: {
+                latitude: -31.619276,
+                longitude: -60.683970
+            },
             requestTime: req.body.requestTime,
             deviceID: req.params.deviceID,
             phone: req.params.phone,
