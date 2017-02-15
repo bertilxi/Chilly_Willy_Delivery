@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,8 +69,8 @@ public class LocationActivity extends AppCompatActivity implements
 
                     final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                             .findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(LocationActivity.this);
                     mapFragment.getView().setVisibility(View.GONE);
+                    mapFragment.getMapAsync(LocationActivity.this);
 
                     if (result == null) {
                         noOrders.show();
@@ -89,14 +90,20 @@ public class LocationActivity extends AppCompatActivity implements
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                             Location destination = orders.get(position).getDestination();
                             Location currentLocation = orders.get(position).getLastLocation();
-
-                            LatLng destinationLatLng =
-                                    new LatLng(destination.getLatitude(), destination.getLongitude());
-                            LatLng currentLocationLatLng =
-                                    new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-
+                            LatLng destinationLatLng, currentLocationLatLng;
+                            try {
+                                destinationLatLng =
+                                        new LatLng(destination.getLatitude(), destination.getLongitude());
+                                currentLocationLatLng =
+                                        new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(LocationActivity.this,"Error: no es posible visualizar el mapa",Toast.LENGTH_SHORT);
+                                return;
+                            }
 
                             mapFragment.getView().setVisibility(View.VISIBLE);
                             updateMap(destinationLatLng, currentLocationLatLng);

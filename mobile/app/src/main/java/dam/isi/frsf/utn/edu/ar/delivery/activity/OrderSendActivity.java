@@ -107,6 +107,7 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
             @Override
             public void onMapClick(LatLng latLng) {
 
+                mMap.clear();
                 mMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title("Tu ubicación"));
@@ -119,6 +120,5 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
                         .withLongitude(latLng.longitude));
             }
         });
-
     }
 }

@@ -18,7 +18,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/btnOrder"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
+        tools:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:layout_height="wrap_content" />
 
@@ -30,7 +31,8 @@
         android:layout_below="@+id/btnOrder"
         android:layout_centerHorizontal="true"
         android:id="@+id/btnLocation"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
+        tools:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white" />
 
     <Button
@@ -42,7 +44,8 @@
         android:layout_alignRight="@+id/btnLocation"
         android:layout_alignEnd="@+id/btnLocation"
         android:id="@+id/btnReview"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
+        tools:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

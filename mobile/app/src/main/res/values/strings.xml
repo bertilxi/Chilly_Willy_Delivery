@@ -26,5 +26,5 @@
     <string name="title_activity_order_send">Teléfono</string>
     <string name="order_key">orden</string>
     <!-- Paths -->
-    <string name="local_path">http://172.10.2.153:8080/</string>
+    <string name="local_path">http://192.168.0.16:8080/</string>
 </resources>

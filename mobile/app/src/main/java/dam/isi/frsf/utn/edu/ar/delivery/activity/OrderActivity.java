@@ -147,11 +147,11 @@ public class OrderActivity extends AppCompatActivity {
                     return true;
                 }
                 int posContainer = listViewContainers.getCheckedItemPosition();
-                ContainerType selectedContainer = (ContainerType) listViewContainers.getAdapter().getItem(posContainer);
-                if(selectedContainer == null) {
+                if(posContainer == -1) {
                     Toast.makeText(OrderActivity.this, "Selecciona un recipiente", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+                ContainerType selectedContainer = (ContainerType) listViewContainers.getAdapter().getItem(posContainer);
                 itemInConstruction = new OrderItem();
                 itemInConstruction.setContainerType(selectedContainer);
                 loadFlavors();
@@ -167,6 +167,13 @@ public class OrderActivity extends AppCompatActivity {
                         selectedFlavors.add(flavors.get(i));
                         selectedFlavorsQuantity++;
                     }
+                }
+                if(selectedFlavorsQuantity == 0) {
+                    Toast.makeText(OrderActivity.this,
+                            "Elegí un sabor antes de continuar",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                    return true;
                 }
                 if (selectedFlavorsQuantity > itemInConstruction.getContainerType().getMaxFlavors()) {
                     Toast.makeText(OrderActivity.this,
@@ -193,9 +200,6 @@ public class OrderActivity extends AppCompatActivity {
                 }
                 int posSauce = listviewSauces.getCheckedItemPosition();
                 Sauce selectedSauce = (Sauce) listviewSauces.getAdapter().getItem(posSauce);
-                if(selectedSauce.getLabel() == getString(R.string.no_sauce_label)){
-                    selectedSauce = null;
-                }
                 List<Topping> selectedToppings = new ArrayList<>();
                 SparseBooleanArray checkedTopping = listviewToppings.getCheckedItemPositions();
                 int selectedToppingsQuantity = 0;
@@ -410,13 +414,11 @@ public class OrderActivity extends AppCompatActivity {
                 holder = new ToppingHolder(row);
                 row.setTag(holder);
             }
-            if(this.getItem(position).getLabel() != getString(R.string.no_sauce_label)){
-                Ion.with(holder.toppingPic)
-                        .fitCenter()
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.error)
-                        .load(this.getItem(position).getCompleteImgURL());
-            }
+            Ion.with(holder.toppingPic)
+                    .fitCenter()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
+                    .load(this.getItem(position).getCompleteImgURL());
             holder.textViewName.setText(this.getItem(position).getLabel());
 
             return row;
@@ -606,8 +608,10 @@ public class OrderActivity extends AppCompatActivity {
             holder.textViewContainer.setText(this.getItem(position).getContainerType().getLabel());
             holder.textViewFlavors.setText(Formatter.buildStringFromList(this.getItem(position).getFlavors()));
             List<Addin> addins = new ArrayList<Addin>();
-            addins.add(this.getItem(position).getSauce());
             addins.addAll(this.getItem(position).getToppings());
+            if(this.getItem(position).getSauce().getLabel() != getString(R.string.no_sauce_label)) {
+                addins.add(this.getItem(position).getSauce());
+            }
             holder.textViewAddins.setText(Formatter.buildStringFromList(addins));
             holder.numberPickerQuantity.setValue(this.getItem(position).getQuantity());
             holder.numberPickerQuantity.setTag(position);
