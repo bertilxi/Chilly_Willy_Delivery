@@ -18,6 +18,8 @@ exports.OrderSchema = new mongoose.Schema({
     items: [exports.OrderItemSchema],
     destination: location_1.LocationSchema,
     lastLocation: location_1.LocationSchema,
-    requestTime: String
+    requestTime: String,
+    phone: String,
+    hasChange: String,
 });
 exports.Order = mongoose.model("Order", exports.OrderSchema);

@@ -1,10 +1,9 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,6 +37,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.constants.OrderActivityConstants;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Addin;
 import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor;
+import dam.isi.frsf.utn.edu.ar.delivery.model.Order;
 import dam.isi.frsf.utn.edu.ar.delivery.model.OrderItem;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Sauce;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Topping;
@@ -72,16 +73,6 @@ public class OrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         insertPoint = (ViewGroup) findViewById(R.id.view_insert_point);
 
-/**        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-**/
         dataService = new DataService(OrderActivity.this);
         orderItems = new ArrayList<>();
 
@@ -241,6 +232,18 @@ public class OrderActivity extends AppCompatActivity {
 
         textViewTotal = (TextView) orderItemsView.findViewById(R.id.total);
         calculateTotal();
+
+        Button orderReadyButton = (Button) findViewById(R.id.order_ready_button);
+        orderReadyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Order orden = new Order().withItems(orderItems);
+                Intent intent = new Intent(OrderActivity.this, OrderSendActivity.class);
+                intent.putExtra(getString(R.string.order_key),orden);
+                startActivityForResult(intent,1);
+
+            }
+        });
     }
 
     private void loadAddins() {

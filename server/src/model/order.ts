@@ -12,6 +12,8 @@ export interface IOrder {
     destination: ILocation;
     lastLocation: ILocation;
     requestTime: string;
+    phone: string;
+    hasChange: boolean;
 }
 
 export interface IOrderItem {
@@ -41,7 +43,9 @@ export var OrderSchema = new mongoose.Schema({
     items: [OrderItemSchema],
     destination: LocationSchema,
     lastLocation: LocationSchema,
-    requestTime: String
+    requestTime: String,
+    phone: String,
+    hasChange: String,
 });
 
 export var Order = mongoose.model<IOrderModel>("Order", OrderSchema);

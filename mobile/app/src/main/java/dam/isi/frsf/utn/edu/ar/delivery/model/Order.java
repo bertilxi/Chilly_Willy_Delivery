@@ -15,12 +15,18 @@ public class Order implements Serializable {
     @SerializedName("lastLocation")
     @Expose
     private Location lastLocation;
-    @SerializedName("requestTime")
-    @Expose
-    private String requestTime;
     @SerializedName("orderItems")
     @Expose
     private List<OrderItem> orderItems = null;
+    @SerializedName("requestTime")
+    @Expose
+    private String requestTime;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
+    @SerializedName("hasChange")
+    @Expose
+    private Boolean hasChange;
 
     public Location getDestination() {
         return destination;
@@ -74,4 +80,19 @@ public class Order implements Serializable {
         return this;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Boolean getHasChange() {
+        return hasChange;
+    }
+
+    public void setHasChange(Boolean hasChange) {
+        this.hasChange = hasChange;
+    }
 }
