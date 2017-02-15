@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 
@@ -52,12 +53,13 @@ public class DialogMapFragment extends DialogFragment implements
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
 
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 mLatLng = latLng;
+                googleMap.addMarker(new MarkerOptions().title("Tu dirección").position(mLatLng));
             }
         });
 
