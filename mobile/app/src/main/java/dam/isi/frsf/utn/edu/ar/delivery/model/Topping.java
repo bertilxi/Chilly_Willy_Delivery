@@ -17,6 +17,8 @@ public class Topping implements Serializable, Addin {
     @Expose
     private String imgURL;
 
+    private Boolean checked;
+
     public String getLabel() {
         return label;
     }

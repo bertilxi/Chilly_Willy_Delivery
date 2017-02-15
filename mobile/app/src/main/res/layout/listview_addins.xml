@@ -24,8 +24,7 @@
         android:choiceMode="singleChoice"
         android:layout_below="@id/sauces_title"
         android:layout_above="@+id/toppings_title"
-        android:layout_alignParentStart="true"
-        android:listSelector="@color/pressed_color"/>
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="match_parent"

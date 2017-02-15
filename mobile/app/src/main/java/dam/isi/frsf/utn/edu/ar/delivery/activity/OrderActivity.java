@@ -258,7 +258,7 @@ public class OrderActivity extends AppCompatActivity {
         DataService dataService = new DataService(OrderActivity.this);
 
         if(sauces != null){
-            AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
+            SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
             listviewSauces.setAdapter(saucesAdapter);
         } else {
             try {
@@ -268,7 +268,7 @@ public class OrderActivity extends AppCompatActivity {
                         sauces = new ArrayList<>();
                         sauces.add(new Sauce().withImgURL("").withLabel(getString(R.string.no_sauce_label)));
                         sauces.addAll(result);
-                        AddinsAdapter saucesAdapter = new AddinsAdapter(sauces);
+                        SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
                         listviewSauces.setAdapter(saucesAdapter);
                         listviewSauces.setItemChecked(0,true);
                     }
@@ -279,7 +279,7 @@ public class OrderActivity extends AppCompatActivity {
         }
 
         if (toppings != null){
-            AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
+            ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
             listviewToppings.setAdapter(toppingsAdapter);
         } else {
             try {
@@ -288,7 +288,7 @@ public class OrderActivity extends AppCompatActivity {
                     public void onCompleted(Exception e, List<Topping> result) {
                         Log.d("MIRAME", "onCompleted: result está vacío? "+(result==null?"SI":"NO"));
                         toppings = result;
-                        AddinsAdapter toppingsAdapter = new AddinsAdapter(toppings);
+                        ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
                         listviewToppings.setAdapter(toppingsAdapter);
                     }
                 });
@@ -300,7 +300,7 @@ public class OrderActivity extends AppCompatActivity {
         listviewToppings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(gridViewFlavors.isItemChecked(i)) {
+                if(listviewToppings.isItemChecked(i)) {
                     view.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
                 } else {
                     view.setBackgroundColor(Color.TRANSPARENT);
@@ -390,11 +390,11 @@ public class OrderActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-    class AddinsAdapter extends ArrayAdapter<Addin> {
+    class ToppingsAdapter extends ArrayAdapter<Topping> {
         LayoutInflater inflater;
 
-        AddinsAdapter(List<? extends Addin> addins) {
-            super(OrderActivity.this, R.layout.listview_addins_row, (List<Addin>) addins);
+        ToppingsAdapter(List<Topping> toppings) {
+            super(OrderActivity.this, R.layout.listview_addins_row, toppings);
             inflater = LayoutInflater.from(getContext());
         }
 
@@ -405,13 +405,13 @@ public class OrderActivity extends AppCompatActivity {
             if(row == null) {
                 row = inflater.inflate(R.layout.listview_addins_row, parent, false);
             }
-            AddinHolder holder = (AddinHolder) row.getTag();
+            ToppingHolder holder = (ToppingHolder) row.getTag();
             if(holder == null) {
-                holder = new AddinHolder(row);
+                holder = new ToppingHolder(row);
                 row.setTag(holder);
             }
             if(this.getItem(position).getLabel() != getString(R.string.no_sauce_label)){
-                Ion.with(holder.addinPic)
+                Ion.with(holder.toppingPic)
                         .fitCenter()
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.error)
@@ -419,19 +419,73 @@ public class OrderActivity extends AppCompatActivity {
             }
             holder.textViewName.setText(this.getItem(position).getLabel());
 
+            if(listviewToppings.isItemChecked(position)) {
+                row.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
+            } else {
+                row.setBackgroundColor(Color.TRANSPARENT);
+            }
+
             return row;
         }
 
-        class AddinHolder {
+        class ToppingHolder {
             TextView textViewName = null;
-            ImageView addinPic = null;
-            AddinHolder(View row) {
+            ImageView toppingPic = null;
+            ToppingHolder(View row) {
                 textViewName = (TextView) row.findViewById(R.id.addin_name);
-                addinPic = (ImageView) row.findViewById(R.id.imageview_addin);
+                toppingPic = (ImageView) row.findViewById(R.id.imageview_addin);
             }
         }
     }
 
+    class SaucesAdapter extends ArrayAdapter<Sauce> {
+        LayoutInflater inflater;
+
+        SaucesAdapter(List<Sauce> sauces) {
+            super(OrderActivity.this, R.layout.listview_addins_row, sauces);
+            inflater = LayoutInflater.from(getContext());
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            View row = convertView;
+            if(row == null) {
+                row = inflater.inflate(R.layout.listview_addins_row, parent, false);
+            }
+            SauceHolder holder = (SauceHolder) row.getTag();
+            if(holder == null) {
+                holder = new SauceHolder(row);
+                row.setTag(holder);
+            }
+            if(this.getItem(position).getLabel() != getString(R.string.no_sauce_label)){
+                Ion.with(holder.saucePic)
+                        .fitCenter()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.error)
+                        .load(this.getItem(position).getCompleteImgURL());
+            }
+            holder.textViewName.setText(this.getItem(position).getLabel());
+
+            if(listviewSauces.isItemChecked(position)) {
+                row.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
+            } else {
+                row.setBackgroundColor(Color.TRANSPARENT);
+            }
+
+            return row;
+        }
+
+        class SauceHolder {
+            TextView textViewName = null;
+            ImageView saucePic = null;
+            SauceHolder(View row) {
+                textViewName = (TextView) row.findViewById(R.id.addin_name);
+                saucePic = (ImageView) row.findViewById(R.id.imageview_addin);
+            }
+        }
+    }
+    
     class ContainersAdapter extends ArrayAdapter<ContainerType> {
         LayoutInflater inflater;
 
@@ -463,6 +517,12 @@ public class OrderActivity extends AppCompatActivity {
             holder.containerPrice.setText(NumberFormat.getCurrencyInstance(Locale.US).format(
                     this.getItem(position).getPriceInCents()*0.01
             ));
+
+            if(listViewContainers.isItemChecked(position)) {
+                row.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
+            } else {
+                row.setBackgroundColor(Color.TRANSPARENT);
+            }
 
             return row;
         }
