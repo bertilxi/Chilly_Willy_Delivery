@@ -1,5 +1,6 @@
 package dam.isi.frsf.utn.edu.ar.delivery.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -49,14 +50,14 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
                 EditText phoneEditText = (EditText) findViewById(R.id.phone_edittext);
                 String phone = phoneEditText.getText().toString();
                 if (phone == null || phone.isEmpty()) {
-                    phoneEditText.setError("Ingrese un numero de telefono, por favor");
+                    phoneEditText.setError("Ingrese un numero de teléfono, por favor");
                     return;
                 }
 
                 Location location = order.getDestination();
 
                 if(location == null){
-                    phoneEditText.setError("Mantenga presionado sobre su direccion e intente nuevamente");
+                    phoneEditText.setError("Haga click sobre su dirección e intente nuevamente");
                     return;
                 }
 
@@ -80,7 +81,10 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
                     e.printStackTrace();
                 }
 
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+
             }
         });
 
@@ -99,9 +103,9 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(santaFe, 13);
         mMap.animateCamera(cameraUpdate);
 
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapLongClick(LatLng latLng) {
+            public void onMapClick(LatLng latLng) {
 
                 mMap.addMarker(new MarkerOptions()
                         .position(latLng)
