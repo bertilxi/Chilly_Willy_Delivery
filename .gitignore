@@ -7,10 +7,11 @@
 /mobile/captures
 .externalNativeBuild
 */.directory
-*/node_modules/*
 /server/.tscache
 /server/mongodb
 /server/db
 /server/node_modules
+/server/dist
+/server/src/**/*.js
 *.baseDir.ts*
 npm-debug.log
