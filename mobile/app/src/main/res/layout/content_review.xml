@@ -17,30 +17,40 @@
         android:id="@+id/btnAddImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/etComment"
         android:layout_centerHorizontal="true"
         android:text="@string/add_image_label" />
 
     <ImageView
         android:id="@+id/ivPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="256dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnAddImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ratingBar_review"
+        android:layout_above="@id/btnAddImage"
         android:contentDescription="@string/take_picture_label"
-        app:srcCompat="@android:color/background_light" />
+        app:srcCompat="@android:color/background_light"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"/>
 
     <EditText
         android:id="@+id/etComment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/ivPhoto"
-        android:layout_centerHorizontal="true"
+        android:layout_height="200dp"
         android:background="@drawable/back"
         android:gravity="top"
         android:hint="@string/add_opinion_label"
         android:inputType="text|textMultiLine"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar_review"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

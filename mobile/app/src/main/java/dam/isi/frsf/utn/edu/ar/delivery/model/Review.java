@@ -13,10 +13,10 @@ public class Review implements Serializable
     private Integer rating;
     @SerializedName("comment")
     @Expose
-    private String comment;
+    private String comment = "";
     @SerializedName("img")
     @Expose
-    private String img;
+    private String img = "";
     private final static long serialVersionUID = 2881016317022269792L;
 
     public Integer getRating() {
