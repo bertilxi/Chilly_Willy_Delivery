@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
@@ -50,7 +51,7 @@ public class LocationActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_location);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        data = new DataService(LocationActivity.this);
+        data = new DataService(getApplicationContext());
 
         noOrders = new AlertDialog.Builder(LocationActivity.this)
                 .setTitle("No hiciste pedidos recientes")
@@ -83,6 +84,7 @@ public class LocationActivity extends AppCompatActivity implements
                     }
 
                     orders = result;
+                    Collections.reverse(orders);
                     mListView = (ListView) findViewById(R.id.location_order_list);
                     mOrderAdapter = new OrderAdapter(orders);
                     mListView.setAdapter(mOrderAdapter);
@@ -101,7 +103,7 @@ public class LocationActivity extends AppCompatActivity implements
                                         new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Toast.makeText(LocationActivity.this,"Error: no es posible visualizar el mapa",Toast.LENGTH_SHORT);
+                                Toast.makeText(LocationActivity.this,"Error: no es posible visualizar el mapa",Toast.LENGTH_SHORT).show();
                                 return;
                             }
 

@@ -28,7 +28,7 @@ public class NotificationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        data = new DataService(this);
+        data = new DataService(getApplicationContext());
         getLastDeal();
 
         Intent intentMain = new Intent(this, MainActivity.class);

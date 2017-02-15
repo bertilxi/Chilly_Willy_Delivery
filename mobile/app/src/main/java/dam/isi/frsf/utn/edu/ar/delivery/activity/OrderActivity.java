@@ -73,7 +73,7 @@ public class OrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         insertPoint = (ViewGroup) findViewById(R.id.view_insert_point);
 
-        dataService = new DataService(OrderActivity.this);
+        dataService = new DataService(getApplicationContext());
         orderItems = new ArrayList<>();
 
         processSavedState(savedInstanceState);
@@ -221,6 +221,28 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        switch (contentState){
+            case OrderActivityConstants.CONTENT_ORDER_ITEMS:
+                super.onBackPressed();
+                break;
+            case OrderActivityConstants.CONTENT_CONTAINERS:
+                if(orderItems.size() > 0) {
+                    loadOrderItems();
+                } else {
+                    super.onBackPressed();
+                }
+                break;
+            case OrderActivityConstants.CONTENT_FLAVORS:
+                loadContainers();
+                break;
+            case OrderActivityConstants.CONTENT_ADDINS:
+                loadFlavors();
+                break;
+        }
+    }
+
     private void loadOrderItems() {
         contentState = OrderActivityConstants.CONTENT_ORDER_ITEMS;
         LayoutInflater inflater = getLayoutInflater();
@@ -248,72 +270,6 @@ public class OrderActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void loadAddins() {
-        contentState = OrderActivityConstants.CONTENT_ADDINS;
-        LayoutInflater inflater = getLayoutInflater();
-        View addinsView = inflater.inflate(R.layout.listview_addins, null);
-        insertPoint.removeAllViews();
-        insertPoint.addView(addinsView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        listviewSauces = (ListView) addinsView.findViewById(R.id.listview_sauces);
-        listviewToppings = (ListView) addinsView.findViewById(R.id.listview_toppings);
-
-        DataService dataService = new DataService(OrderActivity.this);
-
-        if(sauces != null){
-            SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
-            listviewSauces.setAdapter(saucesAdapter);
-        } else {
-            try {
-                dataService.getSauces().setCallback(new FutureCallback<List<Sauce>>() {
-                    @Override
-                    public void onCompleted(Exception e, List<Sauce> result) {
-                        sauces = new ArrayList<>();
-                        sauces.add(new Sauce().withImgURL("").withLabel(getString(R.string.no_sauce_label)));
-                        sauces.addAll(result);
-                        SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
-                        listviewSauces.setAdapter(saucesAdapter);
-                        listviewSauces.setItemChecked(0,true);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (toppings != null){
-            ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
-            listviewToppings.setAdapter(toppingsAdapter);
-        } else {
-            try {
-                dataService.getToppings().setCallback(new FutureCallback<List<Topping>>() {
-                    @Override
-                    public void onCompleted(Exception e, List<Topping> result) {
-                        Log.d("MIRAME", "onCompleted: result está vacío? "+(result==null?"SI":"NO"));
-                        toppings = result;
-                        ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
-                        listviewToppings.setAdapter(toppingsAdapter);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        listviewToppings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(listviewToppings.isItemChecked(i)) {
-                    view.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
-                } else {
-                    view.setBackgroundColor(Color.TRANSPARENT);
-                }
-            }
-        });
-
-        getSupportActionBar().setTitle("MEJORÁ TU HELADO");
-        invalidateOptionsMenu();
     }
 
     private void loadContainers() {
@@ -372,7 +328,7 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-        DataService dataService = new DataService(OrderActivity.this);
+        DataService dataService = new DataService(getApplicationContext());
         if(flavors != null){
             FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
             gridViewFlavors.setAdapter(flavorsAdapter);
@@ -391,6 +347,73 @@ public class OrderActivity extends AppCompatActivity {
             }
         }
         getSupportActionBar().setTitle("ELEGÍ LOS SABORES");
+        invalidateOptionsMenu();
+    }
+
+    private void loadAddins() {
+        contentState = OrderActivityConstants.CONTENT_ADDINS;
+        LayoutInflater inflater = getLayoutInflater();
+        View addinsView = inflater.inflate(R.layout.listview_addins, null);
+        insertPoint.removeAllViews();
+        insertPoint.addView(addinsView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        listviewSauces = (ListView) addinsView.findViewById(R.id.listview_sauces);
+        listviewToppings = (ListView) addinsView.findViewById(R.id.listview_toppings);
+
+        DataService dataService = new DataService(getApplicationContext());
+
+        if(sauces != null){
+            SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
+            listviewSauces.setAdapter(saucesAdapter);
+            listviewSauces.setItemChecked(0,true);
+        } else {
+            try {
+                dataService.getSauces().setCallback(new FutureCallback<List<Sauce>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Sauce> result) {
+                        sauces = new ArrayList<>();
+                        sauces.add(new Sauce().withImgURL("").withLabel(getString(R.string.no_sauce_label)));
+                        sauces.addAll(result);
+                        SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
+                        listviewSauces.setAdapter(saucesAdapter);
+                        listviewSauces.setItemChecked(0,true);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (toppings != null){
+            ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
+            listviewToppings.setAdapter(toppingsAdapter);
+        } else {
+            try {
+                dataService.getToppings().setCallback(new FutureCallback<List<Topping>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Topping> result) {
+                        Log.d("MIRAME", "onCompleted: result está vacío? "+(result==null?"SI":"NO"));
+                        toppings = result;
+                        ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
+                        listviewToppings.setAdapter(toppingsAdapter);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        listviewToppings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(listviewToppings.isItemChecked(i)) {
+                    view.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
+                } else {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                }
+            }
+        });
+
+        getSupportActionBar().setTitle("MEJORÁ TU HELADO");
         invalidateOptionsMenu();
     }
 

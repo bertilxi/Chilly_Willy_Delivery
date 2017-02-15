@@ -69,7 +69,7 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
                 Date today = Calendar.getInstance().getTime();
                 String orderDate = df.format(today);
                 order.setRequestTime(orderDate);
-                DataService dataService = new DataService(OrderSendActivity.this);
+                DataService dataService = new DataService(getApplicationContext());
                 try {
                     dataService.addOrder(order).setCallback(new FutureCallback<String>() {
                         @Override

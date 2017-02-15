@@ -95,6 +95,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void sendReview() {
+        review = new Review();
         EditText etComment = (EditText) findViewById(R.id.etComment);
         review.setComment(etComment.getText().toString());
         if(cameraAvailable && imageBitmap != null) {
@@ -106,7 +107,7 @@ public class ReviewActivity extends AppCompatActivity {
         }
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar_review);
         review.setRating(ratingBar.getNumStars());
-        DataService dataService = new DataService(this);
+        DataService dataService = new DataService(getApplicationContext());
         try {
             dataService.addReview(review).setCallback(new FutureCallback<String>() {
                 @Override
