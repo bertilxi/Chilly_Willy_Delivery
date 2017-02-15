@@ -1,6 +1,5 @@
 package dam.isi.frsf.utn.edu.ar.delivery.service;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,7 +7,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
@@ -16,22 +14,15 @@ import android.util.Log;
 
 import com.koushikdutta.async.future.FutureCallback;
 
-import java.text.SimpleDateFormat;
-
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.activity.MainActivity;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
 
 
 public class NotificationService extends Service {
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
 
-    private DataService data;
     Deal deal;
+    private DataService data;
 
     @Override
     public void onCreate() {
@@ -63,7 +54,7 @@ public class NotificationService extends Service {
             data.getLastDeal().setCallback(new FutureCallback<Deal>() {
                 @Override
                 public void onCompleted(Exception e, Deal result) {
-                    if(result == null){
+                    if (result == null) {
                         Log.d("MIRAME", "onGetDealCompleted: FALLÓ");
                         getLastDeal();
                         return;

@@ -5,6 +5,7 @@
 
     <ImageView
         android:layout_width="90dp"
+        android:padding="10dp"
         android:layout_height="90dp"
         app:srcCompat="@drawable/back"
         android:layout_alignParentTop="true"
