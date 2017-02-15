@@ -13,8 +13,9 @@
         android:paddingBottom="15dp"
         android:paddingEnd="15dp"
         android:id="@+id/sauces_title"
-        android:background="@color/lightBlue"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:background="@color/colorPrimary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@android:color/primary_text_dark" />
 
     <ListView
         android:id="@+id/listview_sauces"
@@ -36,8 +37,9 @@
         android:paddingEnd="15dp"
         android:id="@+id/toppings_title"
         android:text="Tops"
-        android:background="@color/lightBlue"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:background="@color/colorPrimary"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@android:color/primary_text_dark" />
 
     <ListView
         android:id="@+id/listview_toppings"
