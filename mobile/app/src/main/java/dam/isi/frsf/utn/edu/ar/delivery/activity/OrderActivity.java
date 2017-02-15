@@ -419,12 +419,6 @@ public class OrderActivity extends AppCompatActivity {
             }
             holder.textViewName.setText(this.getItem(position).getLabel());
 
-            if(listviewToppings.isItemChecked(position)) {
-                row.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
-            } else {
-                row.setBackgroundColor(Color.TRANSPARENT);
-            }
-
             return row;
         }
 
@@ -466,12 +460,6 @@ public class OrderActivity extends AppCompatActivity {
                         .load(this.getItem(position).getCompleteImgURL());
             }
             holder.textViewName.setText(this.getItem(position).getLabel());
-
-            if(listviewSauces.isItemChecked(position)) {
-                row.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
-            } else {
-                row.setBackgroundColor(Color.TRANSPARENT);
-            }
 
             return row;
         }
@@ -517,12 +505,6 @@ public class OrderActivity extends AppCompatActivity {
             holder.containerPrice.setText(NumberFormat.getCurrencyInstance(Locale.US).format(
                     this.getItem(position).getPriceInCents()*0.01
             ));
-
-            if(listViewContainers.isItemChecked(position)) {
-                row.setBackgroundColor(ContextCompat.getColor(OrderActivity.this, R.color.pressed_color));
-            } else {
-                row.setBackgroundColor(Color.TRANSPARENT);
-            }
 
             return row;
         }

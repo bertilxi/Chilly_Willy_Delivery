@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         appConstants.deviceID =
                 Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        appConstants.localPath = getString(R.string.local_path);
 
         Toast.makeText(MainActivity.this, appConstants.deviceID, Toast.LENGTH_LONG).show();
 
