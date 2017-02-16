@@ -23,6 +23,8 @@ public class NotificationService extends Service {
 
     Deal deal;
     private DataService data;
+    NotificationCompat.Builder builder;
+    PendingIntent pendingIntentMain;
 
     @Override
     public void onCreate() {
@@ -32,21 +34,9 @@ public class NotificationService extends Service {
         getLastDeal();
 
         Intent intentMain = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntentMain = PendingIntent.getActivity(this, 2, intentMain, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntentMain = PendingIntent.getActivity(this, 2, intentMain, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(deal.getTitle())
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(deal.getDescription()))
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntentMain);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSound(alarmSound);
-
-        Notification notification = builder.build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(3, notification);
+        builder = new NotificationCompat.Builder(this);
     }
 
     private void getLastDeal() {
@@ -62,6 +52,20 @@ public class NotificationService extends Service {
                         Log.d("MIRAME", "onGetDealCompleted: FUNCIONÓ");
                     }
                     deal = result;
+                    builder
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle(deal.getTitle())
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(deal.getDescription()))
+                            .setAutoCancel(true)
+                            .setContentIntent(pendingIntentMain);
+
+                    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    builder.setSound(alarmSound);
+
+                    Notification notification = builder.build();
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.notify(3, notification);
+
                 }
             });
         } catch (Exception e) {

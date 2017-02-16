@@ -347,11 +347,6 @@ public class OrderActivity extends AppCompatActivity {
                         flavors = result;
                         FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
                         gridViewFlavors.setAdapter(flavorsAdapter);
-                        if(flavorPositionsChecked != null) {
-                            for(int i = 0; i < flavors.size(); i++) {
-                                gridViewFlavors.setItemChecked(i, flavorPositionsChecked.get(i));
-                            }
-                        }
                     }
                 });
             } catch (Exception e) {
@@ -585,6 +580,10 @@ public class OrderActivity extends AppCompatActivity {
             if (holder == null) {
                 holder = new FlavorHolder(cell);
                 cell.setTag(holder);
+            }
+
+            if(flavorPositionsChecked != null && flavorPositionsChecked.get(position)) {
+                holder.checkedIcon.setVisibility(View.VISIBLE);
             }
 
             Ion.with(holder.flavorPic)
