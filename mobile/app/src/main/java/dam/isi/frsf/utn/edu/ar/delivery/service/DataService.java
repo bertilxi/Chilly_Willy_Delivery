@@ -28,9 +28,9 @@ public class DataService {
         this.context = context;
     }
 
-    public ResponseFuture<Deal> getLastDeal() throws Exception {
+    public ResponseFuture<List<Deal>> getLastDeal() throws Exception {
         String path = localPath + "deals";
-        return Ion.with(context).load(path).as(new TypeToken<Deal>() {
+        return Ion.with(context).load(path).as(new TypeToken<List<Deal>>() {
         });
     }
 
