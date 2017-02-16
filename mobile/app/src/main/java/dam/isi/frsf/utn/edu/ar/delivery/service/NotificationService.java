@@ -28,6 +28,7 @@ public class NotificationService extends Service {
     private DataService data;
     NotificationCompat.Builder builder;
     PendingIntent pendingIntentMain;
+    int tries = 0;
 
     @Override
     public void onCreate() {
@@ -49,7 +50,9 @@ public class NotificationService extends Service {
                 public void onCompleted(Exception e, List<Deal> result) {
                     if (result == null) {
                         Log.d("MIRAME", "onGetDealCompleted: FALLÓ");
-                        getLastDeal();
+                        if(tries++ > 5) {
+                            getLastDeal();
+                        }
                         return;
                     } else {
                         Log.d("MIRAME", "onGetDealCompleted: FUNCIONÓ");
