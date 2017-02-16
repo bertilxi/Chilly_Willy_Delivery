@@ -55,7 +55,7 @@ public class NotificationService extends Service {
                     }
                     deals = result;
                     builder
-                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setSmallIcon(R.drawable.notification_icon)
                             .setContentTitle(deals.get(0).getTitle())
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(deals.get(0).getDescription()))
                             .setAutoCancel(true)
