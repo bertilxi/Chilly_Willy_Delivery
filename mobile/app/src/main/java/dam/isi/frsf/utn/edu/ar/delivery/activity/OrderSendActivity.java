@@ -103,15 +103,14 @@ public class OrderSendActivity extends AppCompatActivity implements OnMapReadyCa
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(santaFe, 13);
         mMap.animateCamera(cameraUpdate);
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
-
+            public void onMapLongClick(LatLng latLng) {
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title("Tu ubicación"));
-                
+
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
                 mMap.animateCamera(cameraUpdate);
 
