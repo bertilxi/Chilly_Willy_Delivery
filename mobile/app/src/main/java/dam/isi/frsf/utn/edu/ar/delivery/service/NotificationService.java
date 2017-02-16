@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -57,6 +58,7 @@ public class NotificationService extends Service {
                     builder
                             .setSmallIcon(R.drawable.notification_icon)
                             .setContentTitle(deals.get(0).getTitle())
+                            .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(deals.get(0).getDescription()))
                             .setAutoCancel(true)
                             .setContentIntent(pendingIntentMain);
