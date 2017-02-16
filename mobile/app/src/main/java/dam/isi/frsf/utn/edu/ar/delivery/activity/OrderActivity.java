@@ -61,6 +61,10 @@ public class OrderActivity extends AppCompatActivity {
     OrderItem itemInConstruction;
     DataService dataService;
     TextView textViewTotal;
+    Integer containerPositionChecked = null;
+    ArrayList<Boolean> flavorPositionsChecked = null;
+    ArrayList<Boolean> toppingsPositionsChecked = null;
+    Integer saucePositionChecked = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,6 +306,9 @@ public class OrderActivity extends AppCompatActivity {
                     containers = result;
                     ContainersAdapter containersAdapter = new ContainersAdapter(containers);
                     listViewContainers.setAdapter(containersAdapter);
+                    if(containerPositionChecked != null) {
+                        listViewContainers.setItemChecked(containerPositionChecked,true);
+                    }
                 }
             });
         } catch (Exception e) {
@@ -340,6 +347,11 @@ public class OrderActivity extends AppCompatActivity {
                         flavors = result;
                         FlavorsAdapter flavorsAdapter = new FlavorsAdapter(flavors);
                         gridViewFlavors.setAdapter(flavorsAdapter);
+                        if(flavorPositionsChecked != null) {
+                            for(int i = 0; i < flavors.size(); i++) {
+                                gridViewFlavors.setItemChecked(i, flavorPositionsChecked.get(i));
+                            }
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -376,6 +388,9 @@ public class OrderActivity extends AppCompatActivity {
                         SaucesAdapter saucesAdapter = new SaucesAdapter(sauces);
                         listviewSauces.setAdapter(saucesAdapter);
                         listviewSauces.setItemChecked(0,true);
+                        if(saucePositionChecked != null) {
+                            listviewSauces.setItemChecked(saucePositionChecked, true);
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -395,6 +410,11 @@ public class OrderActivity extends AppCompatActivity {
                         toppings = result;
                         ToppingsAdapter toppingsAdapter = new ToppingsAdapter(toppings);
                         listviewToppings.setAdapter(toppingsAdapter);
+                        if(toppingsPositionsChecked != null) {
+                            for(int i = 0; i < toppings.size(); i++) {
+                                listviewToppings.setItemChecked(i, toppingsPositionsChecked.get(i));
+                            }
+                        }
                     }
                 });
             } catch (Exception e) {
@@ -673,6 +693,17 @@ public class OrderActivity extends AppCompatActivity {
         }
         if(savedInstanceState.containsKey(getString(R.string.order_content_key))) {
             contentState = (int) savedInstanceState.get(getString(R.string.order_content_key));
+            switch (contentState) {
+                case OrderActivityConstants.CONTENT_CONTAINERS:
+                    containerPositionChecked = savedInstanceState.getInt(getString(R.string.container_selection_key));
+                    break;
+                case OrderActivityConstants.CONTENT_FLAVORS:
+                    flavorPositionsChecked = (ArrayList<Boolean>) savedInstanceState.getSerializable(getString(R.string.flavors_selection_key));
+                    break;
+                case OrderActivityConstants.CONTENT_ADDINS:
+                    toppingsPositionsChecked = (ArrayList<Boolean>) savedInstanceState.getSerializable(getString(R.string.toppings_selection_key));
+                    saucePositionChecked = savedInstanceState.getInt(getString(R.string.sauce_selection_key));
+            }
         }
         if(savedInstanceState.containsKey(getString(R.string.item_in_construction_key))) {
             itemInConstruction = (OrderItem) savedInstanceState.get(getString(R.string.item_in_construction_key));
@@ -704,5 +735,27 @@ public class OrderActivity extends AppCompatActivity {
         outState.putSerializable(getString(R.string.flavors_key), (ArrayList<Flavor>) flavors);
         outState.putSerializable(getString(R.string.sauces_key), (ArrayList<Sauce>) sauces);
         outState.putSerializable(getString(R.string.toppings_key), (ArrayList<Topping>) toppings);
+        switch (contentState) {
+            case OrderActivityConstants.CONTENT_CONTAINERS:
+                outState.putInt(getString(R.string.container_selection_key), listViewContainers.getCheckedItemPosition());
+                break;
+            case OrderActivityConstants.CONTENT_FLAVORS:
+
+                ArrayList<Boolean> FlaChecked = new ArrayList<Boolean>();
+                SparseBooleanArray FlaCheckedSparce = gridViewFlavors.getCheckedItemPositions();
+                for(int i = 0; i < gridViewFlavors.getCount(); i++) {
+                    FlaChecked.add(FlaCheckedSparce.get(i));
+                }
+                outState.putSerializable(getString(R.string.flavors_selection_key), FlaChecked);
+                break;
+            case OrderActivityConstants.CONTENT_ADDINS:
+                ArrayList<Boolean> checked = new ArrayList<Boolean>();
+                SparseBooleanArray checkedSparce = listviewToppings.getCheckedItemPositions();
+                for(int i = 0; i < listviewToppings.getCount(); i++) {
+                    checked.add(checkedSparce.get(i));
+                }
+                outState.putSerializable(getString(R.string.toppings_selection_key), checked);
+                outState.putInt(getString(R.string.sauce_selection_key), listviewSauces.getCheckedItemPosition());
+        }
     }
 }

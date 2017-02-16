@@ -21,10 +21,15 @@
     <string name="listview_containers_key">listview containers key</string>
     <string name="gridview_flavors_key">gridview flavors key</string>
     <string name="listview_toppings_key">listview toppings key</string>
+    <string name="order_key">orden</string>
+    <string name="photo_key">photo key</string>
+    <string name="container_selection_key">container selection key</string>
+    <string name="flavors_selection_key">flavors selection key</string>
+    <string name="sauce_selection_key">sauce selection key</string>
+    <string name="toppings_selection_key">toppings selection key</string>
     <!-- Location activity strings -->
     <string name="location_order_label">Tu pedido</string>
     <string name="title_activity_order_send">Teléfono</string>
-    <string name="order_key">orden</string>
     <!-- Paths -->
     <string name="local_path">http://192.168.0.16:8080/</string>
 </resources>

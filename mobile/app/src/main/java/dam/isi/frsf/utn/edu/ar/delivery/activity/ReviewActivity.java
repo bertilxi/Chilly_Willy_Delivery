@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Review;
@@ -118,5 +119,20 @@ public class ReviewActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.photo_key))) {
+            imageBitmap = savedInstanceState.getParcelable(getString(R.string.photo_key));
+            imageViewReview.setImageBitmap(imageBitmap);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("photo key",imageBitmap);
     }
 }
