@@ -14,6 +14,8 @@ import android.util.Log;
 
 import com.koushikdutta.async.future.FutureCallback;
 
+import java.util.List;
+
 import dam.isi.frsf.utn.edu.ar.delivery.R;
 import dam.isi.frsf.utn.edu.ar.delivery.activity.MainActivity;
 import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
@@ -21,7 +23,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.model.Deal;
 
 public class NotificationService extends Service {
 
-    Deal deal;
+    List<Deal> deals;
     private DataService data;
     NotificationCompat.Builder builder;
     PendingIntent pendingIntentMain;
@@ -41,9 +43,9 @@ public class NotificationService extends Service {
 
     private void getLastDeal() {
         try {
-            data.getLastDeal().setCallback(new FutureCallback<Deal>() {
+            data.getLastDeal().setCallback(new FutureCallback<List<Deal>>() {
                 @Override
-                public void onCompleted(Exception e, Deal result) {
+                public void onCompleted(Exception e, List<Deal> result) {
                     if (result == null) {
                         Log.d("MIRAME", "onGetDealCompleted: FALLÓ");
                         getLastDeal();
@@ -51,11 +53,11 @@ public class NotificationService extends Service {
                     } else {
                         Log.d("MIRAME", "onGetDealCompleted: FUNCIONÓ");
                     }
-                    deal = result;
+                    deals = result;
                     builder
                             .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(deal.getTitle())
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(deal.getDescription()))
+                            .setContentTitle(deals.get(0).getTitle())
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(deals.get(0).getDescription()))
                             .setAutoCancel(true)
                             .setContentIntent(pendingIntentMain);
 
