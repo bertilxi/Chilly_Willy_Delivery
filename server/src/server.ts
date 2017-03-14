@@ -103,7 +103,6 @@ export class Server {
             if (error) {
                 throw error;
             }
-            ;
             console.log('Connected to Database');
         });
     }
