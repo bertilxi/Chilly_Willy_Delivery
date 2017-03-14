@@ -66,45 +66,6 @@ export class Controller {
         });
     }
 
-    // TODO: improve this
-    public getMetadata(req, res) {
-        let mData: Array<any> = [];
-
-        Flavor.find((error, data) => {
-            if (error) {
-                return res.send(500, error.message);
-            }
-        }).then(data => {
-
-            mData.push(data);
-            ContainerType.find((error, data) => {
-                if (error) {
-                    return res.send(500, error.message);
-                }
-            }).then(data => {
-                mData.push(data);
-                Sauce.find((error, data) => {
-                    if (error) {
-                        return res.send(500, error.message);
-                    }
-                }).then(data => {
-                    mData.push(data);
-                    Topping.find((error, data) => {
-                        if (error) {
-                            return res.send(500, error.message);
-                        }
-                    }).then(data => {
-                        mData.push(data);
-                        res.status(200).jsonp(mData);
-                    });
-                });
-
-            });
-
-        });
-
-    }
-
     //
     // order
     //
@@ -143,7 +104,6 @@ export class Controller {
     }
 
     public getOrders(req, res) {
-
         Order.find((error, data) => {
             if (error) {
                 return res.send(500, error.message);
@@ -167,8 +127,7 @@ export class Controller {
     //
 
     public getLocation = (req, res) => {
-        Order
-            .findOne({'_id': req.params.orderID})
+        Order.findOne({'_id': req.params.orderID})
             .exec((error, data) => {
                 if (error) {
                     res.send(500, error.message);
