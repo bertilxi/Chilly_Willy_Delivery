@@ -1,4 +1,4 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
 export interface ISauce {
     label: string;
@@ -10,6 +10,7 @@ export var SauceSchema = new mongoose.Schema({
     imgURL: String
 });
 
-export interface ISauceModel extends ISauce, mongoose.Document { }
+export interface ISauceModel extends ISauce, mongoose.Document {
+}
 
-export var Sauce = mongoose.model<ISauceModel>("Sauce", SauceSchema);
+export var Sauce = mongoose.model<ISauceModel>('Sauce', SauceSchema);

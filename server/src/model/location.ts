@@ -1,4 +1,4 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
 export interface ILocation {
     latitude: number;
@@ -10,6 +10,7 @@ export var LocationSchema = new mongoose.Schema({
     longitude: Number
 });
 
-export interface ILocationModel extends ILocation, mongoose.Document { }
+export interface ILocationModel extends ILocation, mongoose.Document {
+}
 
-export var Location = mongoose.model<ILocationModel>("Location", LocationSchema);
+export var Location = mongoose.model<ILocationModel>('Location', LocationSchema);

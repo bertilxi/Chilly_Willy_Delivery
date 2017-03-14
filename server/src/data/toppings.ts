@@ -1,16 +1,16 @@
-import { ITopping } from '../model/topping';
+import {ITopping} from '../model/topping';
 
 export var toppings: Array<ITopping> = [];
 
 toppings.push({
-    label: "Rocklets",
-    imgURL: "rocklets.jpg"
+    label: 'Rocklets',
+    imgURL: 'rocklets.jpg'
 });
 toppings.push({
-    label: "Chispas de chocolate",
-    imgURL: "chispas_de_chocolate.jpg"
+    label: 'Chispas de chocolate',
+    imgURL: 'chispas_de_chocolate.jpg'
 });
 toppings.push({
-    label: "Gomitas",
-    imgURL: "gomitas.jpg"
+    label: 'Gomitas',
+    imgURL: 'gomitas.jpg'
 });

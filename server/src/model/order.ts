@@ -1,10 +1,10 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
-import { IFlavor, FlavorSchema } from './flavor';
-import { ITopping, ToppingSchema } from './topping';
-import { IContainerType, ContainerTypeSchema } from './container-type';
-import { ISauce, SauceSchema } from './sauce';
-import { ILocation, LocationSchema } from './location';
+import {IFlavor, FlavorSchema} from './flavor';
+import {ITopping, ToppingSchema} from './topping';
+import {IContainerType, ContainerTypeSchema} from './container-type';
+import {ISauce, SauceSchema} from './sauce';
+import {ILocation, LocationSchema} from './location';
 
 export interface IOrder {
     deviceID: string;
@@ -25,9 +25,11 @@ export interface IOrderItem {
     delivered: boolean;
 }
 
-export interface IOrderModel extends IOrder, mongoose.Document { }
+export interface IOrderModel extends IOrder, mongoose.Document {
+}
 
-export interface IOrderItemModel extends IOrderItem, mongoose.Document { }
+export interface IOrderItemModel extends IOrderItem, mongoose.Document {
+}
 
 export var OrderItemSchema = new mongoose.Schema({
     containerType: ContainerTypeSchema,
@@ -45,7 +47,7 @@ export var OrderSchema = new mongoose.Schema({
     lastLocation: LocationSchema,
     requestTime: String,
     phone: String,
-    hasChange: String,
+    hasChange: String
 });
 
-export var Order = mongoose.model<IOrderModel>("Order", OrderSchema);
+export var Order = mongoose.model<IOrderModel>('Order', OrderSchema);

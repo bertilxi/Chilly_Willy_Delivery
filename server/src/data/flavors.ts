@@ -1,4 +1,4 @@
-import { IFlavor } from '../model/flavor';
+import {IFlavor} from '../model/flavor';
 export var flavors: Array<IFlavor> = [];
 
 flavors.push({

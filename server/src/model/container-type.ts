@@ -1,4 +1,4 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
 export interface IContainerType {
     label: string;
@@ -16,6 +16,7 @@ export var ContainerTypeSchema = new mongoose.Schema({
     imgURL: String
 });
 
-export interface IContainerTypeModel extends IContainerType, mongoose.Document { }
+export interface IContainerTypeModel extends IContainerType, mongoose.Document {
+}
 
-export var ContainerType = mongoose.model<IContainerTypeModel>("ContainerType", ContainerTypeSchema);
+export var ContainerType = mongoose.model<IContainerTypeModel>('ContainerType', ContainerTypeSchema);

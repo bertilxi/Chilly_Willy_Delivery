@@ -1,4 +1,4 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
 export interface ITopping {
     label: string;
@@ -10,6 +10,7 @@ export var ToppingSchema = new mongoose.Schema({
     imgURL: String
 });
 
-export interface IToppingModel extends ITopping, mongoose.Document { }
+export interface IToppingModel extends ITopping, mongoose.Document {
+}
 
-export var Topping = mongoose.model<IToppingModel>("Topping", ToppingSchema);
+export var Topping = mongoose.model<IToppingModel>('Topping', ToppingSchema);

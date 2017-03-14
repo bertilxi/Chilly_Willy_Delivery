@@ -1,5 +1,4 @@
-import mongoose = require("mongoose");
-
+import mongoose = require('mongoose');
 
 export interface IReview {
     rating: number;
@@ -13,8 +12,9 @@ export var ReviewSchema = new mongoose.Schema({
     comment: String
 });
 
-export interface IReviewModel extends IReview, mongoose.Document { }
+export interface IReviewModel extends IReview, mongoose.Document {
+}
 
-export var Review = mongoose.model<IReviewModel>("Review", ReviewSchema);
+export var Review = mongoose.model<IReviewModel>('Review', ReviewSchema);
 
 

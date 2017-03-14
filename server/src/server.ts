@@ -2,16 +2,14 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as logger from 'morgan';
-import * as path from 'path';
+import {Controller} from './controller';
+import {DbHelper} from './db';
 import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
 import mongoose = require('mongoose');
-import { Router } from 'express';
-import { Controller } from './controller';
-import { DbHelper } from './db';
 
-var mCtrl = new Controller();
-var dbHelper = new DbHelper();
+const mCtrl = new Controller();
+const dbHelper = new DbHelper();
 
 export class Server {
 
@@ -31,14 +29,12 @@ export class Server {
 
     private api(): void {
 
-        this.router.route('/').get(this.ctrl.root);
-        // this.router.route('/test').get(this.ctrl.test);
+        this.router.route('/').get(Controller.root);
 
         //
         // metadata
         //
-        
-        // this.router.route('/metadata').get(this.ctrl.getMetadata)
+
         this.router.route('/flavors').get(this.ctrl.getFlavors);
         this.router.route('/containers').get(this.ctrl.getContainers);
         this.router.route('/toppings').get(this.ctrl.getToppings);
@@ -62,8 +58,6 @@ export class Server {
         //
         // Location
         //
-
-        // this.router.route('/location/:orderID').get(this.ctrl.getLocation);
 
         //
         // Review
@@ -106,7 +100,10 @@ export class Server {
         // api
         this.app.use(this.router);
         mongoose.connect('mongodb://localhost/api', (error, res) => {
-            if (error) { throw error };
+            if (error) {
+                throw error;
+            }
+            ;
             console.log('Connected to Database');
         });
     }

@@ -1,5 +1,4 @@
-
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
 export interface IDeal {
     title: string;
@@ -13,6 +12,7 @@ export var DealSchema = new mongoose.Schema({
     isLastDeal: Boolean
 });
 
-export interface IDealModel extends IDeal, mongoose.Document { }
+export interface IDealModel extends IDeal, mongoose.Document {
+}
 
-export var Deal = mongoose.model<IDealModel>("Deal", DealSchema);
+export var Deal = mongoose.model<IDealModel>('Deal', DealSchema);

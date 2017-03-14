@@ -1,19 +1,17 @@
-import * as _ from 'lodash';
-import mongoose = require('mongoose');
-
-// models
-import { Flavor } from './model/flavor';
-import { ContainerType } from './model/container-type';
-import { Topping } from './model/topping';
-import { Sauce } from './model/sauce';
-import { Deal } from './model/deal';
-import { Order } from './model/order';
+import {containerTypes} from './data/container-types';
+import {deals} from './data/deals';
 // data
-import { flavors } from './data/flavors';
-import { containerTypes } from './data/container-types';
-import { sauces } from './data/sauce';
-import { toppings } from './data/toppings';
-import { deals } from './data/deals';
+import {flavors} from './data/flavors';
+import {sauces} from './data/sauce';
+import {toppings} from './data/toppings';
+import {ContainerType} from './model/container-type';
+import {Deal} from './model/deal';
+// models
+import {Flavor} from './model/flavor';
+import {Order} from './model/order';
+import {Sauce} from './model/sauce';
+import {Topping} from './model/topping';
+import mongoose = require('mongoose');
 
 export class DbHelper {
     constructor() {
@@ -22,12 +20,18 @@ export class DbHelper {
 
     public resetMetadata() {
 
-        Flavor.remove({}, () => { });
-        ContainerType.remove({}, () => { });
-        Sauce.remove({}, () => { });
-        Topping.remove({}, () => { });
-        Order.remove({}, () => { });
-        Deal.remove({}, () => { });
+        Flavor.remove({}, () => {
+        });
+        ContainerType.remove({}, () => {
+        });
+        Sauce.remove({}, () => {
+        });
+        Topping.remove({}, () => {
+        });
+        Order.remove({}, () => {
+        });
+        Deal.remove({}, () => {
+        });
 
     }
 
