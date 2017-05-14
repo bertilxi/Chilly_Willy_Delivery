@@ -1,8 +1,8 @@
 import mongoose = require('mongoose');
 
-import {IFlavor, FlavorSchema} from './flavor';
+import {FlavorSchema, IFlavor} from './flavor';
 import {ITopping, ToppingSchema} from './topping';
-import {IContainerType, ContainerTypeSchema} from './container-type';
+import {ContainerTypeSchema, IContainerType} from './container-type';
 import {ISauce, SauceSchema} from './sauce';
 import {ILocation, LocationSchema} from './location';
 
