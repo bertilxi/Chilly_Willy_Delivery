@@ -1,6 +1,6 @@
 import {IContainerType} from '../model/container-type';
 
-export var containerTypes: Array<IContainerType> = [];
+export const containerTypes: Array<IContainerType> = [];
 
 containerTypes.push({
     label: 'Pote - 1/4',

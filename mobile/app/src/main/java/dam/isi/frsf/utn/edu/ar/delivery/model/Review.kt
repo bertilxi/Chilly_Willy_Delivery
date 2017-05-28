@@ -1,23 +1,22 @@
 package dam.isi.frsf.utn.edu.ar.delivery.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-import java.io.Serializable
-
-class Review : Serializable {
-
-    @SerializedName("rating")
-    @Expose
-    var rating: Int? = null
-    @SerializedName("comment")
-    @Expose
-    var comment = ""
-    @SerializedName("img")
-    @Expose
-    var img = ""
-
-    fun withRating(rating: Int?): Review {
+data class Review(
+        @SerializedName("rating")
+        @Expose
+        var rating: Int = 0,
+        @SerializedName("comment")
+        @Expose
+        var comment: String = "",
+        @SerializedName("img")
+        @Expose
+        var img: String = ""
+) : Parcelable {
+    fun withRating(rating: Int): Review {
         this.rating = rating
         return this
     }
@@ -33,7 +32,23 @@ class Review : Serializable {
     }
 
     companion object {
-        private const val serialVersionUID = 2881016317022269792L
+        @JvmField val CREATOR: Parcelable.Creator<Review> = object : Parcelable.Creator<Review> {
+            override fun createFromParcel(source: Parcel): Review = Review(source)
+            override fun newArray(size: Int): Array<Review?> = arrayOfNulls(size)
+        }
     }
 
+    constructor(source: Parcel) : this(
+    source.readInt(),
+    source.readString(),
+    source.readString()
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeInt(rating)
+        dest.writeString(comment)
+        dest.writeString(img)
+    }
 }

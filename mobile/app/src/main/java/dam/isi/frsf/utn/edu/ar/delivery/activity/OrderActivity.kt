@@ -244,7 +244,7 @@ class OrderActivity : AppCompatActivity() {
 
     private fun fillListViewContainers() {
         if (containers != null) {
-            val containersAdapter = ContainersAdapter(applicationContext ,containers!!)
+            val containersAdapter = ContainersAdapter(applicationContext, containers!!)
             listViewContainers?.adapter = containersAdapter
             return
         }

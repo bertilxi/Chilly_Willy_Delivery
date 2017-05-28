@@ -11,7 +11,7 @@ import com.koushikdutta.ion.Ion
 import dam.isi.frsf.utn.edu.ar.delivery.R
 import dam.isi.frsf.utn.edu.ar.delivery.model.Topping
 
-class ToppingsAdapter(context: Context,toppings: List<Topping>) : ArrayAdapter<Topping>(context, R.layout.listview_addins_row, toppings) {
+class ToppingsAdapter(context: Context, toppings: List<Topping>) : ArrayAdapter<Topping>(context, R.layout.listview_addins_row, toppings) {
 
     var inflater: LayoutInflater = LayoutInflater.from(context)
 

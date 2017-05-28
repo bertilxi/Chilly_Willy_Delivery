@@ -1,6 +1,6 @@
 import {ITopping} from '../model/topping';
 
-export var toppings: Array<ITopping> = [];
+export const toppings: Array<ITopping> = [];
 
 toppings.push({
     label: 'Rocklets',

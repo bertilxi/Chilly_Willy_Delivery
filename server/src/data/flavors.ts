@@ -1,5 +1,5 @@
 import {IFlavor} from '../model/flavor';
-export var flavors: Array<IFlavor> = [];
+export const flavors: Array<IFlavor> = [];
 
 flavors.push({
     label: 'Frutilla',

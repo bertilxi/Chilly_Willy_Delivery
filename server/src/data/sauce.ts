@@ -1,6 +1,6 @@
 import {ISauce} from '../model/sauce';
 
-export var sauces: Array<ISauce> = [];
+export const sauces: Array<ISauce> = [];
 
 sauces.push({
     label: 'Salsa de frutilla',

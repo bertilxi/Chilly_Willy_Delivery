@@ -1,6 +1,6 @@
 import {IDeal} from '../model/deal';
 
-export var deals: Array<IDeal> = [];
+export const deals: Array<IDeal> = [];
 
 deals.push({
     title: '2X1',

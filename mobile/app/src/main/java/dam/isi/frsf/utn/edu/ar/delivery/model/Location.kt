@@ -1,18 +1,18 @@
 package dam.isi.frsf.utn.edu.ar.delivery.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-import java.io.Serializable
-
-class Location : Serializable {
-    @SerializedName("latitude")
-    @Expose
-    var latitude: Double? = null
-    @SerializedName("longitude")
-    @Expose
-    var longitude: Double? = null
-
+data class Location(
+        @SerializedName("latitude")
+        @Expose
+        var latitude: Double? = 0.0,
+        @SerializedName("longitude")
+        @Expose
+        var longitude: Double? = 0.0
+) : Parcelable {
     fun withLatitude(latitude: Double?): Location {
         this.latitude = latitude
         return this
@@ -24,8 +24,21 @@ class Location : Serializable {
     }
 
     companion object {
-
-        private const val serialVersionUID = -3801622102397945099L
+        @JvmField val CREATOR: Parcelable.Creator<Location> = object : Parcelable.Creator<Location> {
+            override fun createFromParcel(source: Parcel): Location = Location(source)
+            override fun newArray(size: Int): Array<Location?> = arrayOfNulls(size)
+        }
     }
 
+    constructor(source: Parcel) : this(
+            source.readValue(Double::class.java.classLoader) as Double?,
+            source.readValue(Double::class.java.classLoader) as Double?
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeValue(latitude)
+        dest.writeValue(longitude)
+    }
 }

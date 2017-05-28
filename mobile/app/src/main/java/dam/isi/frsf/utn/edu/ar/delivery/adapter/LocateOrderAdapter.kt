@@ -9,7 +9,7 @@ import android.widget.TextView
 import dam.isi.frsf.utn.edu.ar.delivery.R
 import dam.isi.frsf.utn.edu.ar.delivery.model.Order
 
-class LocateOrderAdapter(context: Context, orders: List<Order>) : ArrayAdapter<Order>(context , R.layout.listview_row_order_item, orders) {
+class LocateOrderAdapter(context: Context, orders: List<Order>) : ArrayAdapter<Order>(context, R.layout.listview_row_order_item, orders) {
 
     var inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -33,6 +33,7 @@ class LocateOrderAdapter(context: Context, orders: List<Order>) : ArrayAdapter<O
 
     internal inner class OrderHolder(row: View) {
         var dateTextView: TextView? = null
+
         init {
             this.dateTextView = row.findViewById(R.id.textview_order_date) as TextView
         }

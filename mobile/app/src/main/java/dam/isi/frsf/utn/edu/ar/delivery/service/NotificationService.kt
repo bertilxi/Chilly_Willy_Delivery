@@ -15,7 +15,6 @@ import dam.isi.frsf.utn.edu.ar.delivery.R
 import dam.isi.frsf.utn.edu.ar.delivery.activity.MainActivity
 import dam.isi.frsf.utn.edu.ar.delivery.model.Deal
 
-
 class NotificationService : Service() {
 
     internal var deals: List<Deal>? = null

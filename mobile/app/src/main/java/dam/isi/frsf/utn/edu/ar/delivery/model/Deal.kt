@@ -1,21 +1,21 @@
 package dam.isi.frsf.utn.edu.ar.delivery.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-import java.io.Serializable
-
-class Deal : Serializable {
-    @SerializedName("title")
-    @Expose
-    var title: String? = null
-    @SerializedName("description")
-    @Expose
-    var description: String? = null
-    @SerializedName("isLastDeal")
-    @Expose
-    var isLastDeal: Boolean? = null
-
+data class Deal(
+        @SerializedName("title")
+        @Expose
+        var title: String = "",
+        @SerializedName("description")
+        @Expose
+        var description: String = "",
+        @SerializedName("isLastDeal")
+        @Expose
+        var isLastDeal: Boolean = false
+) : Parcelable {
     fun withTitle(title: String): Deal {
         this.title = title
         return this
@@ -26,14 +26,29 @@ class Deal : Serializable {
         return this
     }
 
-    fun withIsLastDeal(isLastDeal: Boolean?): Deal {
+    fun withIsLastDeal(isLastDeal: Boolean): Deal {
         this.isLastDeal = isLastDeal
         return this
     }
 
     companion object {
-
-        private const val serialVersionUID = 5036268205924751260L
+        @JvmField val CREATOR: Parcelable.Creator<Deal> = object : Parcelable.Creator<Deal> {
+            override fun createFromParcel(source: Parcel): Deal = Deal(source)
+            override fun newArray(size: Int): Array<Deal?> = arrayOfNulls(size)
+        }
     }
 
+    constructor(source: Parcel) : this(
+            source.readString(),
+            source.readString(),
+            1 == source.readInt()
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(title)
+        dest.writeString(description)
+        dest.writeInt((if (isLastDeal) 1 else 0))
+    }
 }

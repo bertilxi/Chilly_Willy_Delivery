@@ -4,11 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-
-import java.util.Calendar
-
 import dam.isi.frsf.utn.edu.ar.delivery.R
 import dam.isi.frsf.utn.edu.ar.delivery.broacast_receiver.AlarmReceiver
+import java.util.*
 
 object AlarmSetter {
     fun configureAlarm(context: Context) {

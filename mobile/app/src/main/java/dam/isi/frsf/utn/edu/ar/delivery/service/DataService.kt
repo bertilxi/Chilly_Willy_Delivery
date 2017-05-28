@@ -1,22 +1,12 @@
 package dam.isi.frsf.utn.edu.ar.delivery.service
 
 import android.content.Context
-
 import com.google.gson.reflect.TypeToken
 import com.koushikdutta.ion.Ion
 import com.koushikdutta.ion.future.ResponseFuture
-
-import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType
-import dam.isi.frsf.utn.edu.ar.delivery.model.Deal
-import dam.isi.frsf.utn.edu.ar.delivery.model.Flavor
-import dam.isi.frsf.utn.edu.ar.delivery.model.Location
-import dam.isi.frsf.utn.edu.ar.delivery.model.Order
-import dam.isi.frsf.utn.edu.ar.delivery.model.Review
-import dam.isi.frsf.utn.edu.ar.delivery.model.Sauce
-import dam.isi.frsf.utn.edu.ar.delivery.model.Topping
-
 import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.deviceID
 import dam.isi.frsf.utn.edu.ar.delivery.constants.appConstants.localPath
+import dam.isi.frsf.utn.edu.ar.delivery.model.*
 
 class DataService(private val context: Context) {
 
@@ -25,7 +15,6 @@ class DataService(private val context: Context) {
         get() {
             val path = localPath!! + "deals"
             return Ion.with(context).load(path).`as`(object : TypeToken<List<Deal>>() {
-
             })
         }
 

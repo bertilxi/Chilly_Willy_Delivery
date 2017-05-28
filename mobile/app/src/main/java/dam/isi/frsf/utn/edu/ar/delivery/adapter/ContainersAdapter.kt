@@ -13,7 +13,7 @@ import dam.isi.frsf.utn.edu.ar.delivery.model.ContainerType
 import java.text.NumberFormat
 import java.util.*
 
-class ContainersAdapter(context: Context,  containers: List<ContainerType>) : ArrayAdapter<ContainerType>(context, R.layout.listview_containers_row, containers) {
+class ContainersAdapter(context: Context, containers: List<ContainerType>) : ArrayAdapter<ContainerType>(context, R.layout.listview_containers_row, containers) {
 
     var inflater: LayoutInflater = LayoutInflater.from(context)
 
